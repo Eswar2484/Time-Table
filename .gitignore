@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Dev/test scripts (not needed in production)
+seed_large_data.py
+seed_massive_data.py
+timetable_backup.json
+PROJECT_OVERVIEW.md
+
+# Logs
+*.log
+
+# Local data backup (keep data.json for seeding, but not backups)
+*_backup.json
