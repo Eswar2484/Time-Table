@@ -31,35 +31,35 @@ DEFAULT_DATA = {
       "id": "ST001",
       "name": "Dr. Ramesh",
       "department": "Computer Science",
-      "max_hours": 24,
+      "max_hours": 30,
       "subjects": ["CS101", "CS102", "CS201", "CS202", "CS203", "CS205", "CS307", "CSPG101", "CSPG104", "CS301", "CS302", "CS306", "CSPG301", "CSPG106"]
     },
     {
       "id": "ST002",
       "name": "Dr. Priya",
       "department": "Computer Science",
-      "max_hours": 24,
+      "max_hours": 30,
       "subjects": ["CS203", "CS301", "CS305", "CSPG102", "CSPG105", "CS307", "CS308", "CSPG201", "CSPG204", "CSPG302"]
     },
     {
       "id": "ST003",
       "name": "Mr. Karthik",
       "department": "Computer Science",
-      "max_hours": 24,
+      "max_hours": 30,
       "subjects": ["CS302", "CS303", "CS304", "CSPG103", "CSPG201", "CS309", "CS310", "CSPG205", "CSPG303"]
     },
     {
       "id": "ST004",
       "name": "Mrs. Devi",
       "department": "Computer Science",
-      "max_hours": 20,
+      "max_hours": 30,
       "subjects": ["CS101", "CS102", "CS202", "CSPG202", "CSPG204", "CS204", "CS205", "CSPG202"]
     },
     {
       "id": "ST005",
       "name": "Dr. Anand",
       "department": "Computer Science",
-      "max_hours": 20,
+      "max_hours": 30,
       "subjects": ["CS303", "CS304", "CSPG203", "CSPG205", "CS206", "CS304", "CSPG203", "CSPG206"]
     },
     {
@@ -80,7 +80,7 @@ DEFAULT_DATA = {
       "id": "ST008",
       "name": "Mr. Vignesh",
       "department": "Physics",
-      "max_hours": 20,
+      "max_hours": 26,
       "subjects": ["PH101", "PH102", "PHPG103", "PHPG105", "PH201", "PH202"]
     },
     {
@@ -129,28 +129,28 @@ DEFAULT_DATA = {
       "id": "ST015",
       "name": "Mr. Balaji",
       "department": "Computer Science",
-      "max_hours": 20,
+      "max_hours": 30,
       "subjects": ["NME01", "CS102", "CS202", "CS204", "CS206", "CS305", "NME03"]
     },
     {
       "id": "ST016",
       "name": "Mrs. Sudha",
       "department": "Computer Science",
-      "max_hours": 20,
+      "max_hours": 30,
       "subjects": ["CS301", "CS305", "CSPG104", "CSPG204", "CS307", "CS308", "CSPG304", "CSPG305", "CSPG401"]
     },
     {
       "id": "ST017",
       "name": "Dr. Suresh",
       "department": "Physics",
-      "max_hours": 20,
+      "max_hours": 26,
       "subjects": ["PHPG101", "PHPG102", "PHPG103", "NME02", "PHPG201", "PHPG202", "NME04"]
     },
     {
       "id": "ST018",
       "name": "Mr. Rahim",
       "department": "Computer Science",
-      "max_hours": 20,
+      "max_hours": 30,
       "subjects": ["CS201", "CS203", "CSPG102", "CSPG205", "CS205", "CSPG401", "CSPG402"]
     }
   ],
@@ -292,7 +292,8 @@ DEFAULT_DATA = {
         {"subject_code": "CS302", "hours": 5},
         {"subject_code": "CS303", "hours": 6},
         {"subject_code": "CS304", "hours": 6},
-        {"subject_code": "CS305", "hours": 4}
+        {"subject_code": "CS305", "hours": 4},
+        {"subject_code": "CS306", "hours": 4}
       ]
     },
     {
@@ -306,7 +307,8 @@ DEFAULT_DATA = {
         {"subject_code": "CS308", "hours": 5},
         {"subject_code": "CS309", "hours": 8},
         {"subject_code": "CS310", "hours": 6},
-        {"subject_code": "CS305", "hours": 4}
+        {"subject_code": "CS305", "hours": 4},
+        {"subject_code": "CS306", "hours": 2}
       ]
     },
     {
@@ -347,8 +349,8 @@ DEFAULT_DATA = {
         {"subject_code": "CSPG301", "hours": 5},
         {"subject_code": "CSPG302", "hours": 5},
         {"subject_code": "CSPG303", "hours": 6},
-        {"subject_code": "CSPG304", "hours": 5},
-        {"subject_code": "CSPG305", "hours": 5}
+        {"subject_code": "CSPG304", "hours": 7},
+        {"subject_code": "CSPG305", "hours": 7}
       ]
     },
     {
@@ -359,8 +361,9 @@ DEFAULT_DATA = {
       "incharge": "ST016",
       "syllabus": [
         {"subject_code": "CSPG205", "hours": 12},
-        {"subject_code": "CSPG401", "hours": 5},
-        {"subject_code": "CSPG402", "hours": 5}
+        {"subject_code": "CSPG401", "hours": 6},
+        {"subject_code": "CSPG402", "hours": 6},
+        {"subject_code": "CSPG206", "hours": 6}
       ]
     },
     {
