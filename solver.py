@@ -463,9 +463,13 @@ def solve_timetable(data):
     if obj_terms:
         model.Maximize(sum(obj_terms))
 
-    # Solve
+    # Solve — use longer timeout for cloud/slow environments
+    import os
     solver = cp_model.CpSolver()
-    solver.parameters.max_time_in_seconds = 20.0
+    is_cloud = bool(os.environ.get('RENDER') or os.environ.get('DYNO') or os.environ.get('PORT'))
+    solver.parameters.max_time_in_seconds = 90.0 if is_cloud else 20.0
+    solver.parameters.num_search_workers = 2  # parallel search threads
+    solver.parameters.log_search_progress = False
     status = solver.Solve(model)
     
     if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
