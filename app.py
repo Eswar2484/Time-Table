@@ -484,8 +484,12 @@ def api_import_upload():
     except Exception as e:
         return jsonify({"status": "ERROR", "message": f"Server error parsing file: {str(e)}"}), 500
 
-def get_timetable_for_term(term):
-    data = load_data()
+def get_timetable_for_term(term, input_data=None):
+    if input_data is not None:
+        import copy
+        data = copy.deepcopy(input_data)
+    else:
+        data = load_data()
     
     # Filter classes by semester term
     is_odd_term = (term == 'odd')
@@ -833,15 +837,25 @@ def diagnose_data_internal(data):
     # 5. Solver Pre-Flight Verification Check
     if not issues:
         try:
-            solver_res = solver.solve_timetable_scalable(data)
-            if solver_res.get('status') != 'SUCCESS':
-                msg = solver_res.get('message', 'No feasible timetable found.')
+            res_odd = get_timetable_for_term('odd', input_data=data)
+            if res_odd.get('status') != 'SUCCESS':
+                msg = res_odd.get('message', 'No feasible timetable found.')
                 issues.append({
                     'type': 'SOLVER_INFEASIBLE_SCHEDULE',
-                    'title': "Solver Constraint Conflict Detected",
-                    'details': f"The mathematical solver engine found a scheduling conflict: {msg}",
+                    'title': "Solver Constraint Conflict Detected (Odd Sem)",
+                    'details': f"The mathematical solver engine found a scheduling conflict in Odd Sem: {msg}",
                     'solution': "Go to Staff Directory and increase staff max working hours, or check if fixed slots block lab time blocks."
                 })
+            else:
+                res_even = get_timetable_for_term('even', input_data=data)
+                if res_even.get('status') != 'SUCCESS':
+                    msg = res_even.get('message', 'No feasible timetable found.')
+                    issues.append({
+                        'type': 'SOLVER_INFEASIBLE_SCHEDULE',
+                        'title': "Solver Constraint Conflict Detected (Even Sem)",
+                        'details': f"The mathematical solver engine found a scheduling conflict in Even Sem: {msg}",
+                        'solution': "Go to Staff Directory and increase staff max working hours, or check if fixed slots block lab time blocks."
+                    })
         except Exception as e:
             issues.append({
                 'type': 'SOLVER_EXCEPTION',
