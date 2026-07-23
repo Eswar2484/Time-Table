@@ -310,9 +310,11 @@ def solve_timetable(data):
                         
                 elif req_hours == 4:
                     # 4 hours: 2 blocks of 2 consecutive hours on 2 different days
+                    y_days = []
                     for d in days:
                         y_var = model.NewBoolVar(f"y_{c_name}_{sub_code}_{d}".replace(' ', '_').replace('(', '_').replace(')', '_'))
                         class_lab_day_vars[c_name][d].append(y_var)
+                        y_days.append(y_var)
                         l_vars = [model.NewBoolVar(f"l_{c_name}_{sub_code}_{d}_{p}".replace(' ', '_').replace('(', '_').replace(')', '_')) for p in range(4)]
                         model.Add(sum(l_vars) == y_var)
                         
@@ -328,11 +330,6 @@ def solve_timetable(data):
                         model.Add(p_active[4] == l_vars[3])
                         model.Add(sum(p_active.values()) == 2 * y_var)
                         
-                    # Enforce exactly 2 active days
-                    y_days = []
-                    for d in days:
-                        # Re-fetch the y_var variable using exact name convention
-                        y_days.append(model.NewBoolVar(f"y_{c_name}_{sub_code}_{d}".replace(' ', '_').replace('(', '_').replace(')', '_')))
                     model.Add(sum(y_days) == 2)
                     
                 elif req_hours == 5:
@@ -523,24 +520,19 @@ def solve_timetable_scalable(data):
         eligible = [s['id'] for s in staffs if (code in s.get('subjects', []) or s.get('department') == sub_dept)]
         subject_staff[code] = eligible
         
-    # 2. For each class, find the set of all eligible staffs for its syllabus
+    # 2. For each class, find explicitly assigned staff to detect staff conflicts
     class_staffs = {}
     for cl in classes:
         c_name = cl['name']
         s_staffs = set()
         for item in cl['syllabus']:
-            sub_code = item['subject_code']
             t_assigned = item.get('staff_id')
-            if t_assigned and t_assigned != "ST_DUMMY":
-                s_staffs.add(t_assigned)
-            else:
-                for t_id in subject_staff.get(sub_code, []):
-                    if t_id != "ST_DUMMY":
-                        s_staffs.add(t_id)
+            if t_assigned and str(t_assigned) not in ('None', 'null', 'ST_DUMMY', ''):
+                s_staffs.add(str(t_assigned))
         class_staffs[c_name] = s_staffs
         
     # 3. Find connected components of classes
-    # Two classes are connected if they share at least one eligible staff member
+    # Two classes are connected if they share at least one explicitly assigned staff member
     components = []
     visited = set()
     
@@ -559,11 +551,11 @@ def solve_timetable_scalable(data):
             comp.append(curr)
             curr_staffs = class_staffs[curr]
             
-            # Find all unvisited classes that share staff with curr
+            # Find all unvisited classes that share explicitly assigned staff with curr
             for other in classes:
                 o_name = other['name']
                 if o_name not in visited:
-                    if curr_staffs.intersection(class_staffs[o_name]):
+                    if curr_staffs and curr_staffs.intersection(class_staffs[o_name]):
                         visited.add(o_name)
                         queue.append(o_name)
         components.append(comp)
@@ -577,14 +569,7 @@ def solve_timetable_scalable(data):
     for idx, comp in enumerate(components):
         # Filter data for this component
         comp_classes = [cl for cl in classes if cl['name'] in comp]
-        
-        # Get all staff IDs involved in this component
-        comp_staff_ids = set()
-        for c_name in comp:
-            comp_staff_ids.update(class_staffs[c_name])
-        comp_staff_ids.add("ST_DUMMY")
-            
-        comp_staffs = [s for s in staffs if s['id'] in comp_staff_ids]
+        comp_staffs = staffs
         
         # Get all subject codes involved in this component
         comp_sub_codes = set()

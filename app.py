@@ -517,10 +517,11 @@ def api_data():
 @app.route('/api/reset', methods=['POST'])
 def api_reset():
     global GENERATED_TIMETABLE
-    # Clear timetable fromDEFAULT_DATA copies
-    data = dict(DEFAULT_DATA)
-    if 'timetable' in data:
-        data['timetable'] = None
+    import copy
+    data = copy.deepcopy(DEFAULT_DATA)
+    data['timetable'] = None
+    data['timetable_odd'] = None
+    data['timetable_even'] = None
     save_data(data)
     GENERATED_TIMETABLE = None
     return jsonify({"status": "SUCCESS"})
