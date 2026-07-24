@@ -25,10 +25,53 @@ DATA_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data.json'
 
 # Full pre-seeded default dataset for resetting
 DEFAULT_DATA = {
-  "departments": [],
-  "staffs": [],
-  "subjects": [],
-  "classes": [],
+  "departments": ["Computer Science", "Physics"],
+  "staffs": [
+    {"id": "ST001", "name": "Dr. Ramesh", "department": "Computer Science", "max_hours": 30, "subjects": ["CS101", "CS102", "CS103"]},
+    {"id": "ST002", "name": "Mrs. Devi", "department": "Computer Science", "max_hours": 30, "subjects": ["CS101", "CS102", "CS103"]},
+    {"id": "ST003", "name": "Dr. Krishnan", "department": "Physics", "max_hours": 30, "subjects": ["PH101", "PH102", "PH103"]},
+    {"id": "ST004", "name": "Mr. Vignesh", "department": "Physics", "max_hours": 30, "subjects": ["PH101", "PH102", "PH103"]}
+  ],
+  "subjects": [
+    {"code": "CS101", "name": "Python Programming", "department": "Computer Science", "type": "Theory"},
+    {"code": "CS102", "name": "Python Lab", "department": "Computer Science", "type": "Lab"},
+    {"code": "CS103", "name": "Data Structures", "department": "Computer Science", "type": "Theory"},
+    {"code": "PH101", "name": "Mechanics", "department": "Physics", "type": "Theory"},
+    {"code": "PH102", "name": "Physics Lab", "department": "Physics", "type": "Lab"},
+    {"code": "PH103", "name": "Optics", "department": "Physics", "type": "Theory"}
+  ],
+  "classes": [
+    {
+      "name": "1st UG CS - A (Sem 1)",
+      "department": "Computer Science",
+      "level": "UG",
+      "semester": 1,
+      "incharge": "ST001",
+      "syllabus": [
+        {"subject_code": "CS101", "hours": 5, "staff_id": "ST001"},
+        {"subject_code": "CS102", "hours": 4, "staff_id": "ST002"},
+        {"subject_code": "CS103", "hours": 5, "staff_id": "ST001"},
+        {"subject_code": "CS101", "hours": 5, "staff_id": "ST002"},
+        {"subject_code": "CS103", "hours": 5, "staff_id": "ST002"},
+        {"subject_code": "CS102", "hours": 6, "staff_id": "ST001"}
+      ]
+    },
+    {
+      "name": "1st UG Physics - A (Sem 1)",
+      "department": "Physics",
+      "level": "UG",
+      "semester": 1,
+      "incharge": "ST003",
+      "syllabus": [
+        {"subject_code": "PH101", "hours": 5, "staff_id": "ST003"},
+        {"subject_code": "PH102", "hours": 4, "staff_id": "ST004"},
+        {"subject_code": "PH103", "hours": 5, "staff_id": "ST003"},
+        {"subject_code": "PH101", "hours": 5, "staff_id": "ST004"},
+        {"subject_code": "PH103", "hours": 5, "staff_id": "ST004"},
+        {"subject_code": "PH102", "hours": 6, "staff_id": "ST003"}
+      ]
+    }
+  ],
   "fixed_slots": [],
   "timetable": None,
   "timetable_odd": None,

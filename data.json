@@ -1,10 +1,1090 @@
 {
-  "departments": [],
-  "staffs": [],
-  "subjects": [],
-  "classes": [],
+  "departments": [
+    "Computer Science",
+    "Physics"
+  ],
+  "staffs": [
+    {
+      "id": "ST001",
+      "name": "Dr. Ramesh",
+      "department": "Computer Science",
+      "max_hours": 30,
+      "subjects": [
+        "CS101",
+        "CS102",
+        "CS103"
+      ]
+    },
+    {
+      "id": "ST002",
+      "name": "Mrs. Devi",
+      "department": "Computer Science",
+      "max_hours": 30,
+      "subjects": [
+        "CS101",
+        "CS102",
+        "CS103"
+      ]
+    },
+    {
+      "id": "ST003",
+      "name": "Dr. Krishnan",
+      "department": "Physics",
+      "max_hours": 30,
+      "subjects": [
+        "PH101",
+        "PH102",
+        "PH103"
+      ]
+    },
+    {
+      "id": "ST004",
+      "name": "Mr. Vignesh",
+      "department": "Physics",
+      "max_hours": 30,
+      "subjects": [
+        "PH101",
+        "PH102",
+        "PH103"
+      ]
+    }
+  ],
+  "subjects": [
+    {
+      "code": "CS101",
+      "name": "Python Programming",
+      "department": "Computer Science",
+      "type": "Theory",
+      "semester": "UG 1st year odd"
+    },
+    {
+      "code": "CS102",
+      "name": "Python Lab",
+      "department": "Computer Science",
+      "type": "Lab",
+      "semester": "UG 1st year odd"
+    },
+    {
+      "code": "CS103",
+      "name": "Data Structures",
+      "department": "Computer Science",
+      "type": "Theory",
+      "semester": "UG 1st year odd"
+    },
+    {
+      "code": "PH101",
+      "name": "Mechanics",
+      "department": "Physics",
+      "type": "Theory",
+      "semester": "UG 1st year odd"
+    },
+    {
+      "code": "PH102",
+      "name": "Physics Lab",
+      "department": "Physics",
+      "type": "Lab",
+      "semester": "UG 1st year odd"
+    },
+    {
+      "code": "PH103",
+      "name": "Optics",
+      "department": "Physics",
+      "type": "Theory",
+      "semester": "UG 1st year odd"
+    }
+  ],
+  "classes": [
+    {
+      "name": "1st UG CS - A (Sem 1)",
+      "department": "Computer Science",
+      "level": "UG",
+      "semester": 1,
+      "incharge": "ST001",
+      "syllabus": [
+        {
+          "subject_code": "CS101",
+          "hours": 5,
+          "staff_id": "ST001",
+          "curriculum_hours": 10
+        },
+        {
+          "subject_code": "CS102",
+          "hours": 4,
+          "staff_id": "ST002",
+          "curriculum_hours": 10
+        },
+        {
+          "subject_code": "CS103",
+          "hours": 5,
+          "staff_id": "ST001",
+          "curriculum_hours": 10
+        },
+        {
+          "subject_code": "CS101",
+          "hours": 5,
+          "staff_id": "ST002",
+          "curriculum_hours": 10
+        },
+        {
+          "subject_code": "CS103",
+          "hours": 5,
+          "staff_id": "ST002",
+          "curriculum_hours": 10
+        },
+        {
+          "subject_code": "CS102",
+          "hours": 6,
+          "staff_id": "ST001",
+          "curriculum_hours": 10
+        }
+      ]
+    },
+    {
+      "name": "1st UG Physics - A (Sem 1)",
+      "department": "Physics",
+      "level": "UG",
+      "semester": 1,
+      "incharge": "ST003",
+      "syllabus": [
+        {
+          "subject_code": "PH101",
+          "hours": 5,
+          "staff_id": "ST003",
+          "curriculum_hours": 10
+        },
+        {
+          "subject_code": "PH102",
+          "hours": 4,
+          "staff_id": "ST004",
+          "curriculum_hours": 10
+        },
+        {
+          "subject_code": "PH103",
+          "hours": 5,
+          "staff_id": "ST003",
+          "curriculum_hours": 10
+        },
+        {
+          "subject_code": "PH101",
+          "hours": 5,
+          "staff_id": "ST004",
+          "curriculum_hours": 10
+        },
+        {
+          "subject_code": "PH103",
+          "hours": 5,
+          "staff_id": "ST004",
+          "curriculum_hours": 10
+        },
+        {
+          "subject_code": "PH102",
+          "hours": 6,
+          "staff_id": "ST003",
+          "curriculum_hours": 10
+        }
+      ]
+    }
+  ],
   "fixed_slots": [],
-  "timetable": null,
-  "timetable_odd": null,
-  "timetable_even": null
+  "timetable": {
+    "1st UG CS - A (Sem 1)": {
+      "0": {
+        "0": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "1": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "2": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "3": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "4": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        }
+      },
+      "1": {
+        "0": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "1": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "2": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "3": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "4": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        }
+      },
+      "2": {
+        "0": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "1": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "2": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "3": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "4": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        }
+      },
+      "3": {
+        "0": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "1": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "2": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "3": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "4": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        }
+      },
+      "4": {
+        "0": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "1": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "2": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "3": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "4": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        }
+      },
+      "5": {
+        "0": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "1": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "2": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "3": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "4": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        }
+      }
+    },
+    "1st UG Physics - A (Sem 1)": {
+      "0": {
+        "0": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "1": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "2": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "3": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "4": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        }
+      },
+      "1": {
+        "0": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "1": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "2": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "3": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "4": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        }
+      },
+      "2": {
+        "0": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "1": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "2": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "3": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "4": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        }
+      },
+      "3": {
+        "0": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "1": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "2": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "3": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "4": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        }
+      },
+      "4": {
+        "0": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "1": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "2": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "3": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "4": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        }
+      },
+      "5": {
+        "0": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "1": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "2": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "3": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "4": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        }
+      }
+    }
+  },
+  "timetable_odd": {
+    "1st UG CS - A (Sem 1)": {
+      "0": {
+        "0": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "1": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "2": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "3": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "4": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        }
+      },
+      "1": {
+        "0": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "1": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "2": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "3": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "4": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        }
+      },
+      "2": {
+        "0": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "1": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "2": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "3": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "4": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        }
+      },
+      "3": {
+        "0": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "1": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "2": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "3": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "4": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        }
+      },
+      "4": {
+        "0": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "1": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "2": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "3": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "4": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        }
+      },
+      "5": {
+        "0": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "1": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "2": {
+          "subject_code": "CS103",
+          "subject_name": "Data Structures",
+          "subject_type": "Theory",
+          "staff_id": "ST002",
+          "staff_name": "Mrs. Devi"
+        },
+        "3": {
+          "subject_code": "CS101",
+          "subject_name": "Python Programming",
+          "subject_type": "Theory",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        },
+        "4": {
+          "subject_code": "CS102",
+          "subject_name": "Python Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST001",
+          "staff_name": "Dr. Ramesh"
+        }
+      }
+    },
+    "1st UG Physics - A (Sem 1)": {
+      "0": {
+        "0": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "1": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "2": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "3": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "4": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        }
+      },
+      "1": {
+        "0": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "1": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "2": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "3": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "4": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        }
+      },
+      "2": {
+        "0": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "1": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "2": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "3": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "4": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        }
+      },
+      "3": {
+        "0": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "1": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "2": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "3": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "4": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        }
+      },
+      "4": {
+        "0": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "1": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "2": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "3": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "4": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        }
+      },
+      "5": {
+        "0": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "1": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "2": {
+          "subject_code": "PH103",
+          "subject_name": "Optics",
+          "subject_type": "Theory",
+          "staff_id": "ST004",
+          "staff_name": "Mr. Vignesh"
+        },
+        "3": {
+          "subject_code": "PH101",
+          "subject_name": "Mechanics",
+          "subject_type": "Theory",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        },
+        "4": {
+          "subject_code": "PH102",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab",
+          "staff_id": "ST003",
+          "staff_name": "Dr. Krishnan"
+        }
+      }
+    }
+  },
+  "timetable_even": {}
 }
