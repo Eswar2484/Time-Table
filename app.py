@@ -21,6 +21,9 @@ def favicon():
 # Global cache for the generated timetable
 GENERATED_TIMETABLE = None
 
+# Admin passcode for Owner Logs Panel (Default: admin123)
+ADMIN_PASSCODE = os.environ.get('ADMIN_PASSCODE', 'admin123')
+
 DATA_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data.json')
 
 # Full pre-seeded default dataset for resetting
@@ -194,6 +197,9 @@ def api_restore():
     file = request.files['file']
     if file.filename == '':
         return jsonify({"status": "ERROR", "message": "No selected file"}), 400
+        
+    mode = request.args.get('mode', 'replace') # 'replace' or 'append'
+    
     try:
         content = file.read()
         parsed = json.loads(content)
@@ -206,9 +212,128 @@ def api_restore():
             if 'semester' not in sub:
                 sub['semester'] = map_subject_semester(sub['code'])
                 
-        save_data(parsed)
-        GENERATED_TIMETABLE = parsed.get('timetable')
-        return jsonify({"status": "SUCCESS"})
+        if mode == 'append':
+            current = load_data()
+            
+            # 1. Merge Departments (case-insensitive normalization)
+            dept_lookup = {d.lower(): d for d in current.get('departments', [])}
+            merged_depts = list(current.get('departments', []))
+            for d in parsed.get('departments', []):
+                d_lower = d.lower()
+                if d_lower not in dept_lookup:
+                    new_dept_name = d.title() if d.lower() != 'nme' else 'NME'
+                    merged_depts.append(new_dept_name)
+                    dept_lookup[d_lower] = new_dept_name
+            current['departments'] = merged_depts
+            
+            # 2. Map Staff IDs to avoid conflicts
+            staff_id_map = {}
+            merged_staffs = list(current.get('staffs', []))
+            existing_staff_ids = {s['id'] for s in merged_staffs}
+            
+            for s in parsed.get('staffs', []):
+                old_id = s['id']
+                dept = s.get('department', 'viscom')
+                prefix = "".join([c for c in dept.upper() if c.isalnum()])
+                if not prefix:
+                    prefix = "ST"
+                new_id = f"{prefix}_{old_id}"
+                
+                counter = 1
+                temp_id = new_id
+                while temp_id in existing_staff_ids:
+                    temp_id = f"{new_id}_{counter}"
+                    counter += 1
+                new_id = temp_id
+                
+                staff_id_map[old_id] = new_id
+                existing_staff_ids.add(new_id)
+                
+                s_copy = dict(s)
+                s_copy['id'] = new_id
+                s_dept = s.get('department') or ''
+                s_copy['department'] = dept_lookup.get(s_dept.lower(), s_dept)
+                merged_staffs.append(s_copy)
+                
+            current['staffs'] = merged_staffs
+            
+            # 3. Merge Subjects (skip duplicates)
+            merged_subjects = list(current.get('subjects', []))
+            existing_subject_codes = {sub['code'] for sub in merged_subjects}
+            
+            for sub in parsed.get('subjects', []):
+                code = sub['code']
+                if code not in existing_subject_codes:
+                    sub_copy = dict(sub)
+                    sub_dept = sub.get('department') or ''
+                    sub_copy['department'] = dept_lookup.get(sub_dept.lower(), sub_dept)
+                    merged_subjects.append(sub_copy)
+                    existing_subject_codes.add(code)
+            current['subjects'] = merged_subjects
+            
+            # 4. Merge Classes
+            merged_classes = list(current.get('classes', []))
+            existing_class_names = {cl['name'] for cl in merged_classes}
+            
+            for cl in parsed.get('classes', []):
+                name = cl['name']
+                if name in existing_class_names:
+                    new_name = f"{name} (Restore)"
+                    counter = 1
+                    while new_name in existing_class_names:
+                        new_name = f"{name} (Restore) {counter}"
+                        counter += 1
+                    name = new_name
+                    
+                cl_copy = dict(cl)
+                cl_copy['name'] = name
+                cl_dept = cl.get('department') or ''
+                cl_copy['department'] = dept_lookup.get(cl_dept.lower(), cl_dept)
+                
+                old_incharge = cl.get('incharge')
+                if old_incharge in staff_id_map:
+                    cl_copy['incharge'] = staff_id_map[old_incharge]
+                    
+                # Map staff assignments in syllabus
+                if 'syllabus' in cl_copy:
+                    new_syllabus = []
+                    for item in cl_copy['syllabus']:
+                        item_copy = dict(item)
+                        old_staff_id = item_copy.get('staff_id')
+                        if old_staff_id in staff_id_map:
+                            item_copy['staff_id'] = staff_id_map[old_staff_id]
+                        new_syllabus.append(item_copy)
+                    cl_copy['syllabus'] = new_syllabus
+                    
+                # Map staff assignments in even_syllabus
+                if 'even_syllabus' in cl_copy:
+                    new_even_syllabus = []
+                    for item in cl_copy['even_syllabus']:
+                        item_copy = dict(item)
+                        old_staff_id = item_copy.get('staff_id')
+                        if old_staff_id in staff_id_map:
+                            item_copy['staff_id'] = staff_id_map[old_staff_id]
+                        new_even_syllabus.append(item_copy)
+                    cl_copy['even_syllabus'] = new_even_syllabus
+                    
+                merged_classes.append(cl_copy)
+                existing_class_names.add(name)
+            current['classes'] = merged_classes
+            
+            # 5. Merge Fixed Slots
+            merged_fixed_slots = list(current.get('fixed_slots', []))
+            for fs in parsed.get('fixed_slots', []):
+                fs_copy = dict(fs)
+                merged_fixed_slots.append(fs_copy)
+            current['fixed_slots'] = merged_fixed_slots
+            
+            save_data(current)
+            GENERATED_TIMETABLE = None
+            return jsonify({"status": "SUCCESS", "mode": "append"})
+        else:
+            save_data(parsed)
+            GENERATED_TIMETABLE = parsed.get('timetable')
+            return jsonify({"status": "SUCCESS", "mode": "replace"})
     except Exception as e:
         return jsonify({"status": "ERROR", "message": str(e)}), 400
 
@@ -599,22 +724,128 @@ def get_timetable_for_term(term, input_data=None):
     result = solver.solve_timetable_scalable(data)
     return result
 
-def api_generate_internal():
-    # 1. Generate Odd
-    res_odd = get_timetable_for_term('odd')
+import datetime
+
+ACTIVITY_LOG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'activity_logs.jsonl')
+
+@app.route('/api/default_data', methods=['GET'])
+def api_default_data():
+    return jsonify(DEFAULT_DATA)
+
+@app.route('/api/log_activity', methods=['POST'])
+def api_log_activity():
+    try:
+        payload = request.json or {}
+        user_name = payload.get('user_name', 'Unknown Guest')
+        action = payload.get('action', 'UNKNOWN_ACTION')
+        details = payload.get('details', '')
+        
+        ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+        if ip and ',' in ip:
+            ip = ip.split(',')[0].strip()
+            
+        timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        
+        log_entry = {
+            "timestamp": timestamp,
+            "ip": ip,
+            "user_name": user_name,
+            "action": action,
+            "details": details
+        }
+        
+        # Read existing logs to keep max 500 latest entries
+        lines = []
+        if os.path.exists(ACTIVITY_LOG_PATH):
+            with open(ACTIVITY_LOG_PATH, 'r', encoding='utf-8') as f:
+                lines = [l.strip() for l in f if l.strip()]
+                
+        lines.append(json.dumps(log_entry, ensure_ascii=False))
+        if len(lines) > 500:
+            lines = lines[-500:]  # Keep last 500 entries
+            
+        with open(ACTIVITY_LOG_PATH, 'w', encoding='utf-8') as f:
+            f.write('\n'.join(lines) + '\n')
+            
+        return jsonify({"status": "SUCCESS"})
+    except Exception as e:
+        return jsonify({"status": "ERROR", "message": str(e)}), 500
+
+@app.route('/admin/logs')
+def admin_logs_view():
+    passcode = request.args.get('passcode', '')
+    if passcode != ADMIN_PASSCODE:
+        return f"Unauthorized: Invalid passcode. Please access via the Owner Logs Panel button.", 401
+    return render_template('admin_logs.html', passcode=passcode)
+
+@app.route('/api/admin/logs')
+def api_admin_logs():
+    passcode = request.args.get('passcode', '')
+    if passcode != ADMIN_PASSCODE:
+        return jsonify({"status": "ERROR", "message": "Unauthorized"}), 401
+        
+    logs = []
+    if os.path.exists(ACTIVITY_LOG_PATH):
+        with open(ACTIVITY_LOG_PATH, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    try:
+                        logs.append(json.loads(line))
+                    except:
+                        pass
+    return jsonify(list(reversed(logs)))
+
+@app.route('/api/admin/download_logs')
+def api_admin_download_logs():
+    passcode = request.args.get('passcode', '')
+    if passcode != ADMIN_PASSCODE:
+        return jsonify({"status": "ERROR", "message": "Unauthorized"}), 401
+    if not os.path.exists(ACTIVITY_LOG_PATH):
+        with open(ACTIVITY_LOG_PATH, 'w', encoding='utf-8') as f:
+            f.write('')
+    return send_file(
+        ACTIVITY_LOG_PATH,
+        as_attachment=True,
+        download_name="activity_logs.jsonl",
+        mimetype="application/x-jsonlines"
+    )
+
+@app.route('/api/admin/clear_logs', methods=['POST'])
+def api_admin_clear_logs():
+    data = request.get_json(silent=True) or {}
+    passcode = request.args.get('passcode', '') or data.get('passcode', '')
+    if passcode != ADMIN_PASSCODE:
+        return jsonify({"status": "ERROR", "message": "Unauthorized"}), 401
+    try:
+        if os.path.exists(ACTIVITY_LOG_PATH):
+            with open(ACTIVITY_LOG_PATH, 'w', encoding='utf-8') as f:
+                f.write('')
+        return jsonify({"status": "SUCCESS"})
+    except Exception as e:
+        return jsonify({"status": "ERROR", "message": str(e)}), 500
+
+def api_generate_internal(input_data=None):
+    res_odd = get_timetable_for_term('odd', input_data=input_data)
     if res_odd['status'] != 'SUCCESS':
         return res_odd
         
-    # 2. Generate Even
-    res_even = get_timetable_for_term('even')
+    res_even = get_timetable_for_term('even', input_data=input_data)
     if res_even['status'] != 'SUCCESS':
         return res_even
         
-    # Save combined timetables in data.json for persistence
+    if input_data is not None:
+        return {
+            "status": "SUCCESS",
+            "timetable_odd": res_odd['timetable'],
+            "timetable_even": res_even['timetable'],
+            "solve_time_seconds": res_odd.get('solve_time_seconds', 0.0) + res_even.get('solve_time_seconds', 0.0)
+        }
+        
     data = load_data()
     data['timetable_odd'] = res_odd['timetable']
     data['timetable_even'] = res_even['timetable']
-    data['timetable'] = res_odd['timetable'] # backward compatibility
+    data['timetable'] = res_odd['timetable']
     save_data(data)
     
     return {
@@ -628,7 +859,8 @@ def api_generate_internal():
 def api_generate():
     global GENERATED_TIMETABLE
     GENERATED_TIMETABLE = None
-    result = api_generate_internal()
+    input_data = request.json
+    result = api_generate_internal(input_data=input_data)
     if result.get('status') == 'SUCCESS':
         GENERATED_TIMETABLE = result.get('timetable_odd') or result.get('timetable_even') or {}
         result['timetable'] = GENERATED_TIMETABLE
@@ -661,16 +893,22 @@ def api_clear_all():
     save_data(empty_db)
     return jsonify({"status": "SUCCESS"})
 
-@app.route('/api/export/excel', methods=['GET'])
+@app.route('/api/export/excel', methods=['GET', 'POST'])
 def api_export_excel():
     view_type = request.args.get('type', 'class')
     term = request.args.get('term', 'all')
     dept = request.args.get('dept', 'all')
-    data = load_data()
     
-    timetable = data.get('timetable_even') if term == 'even' else data.get('timetable_odd')
+    if request.method == 'POST':
+        payload = request.json or {}
+        data = payload.get('data', {})
+        timetable = payload.get('timetable')
+    else:
+        data = load_data()
+        timetable = data.get('timetable_even') if term == 'even' else data.get('timetable_odd')
+        
     if not timetable:
-        res = api_generate_internal()
+        res = api_generate_internal(input_data=data if request.method == 'POST' else None)
         if res['status'] != 'SUCCESS':
             return f"Error: Cannot export Excel because timetable is infeasible: {res.get('message')}", 400
         timetable = res['timetable_even'] if term == 'even' else res['timetable_odd']
@@ -702,16 +940,22 @@ def api_export_excel():
         mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-@app.route('/api/export/pdf', methods=['GET'])
+@app.route('/api/export/pdf', methods=['GET', 'POST'])
 def api_export_pdf():
     view_type = request.args.get('type', 'class')
     term = request.args.get('term', 'all')
     dept = request.args.get('dept', 'all')
-    data = load_data()
     
-    timetable = data.get('timetable_even') if term == 'even' else data.get('timetable_odd')
+    if request.method == 'POST':
+        payload = request.json or {}
+        data = payload.get('data', {})
+        timetable = payload.get('timetable')
+    else:
+        data = load_data()
+        timetable = data.get('timetable_even') if term == 'even' else data.get('timetable_odd')
+        
     if not timetable:
-        res = api_generate_internal()
+        res = api_generate_internal(input_data=data if request.method == 'POST' else None)
         if res['status'] != 'SUCCESS':
             return f"Error: Cannot export PDF because timetable is infeasible: {res.get('message')}", 400
         timetable = res['timetable_even'] if term == 'even' else res['timetable_odd']

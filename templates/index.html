@@ -987,6 +987,7 @@
             <div class="nav-item" onclick="switchTab('classes', this)"><i class="fa-solid fa-chalkboard-user"></i> Classes & Syllabus</div>
             <div class="nav-item" onclick="switchTab('fixed-slots', this)"><i class="fa-solid fa-thumbtack"></i> Fixed Slots (Pinning)</div>
             <div class="nav-item" onclick="switchTab('timetable', this, true)"><i class="fa-solid fa-calendar-days"></i> Timetable Grid</div>
+            <div class="nav-item" onclick="openOwnerLogs()" style="color: var(--primary-color); font-weight: 700; border-top: 1px dashed var(--border-color); margin-top: 1.5rem; cursor: pointer;"><i class="fa-solid fa-user-shield"></i> Owner Logs Panel</div>
         </aside>
 
         <!-- Main Workspace -->
@@ -1795,35 +1796,97 @@
         }
 
         // Fetch all data from API
-        function fetchData() {
+        // Telemetry logger helper
+        function logActivity(action, details = "") {
+            const userName = localStorage.getItem('user_name') || 'Unknown Guest';
+            fetch("/api/log_activity", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    user_name: userName,
+                    action: action,
+                    details: details
+                })
+            }).catch(err => console.error("Telemetry failed:", err));
+        }
+
+        // Open Owner Logs Command Center (Protected)
+        function openOwnerLogs() {
+            const pass = prompt("🔒 Enter Owner Access Passcode:");
+            if (pass === null) return;
+            fetch("/api/admin/logs?passcode=" + encodeURIComponent(pass.trim()))
+                .then(res => {
+                    if (res.status === 200) {
+                        window.location.href = "/admin/logs?passcode=" + encodeURIComponent(pass.trim());
+                    } else {
+                        alert("❌ Access Denied: Incorrect Owner Passcode!");
+                    }
+                })
+                .catch(err => alert("Connection error: " + err));
+        }
+
+        // Fetch all data from API
+        function fetchData(fromServer = false) {
+            // Ask for user identification
+            let userName = localStorage.getItem('user_name');
+            if (!userName) {
+                userName = prompt("Welcome! Please enter your name or department name to identify your session in owner logs:");
+                if (!userName || !userName.trim()) {
+                    userName = "Guest_" + Math.random().toString(36).substring(2, 7).toUpperCase();
+                }
+                localStorage.setItem('user_name', userName.trim());
+            }
+
+            if (!fromServer) {
+                // Check if local database exists
+                const localDataStr = localStorage.getItem('timetable_db');
+                if (localDataStr) {
+                    try {
+                        const data = JSON.parse(localDataStr);
+                        initializeData(data);
+                        logActivity("LOAD_PAGE", "Loaded database from browser local storage");
+                        return;
+                    } catch (e) {
+                        console.error("Local database corrupt, refetching defaults...", e);
+                    }
+                }
+            }
+
+            // Fetch live database from server
             fetch("/api/data")
                 .then(res => res.json())
                 .then(data => {
-                    appData = data;
-                    activeTimetableOdd = data.timetable_odd || null;
-                    activeTimetableEven = data.timetable_even || null;
-                    if (!activeTimetableOdd && data.timetable) {
-                        activeTimetableOdd = data.timetable;
-                    }
-                    
-                    activeTimetable = currentTimetableTerm === "odd" ? activeTimetableOdd : activeTimetableEven;
-                    
-                    updateDashboardStats();
-                    renderDepartmentsTable();
-                    renderStaffsTable();
-                    renderSubjectsTable();
-                    renderClassesTable();
-                    renderStaffFilters();
-                    renderSubjectFilters();
-                    populateDeptsDropdowns();
-                    renderFixedSlotsTable();
-                    populateFixedClassDropdown();
-                    initStaffAssignmentsTab();
-                    logMessage("Loaded college database successfully.", "info");
+                    localStorage.setItem('timetable_db', JSON.stringify(data));
+                    initializeData(data);
+                    logActivity("LOAD_PAGE", "Fetched database from server");
                 })
                 .catch(err => {
-                    logMessage("Failed to fetch data: " + err, "error");
+                    logMessage("Failed to fetch data from server: " + err, "error");
                 });
+        }
+
+        function initializeData(data) {
+            appData = data;
+            activeTimetableOdd = data.timetable_odd || null;
+            activeTimetableEven = data.timetable_even || null;
+            if (!activeTimetableOdd && data.timetable) {
+                activeTimetableOdd = data.timetable;
+            }
+            
+            activeTimetable = currentTimetableTerm === "odd" ? activeTimetableOdd : activeTimetableEven;
+            
+            updateDashboardStats();
+            renderDepartmentsTable();
+            renderStaffsTable();
+            renderSubjectsTable();
+            renderClassesTable();
+            renderStaffFilters();
+            renderSubjectFilters();
+            populateDeptsDropdowns();
+            renderFixedSlotsTable();
+            populateFixedClassDropdown();
+            initStaffAssignmentsTab();
+            logMessage("Loaded college database successfully.", "info");
         }
 
         // Update Dashboard Summary Stats
@@ -1927,8 +1990,10 @@
                 fetch("/api/reset", { method: "POST" })
                     .then(res => res.json())
                     .then(data => {
+                        localStorage.removeItem('timetable_db');
                         logMessage("Database reset to defaults.", "success");
-                        fetchData();
+                        logActivity("RESET_DATABASE", "Reset database to default college template");
+                        fetchData(true);
                         activeTimetable = null;
                         document.getElementById("timetable-grid-wrapper").innerHTML = '';
                         document.getElementById("solver-status").innerHTML = '';
@@ -1937,23 +2002,13 @@
         }
 
         // Save data back to server
-        function saveConfig(callback) {
-            fetch("/api/data", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(appData)
-            })
-            .then(res => res.json())
-            .then(data => {
-                updateDashboardStats();
-                // Refresh filters when departments changes
-                renderStaffFilters();
-                renderSubjectFilters();
-                if (callback) callback();
-            })
-            .catch(err => {
-                logMessage("Error saving database edits: " + err, "error");
-            });
+        function saveConfig(callback, actionName = "EDIT_DATA", actionDetails = "Updated database records") {
+            localStorage.setItem('timetable_db', JSON.stringify(appData));
+            updateDashboardStats();
+            renderStaffFilters();
+            renderSubjectFilters();
+            logActivity(actionName, actionDetails);
+            if (callback) callback();
         }
 
         // ==============================================================================
@@ -3350,7 +3405,8 @@
 
             fetch("/api/generate", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" }
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(appData)
             })
             .then(res => res.json())
             .then(res => {
@@ -3359,6 +3415,13 @@
                     activeTimetableOdd = res.timetable_odd || null;
                     activeTimetableEven = res.timetable_even || null;
                     activeTimetable = currentTimetableTerm === "odd" ? activeTimetableOdd : activeTimetableEven;
+                    
+                    appData.timetable_odd = activeTimetableOdd;
+                    appData.timetable_even = activeTimetableEven;
+                    localStorage.setItem('timetable_db', JSON.stringify(appData));
+                    
+                    logActivity("GENERATE_TIMETABLE", `Solved timetable in ${res.solve_time_seconds.toFixed(3)}s`);
+
                     progressBar.style.width = "100%";
                     ticker.innerHTML += `> SUCCESS: Timetable solved in ${res.solve_time_seconds.toFixed(3)} seconds!\n`;
                     ticker.innerHTML += `> Finalizing timetable database... DONE\n`;
@@ -3465,21 +3528,20 @@
                 return;
             }
             if (confirm("Are you sure you want to clear the currently generated timetables? This will clear active view grids and exports.")) {
-                fetch("/api/clear", { method: "POST" })
-                    .then(res => res.json())
-                    .then(res => {
-                         if (res.status === "SUCCESS") {
-                             activeTimetable = null;
-                             activeTimetableOdd = null;
-                             activeTimetableEven = null;
-                             document.getElementById("solver-status").innerHTML = `<span style="color:var(--secondary-color)"><i class="fa-solid fa-circle-info"></i> Active timetable cleared.</span>`;
-                             checkAndLoadTimetable();
-                             alert("Timetable cleared.");
-                         }
-                    })
-                    .catch(err => {
-                        alert("Error contacting server backend.");
-                    });
+                activeTimetable = null;
+                activeTimetableOdd = null;
+                activeTimetableEven = null;
+                
+                appData.timetable = null;
+                appData.timetable_odd = null;
+                appData.timetable_even = null;
+                localStorage.setItem('timetable_db', JSON.stringify(appData));
+                
+                logActivity("CLEAR_TIMETABLE", "Cleared generated timetables");
+                
+                document.getElementById("solver-status").innerHTML = `<span style="color:var(--secondary-color)"><i class="fa-solid fa-circle-info"></i> Active timetable cleared.</span>`;
+                checkAndLoadTimetable();
+                alert("Timetable cleared.");
             }
         }
 
@@ -3726,7 +3788,41 @@
             const viewType = document.getElementById("timetable-view-type").value;
             const dept = document.getElementById("timetable-dept-filter").value;
             const url = `/api/export/${format}?type=${viewType}&term=${currentTimetableTerm}&dept=${dept}`;
-            window.open(url, '_blank');
+            
+            const payload = {
+                data: appData,
+                timetable: activeTimetable
+            };
+
+            logMessage("Generating export file... please wait.", "info");
+            logActivity("EXPORT_" + format.toUpperCase(), `Exported weekly ${viewType} timetable for term ${currentTimetableTerm}, department ${dept}`);
+
+            fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error("Server error " + res.status);
+                }
+                return res.blob();
+            })
+            .then(blob => {
+                const downloadUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = `weekly_${viewType}_timetable_${currentTimetableTerm}_${dept}.${format === 'excel' ? 'xlsx' : 'pdf'}`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(downloadUrl);
+                logMessage("Export file downloaded successfully!", "success");
+            })
+            .catch(err => {
+                logMessage("Failed to export timetable: " + err.message, "error");
+                alert("Export failed: " + err.message);
+            });
         }
 
         // Close modal helper
@@ -3772,21 +3868,44 @@
             const formData = new FormData();
             formData.append('file', file);
 
-            if (confirm("Are you sure you want to restore the database from this backup file? This will overwrite your current configuration.")) {
-                fetch("/api/restore", {
+            let appendMode = false;
+            let proceed = false;
+            
+            const choice = confirm("Would you like to APPEND/MERGE this backup data into your existing data?\n\n- Click OK to APPEND and merge safely (keeps current data).\n- Click CANCEL to REPLACE/OVERWRITE your current database entirely.");
+            
+            if (choice) {
+                appendMode = true;
+                proceed = true;
+            } else {
+                const overwriteConfirm = confirm("Are you sure you want to REPLACE/OVERWRITE your current configuration completely? All current classes, subjects, and staffs will be erased.");
+                if (overwriteConfirm) {
+                    appendMode = false;
+                    proceed = true;
+                }
+            }
+
+            if (proceed) {
+                const url = "/api/restore?mode=" + (appendMode ? "append" : "replace");
+                fetch(url, {
                     method: "POST",
                     body: formData
                 })
                 .then(res => res.json())
                 .then(data => {
                     if (data.status === "SUCCESS") {
-                        logMessage("Database successfully restored from backup!", "success");
-                        fetchData();
+                        const msg = appendMode 
+                            ? "Database successfully merged and appended!"
+                            : "Database successfully replaced from backup!";
+                        localStorage.removeItem('timetable_db');
+                        logMessage(msg, "success");
+                        alert(msg);
+                        fetchData(true);
                         activeTimetable = null;
                         document.getElementById("timetable-grid-wrapper").innerHTML = '';
                         document.getElementById("solver-status").innerHTML = '';
                     } else {
                         logMessage("Error restoring backup: " + data.message, "error");
+                        alert("Error: " + data.message);
                     }
                 })
                 .catch(err => {
@@ -3833,7 +3952,8 @@
                 if (data.status === "SUCCESS") {
                     logMessage("Excel data successfully imported!", "success");
                     closeModal("modal-import");
-                    fetchData();
+                    localStorage.removeItem('timetable_db');
+                    fetchData(true);
                     activeTimetable = null;
                     document.getElementById("timetable-grid-wrapper").innerHTML = '';
                     document.getElementById("solver-status").innerHTML = '';
@@ -3891,22 +4011,17 @@
         function clearAllData() {
             if (confirm("Are you sure you want to completely clear the database? This will delete all departments, staffs, subjects, classes, and active timetables. This action cannot be undone!")) {
                 fetch("/api/clear_all", { method: "POST" })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.status === "SUCCESS") {
+                    .then(res => res.json())
+                    .then(data => {
+                        localStorage.removeItem('timetable_db');
                         logMessage("Database successfully cleared of all items.", "success");
-                        fetchData();
+                        logActivity("CLEAR_ALL_DATA", "Completely cleared all database records");
+                        fetchData(true);
                         activeTimetable = null;
                         document.getElementById("timetable-grid-wrapper").innerHTML = '';
                         document.getElementById("solver-status").innerHTML = '';
                         alert("Database successfully cleared of all data!");
-                    } else {
-                        logMessage("Error clearing database: " + data.message, "error");
-                    }
-                })
-                .catch(err => {
-                    logMessage("Network error during database clear: " + err, "error");
-                });
+                    });
             }
         }
 

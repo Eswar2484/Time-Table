@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Administration - Activity Logs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --primary-color: #4f46e5;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .logo i {
+            color: #818cf8;
+        }
+
+        .btn {
+            background: #ffffff;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #f1f5f9;
+        }
+
+        .main-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            font-weight: 700;
+            padding: 1rem;
+            border-bottom: 2px solid var(--border-color);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        tr:hover td {
+            background: #f8fafc;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.6rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-info { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+        .badge-success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+        .badge-warning { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+
+        .time-cell {
+            white-space: nowrap;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>App Owner Command Center</span>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                <button onclick="downloadLogs()" class="btn"><i class="fa-solid fa-download"></i> Export JSON</button>
+                <button onclick="clearLogs()" class="btn" style="background:#ef4444;color:white;border:none;"><i class="fa-solid fa-trash-can"></i> Clear Logs</button>
+                <a href="/" class="btn"><i class="fa-solid fa-arrow-left"></i> Back to Scheduler</a>
+            </div>
+        </header>
+
+        <div class="main-card">
+            <h2><i class="fa-solid fa-list-check"></i> Live User Activity Log</h2>
+            
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>IP Address</th>
+                            <th>User Identification</th>
+                            <th>Action Type</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logs-table-body">
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 2rem;">Loading logs...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const passcode = "{{ passcode }}";
+
+        function loadLogs() {
+            fetch(`/api/admin/logs?passcode=${passcode}`)
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.getElementById("logs-table-body");
+                    if (data.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; font-style: italic;">No activity logged yet.</td></tr>`;
+                        return;
+                    }
+
+                    tbody.innerHTML = '';
+                    data.forEach(log => {
+                        const tr = document.createElement("tr");
+                        
+                        let badgeClass = "badge-info";
+                        if (log.action === "GENERATE_TIMETABLE" || log.action === "RESTORE_BACKUP") {
+                            badgeClass = "badge-success";
+                        } else if (log.action.startsWith("DELETE") || log.action === "CLEAR_TIMETABLE" || log.action === "CLEAR_ALL_DATA") {
+                            badgeClass = "badge-warning";
+                        }
+
+                        // Local time formatting
+                        const date = new Date(log.timestamp);
+                        const localTime = date.toLocaleString();
+
+                        tr.innerHTML = `
+                            <td class="time-cell">${localTime}</td>
+                            <td><code>${log.ip}</code></td>
+                            <td><strong>${log.user_name}</strong></td>
+                            <td><span class="badge ${badgeClass}">${log.action}</span></td>
+                            <td>${log.details}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                })
+                .catch(err => {
+                    document.getElementById("logs-table-body").innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; color: red;">Failed to load logs: ${err}</td></tr>`;
+                });
+        }
+
+        function clearLogs() {
+            if (confirm("Are you sure you want to clear all user activity logs? This action cannot be undone.")) {
+                fetch(`/api/admin/clear_logs?passcode=${encodeURIComponent(passcode)}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ passcode: passcode })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'SUCCESS') {
+                        loadLogs();
+                    } else {
+                        alert('Error clearing logs: ' + data.message);
+                    }
+                })
+                .catch(err => {
+                    alert('Failed to clear logs: ' + err);
+                });
+            }
+        }
+
+        function downloadLogs() {
+            window.location.href = `/api/admin/download_logs?passcode=${encodeURIComponent(passcode)}`;
+        }
+
+        // Load initially and auto-refresh every 10 seconds
+        loadLogs();
+        setInterval(loadLogs, 10000);
+    </script>
+</body>
+</html>
