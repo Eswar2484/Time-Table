@@ -168,6 +168,8 @@ def solve_timetable(data):
 
     # CONSTRAINT 2: No Double Booking of Staff
     for t_id in staff_vars:
+        if t_id == "ST_DUMMY":
+            continue
         # Group variables for staff member by day and period
         day_period_vars = {}
         for (v, d, p) in staff_vars[t_id]:
