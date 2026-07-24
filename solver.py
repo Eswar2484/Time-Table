@@ -452,6 +452,47 @@ def solve_timetable(data):
             model.Add(sum(active_p.values()) - 5 * v_5 >= 0)
             staff_continuous_5_vars.append(v_5)
 
+    # CONSTRAINT 8: Prevent Same Staff Teaching Different Subjects Consecutively to the Same Class
+    # If a staff member teaches 2+ distinct subjects to the same class, they must not teach
+    # those different subjects in adjacent back-to-back periods (p and p+1) on the same day.
+    for cl in classes:
+        c_name = cl['name']
+        staff_class_subjects = {}
+        for item in cl['syllabus']:
+            sub_code = item['subject_code']
+            t_assigned = item.get('staff_id')
+            if t_assigned and str(t_assigned) not in ('None', 'null', 'ST_DUMMY', ''):
+                t_id = str(t_assigned)
+                if t_id not in staff_class_subjects:
+                    staff_class_subjects[t_id] = set()
+                staff_class_subjects[t_id].add(sub_code)
+            else:
+                for t_id in subject_staff.get(sub_code, []):
+                    if t_id != "ST_DUMMY":
+                        if t_id not in staff_class_subjects:
+                            staff_class_subjects[t_id] = set()
+                        staff_class_subjects[t_id].add(sub_code)
+
+        for t_id, subs in staff_class_subjects.items():
+            sub_list = list(subs)
+            if len(sub_list) < 2:
+                continue
+            for i in range(len(sub_list)):
+                for j in range(i + 1, len(sub_list)):
+                    sub1 = sub_list[i]
+                    sub2 = sub_list[j]
+                    for d in days:
+                        for p in range(len(periods) - 1):
+                            v1_p = X.get((c_name, d, p, sub1, t_id))
+                            v2_p1 = X.get((c_name, d, p+1, sub2, t_id))
+                            if v1_p is not None and v2_p1 is not None:
+                                model.Add(v1_p + v2_p1 <= 1)
+
+                            v2_p = X.get((c_name, d, p, sub2, t_id))
+                            v1_p1 = X.get((c_name, d, p+1, sub1, t_id))
+                            if v2_p is not None and v1_p1 is not None:
+                                model.Add(v2_p + v1_p1 <= 1)
+
     # Combine objective: Maximize 3+3 lab splits (weight 100) and Minimize continuous 5-hour staff days (weight 1)
     obj_terms = []
     if split_3_3_vars:
