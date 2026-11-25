@@ -161,11 +161,10 @@ def api_data():
     else:
         # Save updated config
         new_data = request.json
-        # Clear cached and saved timetable since inputs changed
-        if 'timetable' in new_data:
-            new_data['timetable'] = None
+        if not new_data:
+            return jsonify({"status": "ERROR", "message": "No data received"}), 400
         save_data(new_data)
-        GENERATED_TIMETABLE = None
+        GENERATED_TIMETABLE = new_data.get('timetable_odd') or new_data.get('timetable_even') or new_data.get('timetable')
         return jsonify({"status": "SUCCESS"})
 
 @app.route('/api/reset', methods=['POST'])
@@ -864,6 +863,11 @@ def api_generate():
     if result.get('status') == 'SUCCESS':
         GENERATED_TIMETABLE = result.get('timetable_odd') or result.get('timetable_even') or {}
         result['timetable'] = GENERATED_TIMETABLE
+        if input_data:
+            input_data['timetable_odd'] = result.get('timetable_odd')
+            input_data['timetable_even'] = result.get('timetable_even')
+            input_data['timetable'] = GENERATED_TIMETABLE
+            save_data(input_data)
     return jsonify(result)
 
 @app.route('/api/clear', methods=['POST'])

@@ -2101,13 +2101,30 @@
             }
         }
 
-        // Save data back to server
+        // Save data to localStorage and auto-sync to backend server
         function saveConfig(callback, actionName = "EDIT_DATA", actionDetails = "Updated database records") {
             localStorage.setItem('timetable_db', JSON.stringify(appData));
             updateDashboardStats();
             renderStaffFilters();
             renderSubjectFilters();
             logActivity(actionName, actionDetails);
+
+            // Auto-sync live database to backend data.json
+            fetch("/api/data", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(appData)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status !== "SUCCESS") {
+                    console.warn("Backend auto-sync notice:", data);
+                }
+            })
+            .catch(err => {
+                console.warn("Backend auto-sync offline/unreachable:", err);
+            });
+
             if (callback) callback();
         }
 
@@ -3524,6 +3541,13 @@
                     appData.timetable_odd = activeTimetableOdd;
                     appData.timetable_even = activeTimetableEven;
                     localStorage.setItem('timetable_db', JSON.stringify(appData));
+
+                    // Auto-sync generated timetable state to backend
+                    fetch("/api/data", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(appData)
+                    }).catch(err => console.warn("Sync generated timetable notice:", err));
                     
                     logActivity("GENERATE_TIMETABLE", `Solved timetable in ${res.solve_time_seconds.toFixed(3)}s`);
 
@@ -3641,6 +3665,13 @@
                 appData.timetable_odd = null;
                 appData.timetable_even = null;
                 localStorage.setItem('timetable_db', JSON.stringify(appData));
+
+                // Auto-sync cleared timetable state to backend
+                fetch("/api/data", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(appData)
+                }).catch(err => console.warn("Sync cleared timetable notice:", err));
                 
                 logActivity("CLEAR_TIMETABLE", "Cleared generated timetables");
                 
@@ -3955,9 +3986,46 @@
                 }
             }
         });
-        // Download Backup JSON
+        // Download Backup JSON (Direct Live Database Export)
         function downloadBackup() {
-            window.open('/api/backup', '_blank');
+            try {
+                // Ensure latest active timetables are synced into appData before export
+                if (typeof activeTimetableOdd !== 'undefined' && activeTimetableOdd) {
+                    appData.timetable_odd = activeTimetableOdd;
+                }
+                if (typeof activeTimetableEven !== 'undefined' && activeTimetableEven) {
+                    appData.timetable_even = activeTimetableEven;
+                }
+                if (typeof activeTimetable !== 'undefined' && activeTimetable && !appData.timetable) {
+                    appData.timetable = activeTimetable;
+                }
+
+                const jsonStr = JSON.stringify(appData, null, 2);
+                const blob = new Blob([jsonStr], { type: "application/json;charset=utf-8" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                const dateStr = new Date().toISOString().slice(0, 10);
+                a.href = url;
+                a.download = `timetable_backup_${dateStr}.json`;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 200);
+
+                // Background auto-sync to server so server data.json also stays fresh
+                fetch("/api/data", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: jsonStr
+                }).catch(err => console.warn("Background backup sync notice:", err));
+
+                logMessage("Live database backup downloaded successfully.", "success");
+            } catch (err) {
+                console.error("Client backup download error, falling back to server:", err);
+                window.location.href = '/api/backup';
+            }
         }
 
         // Trigger restore file selection
