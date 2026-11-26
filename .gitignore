@@ -35,6 +35,19 @@ PROJECT_OVERVIEW.md
 
 # Logs
 *.log
+*.jsonl
+activity_logs.jsonl
+
+# Environment secrets
+.env
+.env.*
 
 # Local data backup (keep data.json for seeding, but not backups)
 *_backup.json
+
+# Local archive directories
+NEW/
+OLD/
+failiure/
+nope_01/
+old_nope/

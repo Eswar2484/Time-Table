@@ -178,58 +178,58 @@
       "department": "Computer Science",
       "even_syllabus": [
         {
-          "curriculum_hours": 5,
+          "subject_code": "BSC02_01",
           "hours": 5,
           "staff_id": null,
-          "subject_code": "BSC02_01"
+          "curriculum_hours": 5
         },
         {
-          "curriculum_hours": 5,
+          "subject_code": "BSC02_02",
           "hours": 5,
           "staff_id": null,
-          "subject_code": "BSC02_02"
+          "curriculum_hours": 5
         },
         {
-          "curriculum_hours": 3,
+          "subject_code": "BSC02_05",
           "hours": 3,
           "staff_id": null,
-          "subject_code": "BSC02_05"
+          "curriculum_hours": 3
         },
         {
-          "curriculum_hours": 2,
+          "subject_code": "BSC02_06",
+          "hours": 3,
+          "staff_id": null,
+          "curriculum_hours": 3
+        },
+        {
+          "subject_code": "BSC02_09",
           "hours": 2,
           "staff_id": null,
-          "subject_code": "BSC02_06"
+          "curriculum_hours": 2
         },
         {
-          "curriculum_hours": 2,
-          "hours": 2,
-          "staff_id": null,
-          "subject_code": "BSC02_09"
-        },
-        {
-          "curriculum_hours": 5,
+          "subject_code": "BSC02_03",
           "hours": 5,
           "staff_id": "2",
-          "subject_code": "BSC02_03"
+          "curriculum_hours": 5
         },
         {
-          "curriculum_hours": 4,
+          "subject_code": "BSC02_04",
           "hours": 4,
           "staff_id": "2",
-          "subject_code": "BSC02_04"
+          "curriculum_hours": 4
         },
         {
-          "curriculum_hours": 1,
+          "subject_code": "BSC02_08",
           "hours": 1,
           "staff_id": "9",
-          "subject_code": "BSC02_08"
+          "curriculum_hours": 1
         },
         {
-          "curriculum_hours": 2,
+          "subject_code": "BSC02_07",
           "hours": 2,
           "staff_id": "10",
-          "subject_code": "BSC02_07"
+          "curriculum_hours": 2
         }
       ],
       "incharge": "2",
@@ -242,58 +242,58 @@
       "department": "Computer Science",
       "even_syllabus": [
         {
-          "curriculum_hours": 5,
+          "subject_code": "BSC02_01",
           "hours": 5,
           "staff_id": null,
-          "subject_code": "BSC02_01"
+          "curriculum_hours": 5
         },
         {
-          "curriculum_hours": 5,
+          "subject_code": "BSC02_02",
           "hours": 5,
           "staff_id": null,
-          "subject_code": "BSC02_02"
+          "curriculum_hours": 5
         },
         {
-          "curriculum_hours": 3,
+          "subject_code": "BSC02_05",
           "hours": 3,
           "staff_id": null,
-          "subject_code": "BSC02_05"
+          "curriculum_hours": 3
         },
         {
-          "curriculum_hours": 2,
+          "subject_code": "BSC02_06",
+          "hours": 3,
+          "staff_id": null,
+          "curriculum_hours": 3
+        },
+        {
+          "subject_code": "BSC02_09",
           "hours": 2,
           "staff_id": null,
-          "subject_code": "BSC02_06"
+          "curriculum_hours": 2
         },
         {
-          "curriculum_hours": 2,
-          "hours": 2,
-          "staff_id": null,
-          "subject_code": "BSC02_09"
-        },
-        {
-          "curriculum_hours": 1,
+          "subject_code": "BSC02_08",
           "hours": 1,
           "staff_id": "4",
-          "subject_code": "BSC02_08"
+          "curriculum_hours": 1
         },
         {
-          "curriculum_hours": 5,
+          "subject_code": "BSC02_03",
           "hours": 5,
           "staff_id": "9",
-          "subject_code": "BSC02_03"
+          "curriculum_hours": 5
         },
         {
-          "curriculum_hours": 4,
+          "subject_code": "BSC02_04",
           "hours": 4,
           "staff_id": "9",
-          "subject_code": "BSC02_04"
+          "curriculum_hours": 4
         },
         {
-          "curriculum_hours": 2,
+          "subject_code": "BSC02_07",
           "hours": 2,
           "staff_id": "10",
-          "subject_code": "BSC02_07"
+          "curriculum_hours": 2
         }
       ],
       "incharge": "9",
@@ -1027,46 +1027,6 @@
       "term": "all"
     },
     {
-      "class_name": "2 CS 'B'",
-      "day": 0,
-      "id": "fs_1795652876217_7yh3",
-      "period": 3,
-      "subject_code": "BSC02_01",
-      "term": "all"
-    },
-    {
-      "class_name": "2 CS 'B'",
-      "day": 1,
-      "id": "fs_1795652879084_z45k",
-      "period": 3,
-      "subject_code": "BSC02_01",
-      "term": "all"
-    },
-    {
-      "class_name": "2 CS 'B'",
-      "day": 2,
-      "id": "fs_1795652881669_03t9",
-      "period": 3,
-      "subject_code": "BSC02_01",
-      "term": "all"
-    },
-    {
-      "class_name": "2 CS 'B'",
-      "day": 3,
-      "id": "fs_1795652885717_6cxd",
-      "period": 0,
-      "subject_code": "BSC02_01",
-      "term": "all"
-    },
-    {
-      "class_name": "2 CS 'B'",
-      "day": 4,
-      "id": "fs_1795652888084_on40",
-      "period": 0,
-      "subject_code": "BSC02_01",
-      "term": "all"
-    },
-    {
       "class_name": "1 CS 'A'",
       "day": 0,
       "id": "fs_1795654311061_4gci",
@@ -1560,6 +1520,118 @@
       "id": "fs_1795656548524_0o9f",
       "period": 1,
       "subject_code": "BSC01_04",
+      "term": "all"
+    },
+    {
+      "id": "fs_1795680551507_ys84",
+      "class_name": "1 PG",
+      "subject_code": "MSC01_06",
+      "day": 1,
+      "period": 3,
+      "term": "all"
+    },
+    {
+      "id": "fs_1795680554256_rcnq",
+      "class_name": "1 PG",
+      "subject_code": "MSC01_06",
+      "day": 1,
+      "period": 4,
+      "term": "all"
+    },
+    {
+      "id": "fs_1795680561523_kzc1",
+      "class_name": "1 PG",
+      "subject_code": "MSC01_06",
+      "day": 2,
+      "period": 3,
+      "term": "all"
+    },
+    {
+      "id": "fs_1795680564090_684m",
+      "class_name": "1 PG",
+      "subject_code": "MSC01_06",
+      "day": 2,
+      "period": 4,
+      "term": "all"
+    },
+    {
+      "id": "fs_1795681153235_up7f",
+      "class_name": "2 CS 'B'",
+      "subject_code": "BSC02_01",
+      "day": 0,
+      "period": 4,
+      "term": "all"
+    },
+    {
+      "id": "fs_1795681159301_s6ee",
+      "class_name": "2 CS 'B'",
+      "subject_code": "BSC02_01",
+      "day": 1,
+      "period": 4,
+      "term": "all"
+    },
+    {
+      "id": "fs_1795681162101_e1ub",
+      "class_name": "2 CS 'B'",
+      "subject_code": "BSC02_01",
+      "day": 2,
+      "period": 4,
+      "term": "all"
+    },
+    {
+      "id": "fs_1795681180451_4mim",
+      "class_name": "2 CS 'B'",
+      "subject_code": "BSC02_01",
+      "day": 3,
+      "period": 1,
+      "term": "all"
+    },
+    {
+      "id": "fs_1795681191501_7148",
+      "class_name": "2 CS 'B'",
+      "subject_code": "BSC02_01",
+      "day": 4,
+      "period": 1,
+      "term": "all"
+    },
+    {
+      "id": "fs_1795681212620_496h",
+      "class_name": "2 CS 'B'",
+      "subject_code": "BSC02_02",
+      "day": 0,
+      "period": 3,
+      "term": "all"
+    },
+    {
+      "id": "fs_1795681217204_4s93",
+      "class_name": "2 CS 'B'",
+      "subject_code": "BSC02_02",
+      "day": 1,
+      "period": 3,
+      "term": "all"
+    },
+    {
+      "id": "fs_1795681220918_jv98",
+      "class_name": "2 CS 'B'",
+      "subject_code": "BSC02_02",
+      "day": 2,
+      "period": 3,
+      "term": "all"
+    },
+    {
+      "id": "fs_1795681228071_njb4",
+      "class_name": "2 CS 'B'",
+      "subject_code": "BSC02_02",
+      "day": 3,
+      "period": 0,
+      "term": "all"
+    },
+    {
+      "id": "fs_1795681232401_stkh",
+      "class_name": "2 CS 'B'",
+      "subject_code": "BSC02_02",
+      "day": 4,
+      "period": 0,
       "term": "all"
     }
   ],
@@ -4607,15 +4679,15 @@
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "12",
-          "staff_name": "Tamil_1.1",
+          "staff_id": "15",
+          "staff_name": "Tamil_2.1",
           "subject_code": "BSC01_01",
           "subject_name": "Tamil_1",
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "19",
-          "staff_name": "English_2",
+          "staff_id": "17",
+          "staff_name": "English_1.1",
           "subject_code": "BSC01_02",
           "subject_name": "English_1",
           "subject_type": "Theory"
@@ -4623,17 +4695,17 @@
       },
       "1": {
         "0": {
+          "staff_id": "31",
+          "staff_name": "Maths_3",
+          "subject_code": "BSC01_05",
+          "subject_name": "Discrete mathematics",
+          "subject_type": "Theory"
+        },
+        "1": {
           "staff_id": "5",
           "staff_name": "Mr. N. Sugavaneswaran",
           "subject_code": "BSC01_03",
           "subject_name": "Java",
-          "subject_type": "Theory"
-        },
-        "1": {
-          "staff_id": "25",
-          "staff_name": "Maths_2",
-          "subject_code": "BSC01_05",
-          "subject_name": "Discrete mathematics",
           "subject_type": "Theory"
         },
         "2": {
@@ -4644,15 +4716,15 @@
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "13",
-          "staff_name": "Tamil_1.2",
+          "staff_id": "15",
+          "staff_name": "Tamil_2.1",
           "subject_code": "BSC01_01",
           "subject_name": "Tamil_1",
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "18",
-          "staff_name": "English_1.2",
+          "staff_id": "16",
+          "staff_name": "English_1",
           "subject_code": "BSC01_02",
           "subject_name": "English_1",
           "subject_type": "Theory"
@@ -4681,15 +4753,15 @@
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "14",
-          "staff_name": "Tamil_2",
+          "staff_id": "13",
+          "staff_name": "Tamil_1.2",
           "subject_code": "BSC01_01",
           "subject_name": "Tamil_1",
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "18",
-          "staff_name": "English_1.2",
+          "staff_id": "19",
+          "staff_name": "English_2",
           "subject_code": "BSC01_02",
           "subject_name": "English_1",
           "subject_type": "Theory"
@@ -4697,24 +4769,24 @@
       },
       "3": {
         "0": {
-          "staff_id": "14",
-          "staff_name": "Tamil_2",
+          "staff_id": "11",
+          "staff_name": "Tamil_1",
           "subject_code": "BSC01_01",
           "subject_name": "Tamil_1",
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "19",
-          "staff_name": "English_2",
+          "staff_id": "20",
+          "staff_name": "English_2.1",
           "subject_code": "BSC01_02",
           "subject_name": "English_1",
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "5",
-          "staff_name": "Mr. N. Sugavaneswaran",
-          "subject_code": "BSC01_03",
-          "subject_name": "Java",
+          "staff_id": "24",
+          "staff_name": "Maths_1",
+          "subject_code": "BSC01_05",
+          "subject_name": "Discrete mathematics",
           "subject_type": "Theory"
         },
         "3": {
@@ -4741,22 +4813,22 @@
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "19",
-          "staff_name": "English_2",
+          "staff_id": "20",
+          "staff_name": "English_2.1",
           "subject_code": "BSC01_02",
           "subject_name": "English_1",
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "31",
-          "staff_name": "Maths_3",
-          "subject_code": "BSC01_05",
-          "subject_name": "Discrete mathematics",
+          "staff_id": "5",
+          "staff_name": "Mr. N. Sugavaneswaran",
+          "subject_code": "BSC01_03",
+          "subject_name": "Java",
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "25",
-          "staff_name": "Maths_2",
+          "staff_id": "31",
+          "staff_name": "Maths_3",
           "subject_code": "BSC01_06",
           "subject_name": "Numerical Methods Lab",
           "subject_type": "Lab"
@@ -4771,15 +4843,15 @@
       },
       "5": {
         "0": {
-          "staff_id": "31",
-          "staff_name": "Maths_3",
+          "staff_id": "24",
+          "staff_name": "Maths_1",
           "subject_code": "BSC01_06",
           "subject_name": "Numerical Methods Lab",
           "subject_type": "Lab"
         },
         "1": {
-          "staff_id": "25",
-          "staff_name": "Maths_2",
+          "staff_id": "31",
+          "staff_name": "Maths_3",
           "subject_code": "BSC01_06",
           "subject_name": "Numerical Methods Lab",
           "subject_type": "Lab"
@@ -4792,17 +4864,17 @@
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "25",
-          "staff_name": "Maths_2",
-          "subject_code": "BSC01_05",
-          "subject_name": "Discrete mathematics",
-          "subject_type": "Theory"
-        },
-        "4": {
           "staff_id": "5",
           "staff_name": "Mr. N. Sugavaneswaran",
           "subject_code": "BSC01_03",
           "subject_name": "Java",
+          "subject_type": "Theory"
+        },
+        "4": {
+          "staff_id": "24",
+          "staff_name": "Maths_1",
+          "subject_code": "BSC01_05",
+          "subject_name": "Discrete mathematics",
           "subject_type": "Theory"
         }
       }
@@ -4824,8 +4896,8 @@
           "subject_type": "Lab"
         },
         "2": {
-          "staff_id": "24",
-          "staff_name": "Maths_1",
+          "staff_id": "31",
+          "staff_name": "Maths_3",
           "subject_code": "BSC01_05",
           "subject_name": "Discrete mathematics",
           "subject_type": "Theory"
@@ -4838,8 +4910,8 @@
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "16",
-          "staff_name": "English_1",
+          "staff_id": "18",
+          "staff_name": "English_1.2",
           "subject_code": "BSC01_02",
           "subject_name": "English_1",
           "subject_type": "Theory"
@@ -4847,10 +4919,10 @@
       },
       "1": {
         "0": {
-          "staff_id": "31",
-          "staff_name": "Maths_3",
-          "subject_code": "BSC01_05",
-          "subject_name": "Discrete mathematics",
+          "staff_id": "7",
+          "staff_name": "Mr. M. Kumaresan",
+          "subject_code": "BSC01_03",
+          "subject_name": "Java",
           "subject_type": "Theory"
         },
         "1": {
@@ -4861,8 +4933,8 @@
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "23",
-          "staff_name": "NME3",
+          "staff_id": "21",
+          "staff_name": "NME",
           "subject_code": "BSC01_08",
           "subject_name": "NME",
           "subject_type": "Theory"
@@ -4875,8 +4947,8 @@
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "20",
-          "staff_name": "English_2.1",
+          "staff_id": "18",
+          "staff_name": "English_1.2",
           "subject_code": "BSC01_02",
           "subject_name": "English_1",
           "subject_type": "Theory"
@@ -4905,8 +4977,8 @@
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "15",
-          "staff_name": "Tamil_2.1",
+          "staff_id": "11",
+          "staff_name": "Tamil_1",
           "subject_code": "BSC01_01",
           "subject_name": "Tamil_1",
           "subject_type": "Theory"
@@ -4921,24 +4993,24 @@
       },
       "3": {
         "0": {
-          "staff_id": "13",
-          "staff_name": "Tamil_1.2",
+          "staff_id": "14",
+          "staff_name": "Tamil_2",
           "subject_code": "BSC01_01",
           "subject_name": "Tamil_1",
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "17",
-          "staff_name": "English_1.1",
+          "staff_id": "18",
+          "staff_name": "English_1.2",
           "subject_code": "BSC01_02",
           "subject_name": "English_1",
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "7",
-          "staff_name": "Mr. M. Kumaresan",
-          "subject_code": "BSC01_03",
-          "subject_name": "Java",
+          "staff_id": "25",
+          "staff_name": "Maths_2",
+          "subject_code": "BSC01_05",
+          "subject_name": "Discrete mathematics",
           "subject_type": "Theory"
         },
         "3": {
@@ -4958,36 +5030,36 @@
       },
       "4": {
         "0": {
-          "staff_id": "25",
-          "staff_name": "Maths_2",
-          "subject_code": "BSC01_05",
-          "subject_name": "Discrete mathematics",
-          "subject_type": "Theory"
-        },
-        "1": {
-          "staff_id": "18",
-          "staff_name": "English_1.2",
-          "subject_code": "BSC01_02",
-          "subject_name": "English_1",
-          "subject_type": "Theory"
-        },
-        "2": {
           "staff_id": "7",
           "staff_name": "Mr. M. Kumaresan",
           "subject_code": "BSC01_03",
           "subject_name": "Java",
           "subject_type": "Theory"
         },
-        "3": {
+        "1": {
+          "staff_id": "16",
+          "staff_name": "English_1",
+          "subject_code": "BSC01_02",
+          "subject_name": "English_1",
+          "subject_type": "Theory"
+        },
+        "2": {
           "staff_id": "31",
           "staff_name": "Maths_3",
+          "subject_code": "BSC01_05",
+          "subject_name": "Discrete mathematics",
+          "subject_type": "Theory"
+        },
+        "3": {
+          "staff_id": "24",
+          "staff_name": "Maths_1",
           "subject_code": "BSC01_06",
           "subject_name": "Numerical Methods Lab",
           "subject_type": "Lab"
         },
         "4": {
-          "staff_id": "24",
-          "staff_name": "Maths_1",
+          "staff_id": "25",
+          "staff_name": "Maths_2",
           "subject_code": "BSC01_06",
           "subject_name": "Numerical Methods Lab",
           "subject_type": "Lab"
@@ -4995,31 +5067,31 @@
       },
       "5": {
         "0": {
-          "staff_id": "24",
-          "staff_name": "Maths_1",
+          "staff_id": "31",
+          "staff_name": "Maths_3",
           "subject_code": "BSC01_06",
           "subject_name": "Numerical Methods Lab",
           "subject_type": "Lab"
         },
         "1": {
-          "staff_id": "24",
-          "staff_name": "Maths_1",
+          "staff_id": "25",
+          "staff_name": "Maths_2",
           "subject_code": "BSC01_06",
           "subject_name": "Numerical Methods Lab",
           "subject_type": "Lab"
         },
         "2": {
+          "staff_id": "31",
+          "staff_name": "Maths_3",
+          "subject_code": "BSC01_05",
+          "subject_name": "Discrete mathematics",
+          "subject_type": "Theory"
+        },
+        "3": {
           "staff_id": "7",
           "staff_name": "Mr. M. Kumaresan",
           "subject_code": "BSC01_03",
           "subject_name": "Java",
-          "subject_type": "Theory"
-        },
-        "3": {
-          "staff_id": "24",
-          "staff_name": "Maths_1",
-          "subject_code": "BSC01_05",
-          "subject_name": "Discrete mathematics",
           "subject_type": "Theory"
         },
         "4": {
@@ -5048,22 +5120,22 @@
           "subject_type": "Lab"
         },
         "2": {
-          "staff_id": "31",
-          "staff_name": "Maths_3",
+          "staff_id": "24",
+          "staff_name": "Maths_1",
           "subject_code": "BSC01_05",
           "subject_name": "Discrete mathematics",
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "15",
-          "staff_name": "Tamil_2.1",
+          "staff_id": "13",
+          "staff_name": "Tamil_1.2",
           "subject_code": "BSC01_01",
           "subject_name": "Tamil_1",
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "18",
-          "staff_name": "English_1.2",
+          "staff_id": "16",
+          "staff_name": "English_1",
           "subject_code": "BSC01_02",
           "subject_name": "English_1",
           "subject_type": "Theory"
@@ -5085,22 +5157,22 @@
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "21",
-          "staff_name": "NME",
+          "staff_id": "23",
+          "staff_name": "NME3",
           "subject_code": "BSC01_08",
           "subject_name": "NME",
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "12",
-          "staff_name": "Tamil_1.1",
+          "staff_id": "14",
+          "staff_name": "Tamil_2",
           "subject_code": "BSC01_01",
           "subject_name": "Tamil_1",
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "19",
-          "staff_name": "English_2",
+          "staff_id": "17",
+          "staff_name": "English_1.1",
           "subject_code": "BSC01_02",
           "subject_name": "English_1",
           "subject_type": "Theory"
@@ -5136,8 +5208,8 @@
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "19",
-          "staff_name": "English_2",
+          "staff_id": "20",
+          "staff_name": "English_2.1",
           "subject_code": "BSC01_02",
           "subject_name": "English_1",
           "subject_type": "Theory"
@@ -5145,15 +5217,15 @@
       },
       "3": {
         "0": {
-          "staff_id": "12",
-          "staff_name": "Tamil_1.1",
+          "staff_id": "15",
+          "staff_name": "Tamil_2.1",
           "subject_code": "BSC01_01",
           "subject_name": "Tamil_1",
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "20",
-          "staff_name": "English_2.1",
+          "staff_id": "16",
+          "staff_name": "English_1",
           "subject_code": "BSC01_02",
           "subject_name": "English_1",
           "subject_type": "Theory"
@@ -5189,8 +5261,8 @@
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "20",
-          "staff_name": "English_2.1",
+          "staff_id": "18",
+          "staff_name": "English_1.2",
           "subject_code": "BSC01_02",
           "subject_name": "English_1",
           "subject_type": "Theory"
@@ -5203,15 +5275,15 @@
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "24",
-          "staff_name": "Maths_1",
+          "staff_id": "25",
+          "staff_name": "Maths_2",
           "subject_code": "BSC01_06",
           "subject_name": "Numerical Methods Lab",
           "subject_type": "Lab"
         },
         "4": {
-          "staff_id": "25",
-          "staff_name": "Maths_2",
+          "staff_id": "24",
+          "staff_name": "Maths_1",
           "subject_code": "BSC01_06",
           "subject_name": "Numerical Methods Lab",
           "subject_type": "Lab"
@@ -5226,24 +5298,24 @@
           "subject_type": "Lab"
         },
         "1": {
-          "staff_id": "31",
-          "staff_name": "Maths_3",
+          "staff_id": "24",
+          "staff_name": "Maths_1",
           "subject_code": "BSC01_06",
           "subject_name": "Numerical Methods Lab",
           "subject_type": "Lab"
         },
         "2": {
+          "staff_id": "25",
+          "staff_name": "Maths_2",
+          "subject_code": "BSC01_05",
+          "subject_name": "Discrete mathematics",
+          "subject_type": "Theory"
+        },
+        "3": {
           "staff_id": "8",
           "staff_name": "Mrs. V. Malarkodi",
           "subject_code": "BSC01_03",
           "subject_name": "Java",
-          "subject_type": "Theory"
-        },
-        "3": {
-          "staff_id": "31",
-          "staff_name": "Maths_3",
-          "subject_code": "BSC01_05",
-          "subject_name": "Discrete mathematics",
           "subject_type": "Theory"
         },
         "4": {
@@ -5272,17 +5344,17 @@
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "5",
-          "staff_name": "Mr. N. Sugavaneswaran",
-          "subject_code": "MSC01_04",
-          "subject_name": "Distributed Tech.",
-          "subject_type": "Theory"
-        },
-        "3": {
           "staff_id": "8",
           "staff_name": "Mrs. V. Malarkodi",
           "subject_code": "MSC01_07",
           "subject_name": "Mobile App",
+          "subject_type": "Theory"
+        },
+        "3": {
+          "staff_id": "5",
+          "staff_name": "Mr. N. Sugavaneswaran",
+          "subject_code": "MSC01_04",
+          "subject_name": "Distributed Tech.",
           "subject_type": "Theory"
         },
         "4": {
@@ -5295,18 +5367,18 @@
       },
       "1": {
         "0": {
-          "staff_id": "3",
-          "staff_name": "Dr. N. Karthikeyan",
-          "subject_code": "MSC01_06",
-          "subject_name": "DB Lab",
-          "subject_type": "Lab"
+          "staff_id": "10",
+          "staff_name": "Mr. K. Manikandan",
+          "subject_code": "MSC01_01",
+          "subject_name": "ADA",
+          "subject_type": "Theory"
         },
         "1": {
           "staff_id": "3",
           "staff_name": "Dr. N. Karthikeyan",
-          "subject_code": "MSC01_06",
-          "subject_name": "DB Lab",
-          "subject_type": "Lab"
+          "subject_code": "MSC01_02",
+          "subject_name": "DB",
+          "subject_type": "Theory"
         },
         "2": {
           "staff_id": "8",
@@ -5316,18 +5388,18 @@
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "10",
-          "staff_name": "Mr. K. Manikandan",
-          "subject_code": "MSC01_01",
-          "subject_name": "ADA",
-          "subject_type": "Theory"
+          "staff_id": "3",
+          "staff_name": "Dr. N. Karthikeyan",
+          "subject_code": "MSC01_06",
+          "subject_name": "DB Lab",
+          "subject_type": "Lab"
         },
         "4": {
-          "staff_id": "6",
-          "staff_name": "Mr. T. Dineshkumar",
-          "subject_code": "MSC01_03",
-          "subject_name": "Ai & Prompt",
-          "subject_type": "Theory"
+          "staff_id": "3",
+          "staff_name": "Dr. N. Karthikeyan",
+          "subject_code": "MSC01_06",
+          "subject_name": "DB Lab",
+          "subject_type": "Lab"
         }
       },
       "2": {
@@ -5339,32 +5411,32 @@
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "3",
-          "staff_name": "Dr. N. Karthikeyan",
-          "subject_code": "MSC01_02",
-          "subject_name": "DB",
-          "subject_type": "Theory"
-        },
-        "2": {
-          "staff_id": "8",
-          "staff_name": "Mrs. V. Malarkodi",
-          "subject_code": "MSC01_07",
-          "subject_name": "Mobile App",
-          "subject_type": "Theory"
-        },
-        "3": {
           "staff_id": "6",
           "staff_name": "Mr. T. Dineshkumar",
           "subject_code": "MSC01_03",
           "subject_name": "Ai & Prompt",
           "subject_type": "Theory"
         },
-        "4": {
+        "2": {
           "staff_id": "5",
           "staff_name": "Mr. N. Sugavaneswaran",
           "subject_code": "MSC01_04",
           "subject_name": "Distributed Tech.",
           "subject_type": "Theory"
+        },
+        "3": {
+          "staff_id": "3",
+          "staff_name": "Dr. N. Karthikeyan",
+          "subject_code": "MSC01_06",
+          "subject_name": "DB Lab",
+          "subject_type": "Lab"
+        },
+        "4": {
+          "staff_id": "3",
+          "staff_name": "Dr. N. Karthikeyan",
+          "subject_code": "MSC01_06",
+          "subject_name": "DB Lab",
+          "subject_type": "Lab"
         }
       },
       "3": {
@@ -5376,82 +5448,45 @@
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "3",
-          "staff_name": "Dr. N. Karthikeyan",
-          "subject_code": "MSC01_02",
-          "subject_name": "DB",
+          "staff_id": "6",
+          "staff_name": "Mr. T. Dineshkumar",
+          "subject_code": "MSC01_03",
+          "subject_name": "Ai & Prompt",
           "subject_type": "Theory"
         },
         "2": {
+          "staff_id": "8",
+          "staff_name": "Mrs. V. Malarkodi",
+          "subject_code": "MSC01_07",
+          "subject_name": "Mobile App",
+          "subject_type": "Theory"
+        },
+        "3": {
           "staff_id": "10",
           "staff_name": "Mr. K. Manikandan",
           "subject_code": "MSC01_01",
           "subject_name": "ADA",
           "subject_type": "Theory"
         },
-        "3": {
-          "staff_id": "3",
-          "staff_name": "Dr. N. Karthikeyan",
-          "subject_code": "MSC01_06",
-          "subject_name": "DB Lab",
-          "subject_type": "Lab"
-        },
         "4": {
           "staff_id": "3",
           "staff_name": "Dr. N. Karthikeyan",
-          "subject_code": "MSC01_06",
-          "subject_name": "DB Lab",
-          "subject_type": "Lab"
+          "subject_code": "MSC01_02",
+          "subject_name": "DB",
+          "subject_type": "Theory"
         }
       },
       "4": {
         "0": {
-          "staff_id": "6",
-          "staff_name": "Mr. T. Dineshkumar",
-          "subject_code": "MSC01_05",
-          "subject_name": "Ai & Prompt Lab",
-          "subject_type": "Lab"
-        },
-        "1": {
-          "staff_id": "6",
-          "staff_name": "Mr. T. Dineshkumar",
-          "subject_code": "MSC01_05",
-          "subject_name": "Ai & Prompt Lab",
-          "subject_type": "Lab"
-        },
-        "2": {
           "staff_id": "1.",
           "staff_name": "Dr. V. Upendran",
           "subject_code": "MSC01_05",
           "subject_name": "Ai & Prompt Lab",
           "subject_type": "Lab"
         },
-        "3": {
-          "staff_id": "3",
-          "staff_name": "Dr. N. Karthikeyan",
-          "subject_code": "MSC01_02",
-          "subject_name": "DB",
-          "subject_type": "Theory"
-        },
-        "4": {
-          "staff_id": "5",
-          "staff_name": "Mr. N. Sugavaneswaran",
-          "subject_code": "MSC01_04",
-          "subject_name": "Distributed Tech.",
-          "subject_type": "Theory"
-        }
-      },
-      "5": {
-        "0": {
-          "staff_id": "4",
-          "staff_name": "Mr. K. Shankar",
-          "subject_code": "MSC01_05",
-          "subject_name": "Ai & Prompt Lab",
-          "subject_type": "Lab"
-        },
         "1": {
-          "staff_id": "4",
-          "staff_name": "Mr. K. Shankar",
+          "staff_id": "6",
+          "staff_name": "Mr. T. Dineshkumar",
           "subject_code": "MSC01_05",
           "subject_name": "Ai & Prompt Lab",
           "subject_type": "Lab"
@@ -5471,10 +5506,47 @@
           "subject_type": "Theory"
         },
         "4": {
+          "staff_id": "3",
+          "staff_name": "Dr. N. Karthikeyan",
+          "subject_code": "MSC01_02",
+          "subject_name": "DB",
+          "subject_type": "Theory"
+        }
+      },
+      "5": {
+        "0": {
+          "staff_id": "6",
+          "staff_name": "Mr. T. Dineshkumar",
+          "subject_code": "MSC01_05",
+          "subject_name": "Ai & Prompt Lab",
+          "subject_type": "Lab"
+        },
+        "1": {
+          "staff_id": "4",
+          "staff_name": "Mr. K. Shankar",
+          "subject_code": "MSC01_05",
+          "subject_name": "Ai & Prompt Lab",
+          "subject_type": "Lab"
+        },
+        "2": {
+          "staff_id": "4",
+          "staff_name": "Mr. K. Shankar",
+          "subject_code": "MSC01_05",
+          "subject_name": "Ai & Prompt Lab",
+          "subject_type": "Lab"
+        },
+        "3": {
           "staff_id": "6",
           "staff_name": "Mr. T. Dineshkumar",
           "subject_code": "MSC01_03",
           "subject_name": "Ai & Prompt",
+          "subject_type": "Theory"
+        },
+        "4": {
+          "staff_id": "5",
+          "staff_name": "Mr. N. Sugavaneswaran",
+          "subject_code": "MSC01_04",
+          "subject_name": "Distributed Tech.",
           "subject_type": "Theory"
         }
       }
@@ -5482,29 +5554,29 @@
     "2 CS 'A'": {
       "0": {
         "0": {
-          "staff_id": "26",
-          "staff_name": "Physics_1",
-          "subject_code": "BSC02_05",
-          "subject_name": "Physics",
-          "subject_type": "Theory"
-        },
-        "1": {
-          "staff_id": "10",
-          "staff_name": "Mr. K. Manikandan",
-          "subject_code": "BSC02_07",
-          "subject_name": "PHP",
-          "subject_type": "Theory"
-        },
-        "2": {
           "staff_id": "2",
           "staff_name": "Ms. J. Jayanthi",
           "subject_code": "BSC02_03",
           "subject_name": "DBMS",
           "subject_type": "Theory"
         },
+        "1": {
+          "staff_id": "26",
+          "staff_name": "Physics_1",
+          "subject_code": "BSC02_05",
+          "subject_name": "Physics",
+          "subject_type": "Theory"
+        },
+        "2": {
+          "staff_id": "27",
+          "staff_name": "Physics_2",
+          "subject_code": "BSC02_09",
+          "subject_name": "Environment Studies",
+          "subject_type": "Theory"
+        },
         "3": {
-          "staff_id": "16",
-          "staff_name": "English_1",
+          "staff_id": "17",
+          "staff_name": "English_1.1",
           "subject_code": "BSC02_02",
           "subject_name": "English_2",
           "subject_type": "Theory"
@@ -5533,10 +5605,10 @@
           "subject_type": "Lab"
         },
         "2": {
-          "staff_id": "27",
-          "staff_name": "Physics_2",
-          "subject_code": "BSC02_09",
-          "subject_name": "Environment Studies",
+          "staff_id": "9",
+          "staff_name": "Ms. T. Mohanapriya",
+          "subject_code": "BSC02_08",
+          "subject_name": "Automated Testing",
           "subject_type": "Theory"
         },
         "3": {
@@ -5556,10 +5628,10 @@
       },
       "2": {
         "0": {
-          "staff_id": "27",
-          "staff_name": "Physics_2",
-          "subject_code": "BSC02_05",
-          "subject_name": "Physics",
+          "staff_id": "2",
+          "staff_name": "Ms. J. Jayanthi",
+          "subject_code": "BSC02_03",
+          "subject_name": "DBMS",
           "subject_type": "Theory"
         },
         "1": {
@@ -5570,22 +5642,22 @@
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "26",
-          "staff_name": "Physics_1",
-          "subject_code": "BSC02_09",
-          "subject_name": "Environment Studies",
+          "staff_id": "28",
+          "staff_name": "Physics_3",
+          "subject_code": "BSC02_05",
+          "subject_name": "Physics",
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "16",
-          "staff_name": "English_1",
+          "staff_id": "18",
+          "staff_name": "English_1.2",
           "subject_code": "BSC02_02",
           "subject_name": "English_2",
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "11",
-          "staff_name": "Tamil_1",
+          "staff_id": "15",
+          "staff_name": "Tamil_2.1",
           "subject_code": "BSC02_01",
           "subject_name": "Tamil_2",
           "subject_type": "Theory"
@@ -5593,8 +5665,8 @@
       },
       "3": {
         "0": {
-          "staff_id": "16",
-          "staff_name": "English_1",
+          "staff_id": "17",
+          "staff_name": "English_1.1",
           "subject_code": "BSC02_02",
           "subject_name": "English_2",
           "subject_type": "Theory"
@@ -5616,6 +5688,43 @@
         "3": {
           "staff_id": "27",
           "staff_name": "Physics_2",
+          "subject_code": "BSC02_09",
+          "subject_name": "Environment Studies",
+          "subject_type": "Theory"
+        },
+        "4": {
+          "staff_id": "10",
+          "staff_name": "Mr. K. Manikandan",
+          "subject_code": "BSC02_07",
+          "subject_name": "PHP",
+          "subject_type": "Theory"
+        }
+      },
+      "4": {
+        "0": {
+          "staff_id": "17",
+          "staff_name": "English_1.1",
+          "subject_code": "BSC02_02",
+          "subject_name": "English_2",
+          "subject_type": "Theory"
+        },
+        "1": {
+          "staff_id": "15",
+          "staff_name": "Tamil_2.1",
+          "subject_code": "BSC02_01",
+          "subject_name": "Tamil_2",
+          "subject_type": "Theory"
+        },
+        "2": {
+          "staff_id": "28",
+          "staff_name": "Physics_3",
+          "subject_code": "BSC02_06",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab"
+        },
+        "3": {
+          "staff_id": "26",
+          "staff_name": "Physics_1",
           "subject_code": "BSC02_06",
           "subject_name": "Physics Lab",
           "subject_type": "Lab"
@@ -5628,19 +5737,19 @@
           "subject_type": "Lab"
         }
       },
-      "4": {
+      "5": {
         "0": {
-          "staff_id": "16",
-          "staff_name": "English_1",
-          "subject_code": "BSC02_02",
-          "subject_name": "English_2",
+          "staff_id": "27",
+          "staff_name": "Physics_2",
+          "subject_code": "BSC02_05",
+          "subject_name": "Physics",
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "11",
-          "staff_name": "Tamil_1",
-          "subject_code": "BSC02_01",
-          "subject_name": "Tamil_2",
+          "staff_id": "2",
+          "staff_name": "Ms. J. Jayanthi",
+          "subject_code": "BSC02_03",
+          "subject_name": "DBMS",
           "subject_type": "Theory"
         },
         "2": {
@@ -5648,43 +5757,6 @@
           "staff_name": "Mr. K. Manikandan",
           "subject_code": "BSC02_07",
           "subject_name": "PHP",
-          "subject_type": "Theory"
-        },
-        "3": {
-          "staff_id": "9",
-          "staff_name": "Ms. T. Mohanapriya",
-          "subject_code": "BSC02_08",
-          "subject_name": "Automated Testing",
-          "subject_type": "Theory"
-        },
-        "4": {
-          "staff_id": "ST_DUMMY",
-          "staff_name": "N/A",
-          "subject_code": "DUMMY_SS",
-          "subject_name": "Self-Study",
-          "subject_type": "Theory"
-        }
-      },
-      "5": {
-        "0": {
-          "staff_id": "2",
-          "staff_name": "Ms. J. Jayanthi",
-          "subject_code": "BSC02_03",
-          "subject_name": "DBMS",
-          "subject_type": "Theory"
-        },
-        "1": {
-          "staff_id": "2",
-          "staff_name": "Ms. J. Jayanthi",
-          "subject_code": "BSC02_03",
-          "subject_name": "DBMS",
-          "subject_type": "Theory"
-        },
-        "2": {
-          "staff_id": "26",
-          "staff_name": "Physics_1",
-          "subject_code": "BSC02_05",
-          "subject_name": "Physics",
           "subject_type": "Theory"
         },
         "3": {
@@ -5706,38 +5778,38 @@
     "2 CS 'B'": {
       "0": {
         "0": {
+          "staff_id": "28",
+          "staff_name": "Physics_3",
+          "subject_code": "BSC02_05",
+          "subject_name": "Physics",
+          "subject_type": "Theory"
+        },
+        "1": {
+          "staff_id": "10",
+          "staff_name": "Mr. K. Manikandan",
+          "subject_code": "BSC02_07",
+          "subject_name": "PHP",
+          "subject_type": "Theory"
+        },
+        "2": {
           "staff_id": "9",
           "staff_name": "Ms. T. Mohanapriya",
           "subject_code": "BSC02_03",
           "subject_name": "DBMS",
           "subject_type": "Theory"
         },
-        "1": {
-          "staff_id": "20",
-          "staff_name": "English_2.1",
+        "3": {
+          "staff_id": "19",
+          "staff_name": "English_2",
           "subject_code": "BSC02_02",
           "subject_name": "English_2",
           "subject_type": "Theory"
         },
-        "2": {
-          "staff_id": "26",
-          "staff_name": "Physics_1",
-          "subject_code": "BSC02_09",
-          "subject_name": "Environment Studies",
-          "subject_type": "Theory"
-        },
-        "3": {
-          "staff_id": "11",
-          "staff_name": "Tamil_1",
+        "4": {
+          "staff_id": "13",
+          "staff_name": "Tamil_1.2",
           "subject_code": "BSC02_01",
           "subject_name": "Tamil_2",
-          "subject_type": "Theory"
-        },
-        "4": {
-          "staff_id": "26",
-          "staff_name": "Physics_1",
-          "subject_code": "BSC02_05",
-          "subject_name": "Physics",
           "subject_type": "Theory"
         }
       },
@@ -5759,114 +5831,77 @@
         "2": {
           "staff_id": "28",
           "staff_name": "Physics_3",
-          "subject_code": "BSC02_09",
-          "subject_name": "Environment Studies",
+          "subject_code": "BSC02_05",
+          "subject_name": "Physics",
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "15",
-          "staff_name": "Tamil_2.1",
-          "subject_code": "BSC02_01",
-          "subject_name": "Tamil_2",
+          "staff_id": "18",
+          "staff_name": "English_1.2",
+          "subject_code": "BSC02_02",
+          "subject_name": "English_2",
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "16",
-          "staff_name": "English_1",
-          "subject_code": "BSC02_02",
-          "subject_name": "English_2",
+          "staff_id": "13",
+          "staff_name": "Tamil_1.2",
+          "subject_code": "BSC02_01",
+          "subject_name": "Tamil_2",
           "subject_type": "Theory"
         }
       },
       "2": {
         "0": {
-          "staff_id": "ST_DUMMY",
-          "staff_name": "N/A",
-          "subject_code": "DUMMY_SS",
-          "subject_name": "Self-Study",
-          "subject_type": "Theory"
-        },
-        "1": {
-          "staff_id": "10",
-          "staff_name": "Mr. K. Manikandan",
-          "subject_code": "BSC02_07",
-          "subject_name": "PHP",
-          "subject_type": "Theory"
-        },
-        "2": {
-          "staff_id": "20",
-          "staff_name": "English_2.1",
-          "subject_code": "BSC02_02",
-          "subject_name": "English_2",
-          "subject_type": "Theory"
-        },
-        "3": {
-          "staff_id": "11",
-          "staff_name": "Tamil_1",
-          "subject_code": "BSC02_01",
-          "subject_name": "Tamil_2",
-          "subject_type": "Theory"
-        },
-        "4": {
-          "staff_id": "27",
-          "staff_name": "Physics_2",
-          "subject_code": "BSC02_05",
-          "subject_name": "Physics",
-          "subject_type": "Theory"
-        }
-      },
-      "3": {
-        "0": {
-          "staff_id": "15",
-          "staff_name": "Tamil_2.1",
-          "subject_code": "BSC02_01",
-          "subject_name": "Tamil_2",
-          "subject_type": "Theory"
-        },
-        "1": {
-          "staff_id": "9",
-          "staff_name": "Ms. T. Mohanapriya",
-          "subject_code": "BSC02_03",
-          "subject_name": "DBMS",
-          "subject_type": "Theory"
-        },
-        "2": {
-          "staff_id": "20",
-          "staff_name": "English_2.1",
-          "subject_code": "BSC02_02",
-          "subject_name": "English_2",
-          "subject_type": "Theory"
-        },
-        "3": {
-          "staff_id": "26",
-          "staff_name": "Physics_1",
+          "staff_id": "28",
+          "staff_name": "Physics_3",
           "subject_code": "BSC02_06",
           "subject_name": "Physics Lab",
           "subject_type": "Lab"
         },
-        "4": {
+        "1": {
           "staff_id": "27",
           "staff_name": "Physics_2",
           "subject_code": "BSC02_06",
           "subject_name": "Physics Lab",
           "subject_type": "Lab"
-        }
-      },
-      "4": {
-        "0": {
-          "staff_id": "11",
-          "staff_name": "Tamil_1",
-          "subject_code": "BSC02_01",
-          "subject_name": "Tamil_2",
-          "subject_type": "Theory"
         },
-        "1": {
+        "2": {
+          "staff_id": "27",
+          "staff_name": "Physics_2",
+          "subject_code": "BSC02_06",
+          "subject_name": "Physics Lab",
+          "subject_type": "Lab"
+        },
+        "3": {
           "staff_id": "16",
           "staff_name": "English_1",
           "subject_code": "BSC02_02",
           "subject_name": "English_2",
           "subject_type": "Theory"
         },
+        "4": {
+          "staff_id": "14",
+          "staff_name": "Tamil_2",
+          "subject_code": "BSC02_01",
+          "subject_name": "Tamil_2",
+          "subject_type": "Theory"
+        }
+      },
+      "3": {
+        "0": {
+          "staff_id": "19",
+          "staff_name": "English_2",
+          "subject_code": "BSC02_02",
+          "subject_name": "English_2",
+          "subject_type": "Theory"
+        },
+        "1": {
+          "staff_id": "14",
+          "staff_name": "Tamil_2",
+          "subject_code": "BSC02_01",
+          "subject_name": "Tamil_2",
+          "subject_type": "Theory"
+        },
         "2": {
           "staff_id": "9",
           "staff_name": "Ms. T. Mohanapriya",
@@ -5875,17 +5910,54 @@
           "subject_type": "Theory"
         },
         "3": {
+          "staff_id": "9",
+          "staff_name": "Ms. T. Mohanapriya",
+          "subject_code": "BSC02_03",
+          "subject_name": "DBMS",
+          "subject_type": "Theory"
+        },
+        "4": {
+          "staff_id": "26",
+          "staff_name": "Physics_1",
+          "subject_code": "BSC02_09",
+          "subject_name": "Environment Studies",
+          "subject_type": "Theory"
+        }
+      },
+      "4": {
+        "0": {
+          "staff_id": "19",
+          "staff_name": "English_2",
+          "subject_code": "BSC02_02",
+          "subject_name": "English_2",
+          "subject_type": "Theory"
+        },
+        "1": {
+          "staff_id": "12",
+          "staff_name": "Tamil_1.1",
+          "subject_code": "BSC02_01",
+          "subject_name": "Tamil_2",
+          "subject_type": "Theory"
+        },
+        "2": {
           "staff_id": "4",
           "staff_name": "Mr. K. Shankar",
           "subject_code": "BSC02_08",
           "subject_name": "Automated Testing",
           "subject_type": "Theory"
         },
-        "4": {
+        "3": {
           "staff_id": "9",
           "staff_name": "Ms. T. Mohanapriya",
           "subject_code": "BSC02_03",
           "subject_name": "DBMS",
+          "subject_type": "Theory"
+        },
+        "4": {
+          "staff_id": "28",
+          "staff_name": "Physics_3",
+          "subject_code": "BSC02_09",
+          "subject_name": "Environment Studies",
           "subject_type": "Theory"
         }
       },
@@ -5905,8 +5977,8 @@
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "27",
-          "staff_name": "Physics_2",
+          "staff_id": "28",
+          "staff_name": "Physics_3",
           "subject_code": "BSC02_05",
           "subject_name": "Physics",
           "subject_type": "Theory"
@@ -5932,27 +6004,27 @@
         "0": {
           "staff_id": "3",
           "staff_name": "Dr. N. Karthikeyan",
-          "subject_code": "MSC02_04",
-          "subject_name": "Project",
+          "subject_code": "MSC02_03",
+          "subject_name": "Block Chain",
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "9",
-          "staff_name": "Ms. T. Mohanapriya",
-          "subject_code": "MSC02_04",
-          "subject_name": "Project",
+          "staff_id": "27",
+          "staff_name": "Physics_2",
+          "subject_code": "MSC02_02",
+          "subject_name": "Computer Organisation",
           "subject_type": "Theory"
         },
         "2": {
           "staff_id": "3",
           "staff_name": "Dr. N. Karthikeyan",
-          "subject_code": "MSC02_03",
-          "subject_name": "Block Chain",
+          "subject_code": "MSC02_04",
+          "subject_name": "Project",
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "2",
-          "staff_name": "Ms. J. Jayanthi",
+          "staff_id": "1.",
+          "staff_name": "Dr. V. Upendran",
           "subject_code": "MSC02_05",
           "subject_name": "Python",
           "subject_type": "Lab"
@@ -5967,47 +6039,47 @@
       },
       "1": {
         "0": {
+          "staff_id": "5",
+          "staff_name": "Mr. N. Sugavaneswaran",
+          "subject_code": "MSC02_04",
+          "subject_name": "Project",
+          "subject_type": "Theory"
+        },
+        "1": {
+          "staff_id": "1.",
+          "staff_name": "Dr. V. Upendran",
+          "subject_code": "MSC02_04",
+          "subject_name": "Project",
+          "subject_type": "Theory"
+        },
+        "2": {
           "staff_id": "10",
           "staff_name": "Mr. K. Manikandan",
           "subject_code": "MSC02_06",
           "subject_name": "PHP",
           "subject_type": "Theory"
         },
-        "1": {
-          "staff_id": "30",
-          "staff_name": "BCA",
-          "subject_code": "MSC02_01",
-          "subject_name": "Cloud Computing",
-          "subject_type": "Theory"
-        },
-        "2": {
-          "staff_id": "30",
-          "staff_name": "BCA",
-          "subject_code": "MSC02_01",
-          "subject_name": "Cloud Computing",
-          "subject_type": "Theory"
-        },
         "3": {
-          "staff_id": "5",
-          "staff_name": "Mr. N. Sugavaneswaran",
-          "subject_code": "MSC02_04",
-          "subject_name": "Project",
+          "staff_id": "28",
+          "staff_name": "Physics_3",
+          "subject_code": "MSC02_02",
+          "subject_name": "Computer Organisation",
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "3",
-          "staff_name": "Dr. N. Karthikeyan",
-          "subject_code": "MSC02_04",
-          "subject_name": "Project",
+          "staff_id": "30",
+          "staff_name": "BCA",
+          "subject_code": "MSC02_01",
+          "subject_name": "Cloud Computing",
           "subject_type": "Theory"
         }
       },
       "2": {
         "0": {
-          "staff_id": "2",
-          "staff_name": "Ms. J. Jayanthi",
-          "subject_code": "MSC02_04",
-          "subject_name": "Project",
+          "staff_id": "3",
+          "staff_name": "Dr. N. Karthikeyan",
+          "subject_code": "MSC02_03",
+          "subject_name": "Block Chain",
           "subject_type": "Theory"
         },
         "1": {
@@ -6018,10 +6090,10 @@
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "27",
-          "staff_name": "Physics_2",
-          "subject_code": "MSC02_02",
-          "subject_name": "Computer Organisation",
+          "staff_id": "3",
+          "staff_name": "Dr. N. Karthikeyan",
+          "subject_code": "MSC02_04",
+          "subject_name": "Project",
           "subject_type": "Theory"
         },
         "3": {
@@ -6032,17 +6104,17 @@
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "3",
-          "staff_name": "Dr. N. Karthikeyan",
-          "subject_code": "MSC02_03",
-          "subject_name": "Block Chain",
+          "staff_id": "30",
+          "staff_name": "BCA",
+          "subject_code": "MSC02_01",
+          "subject_name": "Cloud Computing",
           "subject_type": "Theory"
         }
       },
       "3": {
         "0": {
-          "staff_id": "1.",
-          "staff_name": "Dr. V. Upendran",
+          "staff_id": "2",
+          "staff_name": "Ms. J. Jayanthi",
           "subject_code": "MSC02_05",
           "subject_name": "Python",
           "subject_type": "Lab"
@@ -6055,61 +6127,61 @@
           "subject_type": "Lab"
         },
         "2": {
-          "staff_id": "30",
-          "staff_name": "BCA",
-          "subject_code": "MSC02_01",
-          "subject_name": "Cloud Computing",
-          "subject_type": "Theory"
-        },
-        "3": {
-          "staff_id": "30",
-          "staff_name": "BCA",
-          "subject_code": "MSC02_01",
-          "subject_name": "Cloud Computing",
-          "subject_type": "Theory"
-        },
-        "4": {
-          "staff_id": "1.",
-          "staff_name": "Dr. V. Upendran",
+          "staff_id": "5",
+          "staff_name": "Mr. N. Sugavaneswaran",
           "subject_code": "MSC02_04",
           "subject_name": "Project",
           "subject_type": "Theory"
-        }
-      },
-      "4": {
-        "0": {
+        },
+        "3": {
           "staff_id": "3",
           "staff_name": "Dr. N. Karthikeyan",
           "subject_code": "MSC02_03",
           "subject_name": "Block Chain",
           "subject_type": "Theory"
         },
+        "4": {
+          "staff_id": "30",
+          "staff_name": "BCA",
+          "subject_code": "MSC02_01",
+          "subject_name": "Cloud Computing",
+          "subject_type": "Theory"
+        }
+      },
+      "4": {
+        "0": {
+          "staff_id": "26",
+          "staff_name": "Physics_1",
+          "subject_code": "MSC02_02",
+          "subject_name": "Computer Organisation",
+          "subject_type": "Theory"
+        },
         "1": {
-          "staff_id": "5",
-          "staff_name": "Mr. N. Sugavaneswaran",
-          "subject_code": "MSC02_06",
-          "subject_name": "PHP",
+          "staff_id": "3",
+          "staff_name": "Dr. N. Karthikeyan",
+          "subject_code": "MSC02_03",
+          "subject_name": "Block Chain",
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "3",
-          "staff_name": "Dr. N. Karthikeyan",
+          "staff_id": "26",
+          "staff_name": "Physics_1",
+          "subject_code": "MSC02_02",
+          "subject_name": "Computer Organisation",
+          "subject_type": "Theory"
+        },
+        "3": {
+          "staff_id": "2",
+          "staff_name": "Ms. J. Jayanthi",
           "subject_code": "MSC02_04",
           "subject_name": "Project",
           "subject_type": "Theory"
         },
-        "3": {
-          "staff_id": "28",
-          "staff_name": "Physics_3",
-          "subject_code": "MSC02_02",
-          "subject_name": "Computer Organisation",
-          "subject_type": "Theory"
-        },
         "4": {
-          "staff_id": "28",
-          "staff_name": "Physics_3",
-          "subject_code": "MSC02_02",
-          "subject_name": "Computer Organisation",
+          "staff_id": "9",
+          "staff_name": "Ms. T. Mohanapriya",
+          "subject_code": "MSC02_04",
+          "subject_name": "Project",
           "subject_type": "Theory"
         }
       },
@@ -6117,36 +6189,36 @@
         "0": {
           "staff_id": "3",
           "staff_name": "Dr. N. Karthikeyan",
-          "subject_code": "MSC02_03",
-          "subject_name": "Block Chain",
+          "subject_code": "MSC02_04",
+          "subject_name": "Project",
           "subject_type": "Theory"
         },
         "1": {
           "staff_id": "5",
           "staff_name": "Mr. N. Sugavaneswaran",
-          "subject_code": "MSC02_04",
-          "subject_name": "Project",
+          "subject_code": "MSC02_06",
+          "subject_name": "PHP",
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "28",
-          "staff_name": "Physics_3",
-          "subject_code": "MSC02_02",
-          "subject_name": "Computer Organisation",
-          "subject_type": "Theory"
-        },
-        "3": {
-          "staff_id": "26",
-          "staff_name": "Physics_1",
-          "subject_code": "MSC02_02",
-          "subject_name": "Computer Organisation",
-          "subject_type": "Theory"
-        },
-        "4": {
           "staff_id": "1.",
           "staff_name": "Dr. V. Upendran",
           "subject_code": "MSC02_04",
           "subject_name": "Project",
+          "subject_type": "Theory"
+        },
+        "3": {
+          "staff_id": "30",
+          "staff_name": "BCA",
+          "subject_code": "MSC02_01",
+          "subject_name": "Cloud Computing",
+          "subject_type": "Theory"
+        },
+        "4": {
+          "staff_id": "26",
+          "staff_name": "Physics_1",
+          "subject_code": "MSC02_02",
+          "subject_name": "Computer Organisation",
           "subject_type": "Theory"
         }
       }
@@ -6191,17 +6263,17 @@
       },
       "1": {
         "0": {
-          "staff_id": "7",
-          "staff_name": "Mr. M. Kumaresan",
-          "subject_code": "BSC03_04",
-          "subject_name": "Ai",
+          "staff_id": "27",
+          "staff_name": "Physics_2",
+          "subject_code": "BSC03_07",
+          "subject_name": "Gender Studies",
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "10",
-          "staff_name": "Mr. K. Manikandan",
-          "subject_code": "BSC03_04",
-          "subject_name": "Ai",
+          "staff_id": "8",
+          "staff_name": "Mrs. V. Malarkodi",
+          "subject_code": "BSC03_05",
+          "subject_name": "Cyber Security",
           "subject_type": "Theory"
         },
         "2": {
@@ -6212,15 +6284,15 @@
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "3",
-          "staff_name": "Dr. N. Karthikeyan",
-          "subject_code": "BSC03_05",
-          "subject_name": "Cyber Security",
+          "staff_id": "8",
+          "staff_name": "Mrs. V. Malarkodi",
+          "subject_code": "BSC03_02",
+          "subject_name": "Project",
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "7",
-          "staff_name": "Mr. M. Kumaresan",
+          "staff_id": "4",
+          "staff_name": "Mr. K. Shankar",
           "subject_code": "BSC03_02",
           "subject_name": "Project",
           "subject_type": "Theory"
@@ -6228,36 +6300,36 @@
       },
       "2": {
         "0": {
-          "staff_id": "4",
-          "staff_name": "Mr. K. Shankar",
-          "subject_code": "BSC03_01",
-          "subject_name": ".Net",
-          "subject_type": "Theory"
-        },
-        "1": {
           "staff_id": "29",
           "staff_name": "Soft Skill",
           "subject_code": "BSC03_06",
           "subject_name": "Softskill",
           "subject_type": "Theory"
         },
-        "2": {
+        "1": {
           "staff_id": "4",
           "staff_name": "Mr. K. Shankar",
-          "subject_code": "BSC03_01",
-          "subject_name": ".Net",
+          "subject_code": "BSC03_02",
+          "subject_name": "Project",
           "subject_type": "Theory"
         },
-        "3": {
+        "2": {
           "staff_id": "7",
           "staff_name": "Mr. M. Kumaresan",
           "subject_code": "BSC03_04",
           "subject_name": "Ai",
           "subject_type": "Theory"
         },
+        "3": {
+          "staff_id": "28",
+          "staff_name": "Physics_3",
+          "subject_code": "BSC03_07",
+          "subject_name": "Gender Studies",
+          "subject_type": "Theory"
+        },
         "4": {
-          "staff_id": "4",
-          "staff_name": "Mr. K. Shankar",
+          "staff_id": "7",
+          "staff_name": "Mr. M. Kumaresan",
           "subject_code": "BSC03_02",
           "subject_name": "Project",
           "subject_type": "Theory"
@@ -6265,24 +6337,24 @@
       },
       "3": {
         "0": {
-          "staff_id": "3",
-          "staff_name": "Dr. N. Karthikeyan",
+          "staff_id": "8",
+          "staff_name": "Mrs. V. Malarkodi",
           "subject_code": "BSC03_05",
           "subject_name": "Cyber Security",
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "8",
-          "staff_name": "Mrs. V. Malarkodi",
-          "subject_code": "BSC03_02",
-          "subject_name": "Project",
+          "staff_id": "4",
+          "staff_name": "Mr. K. Shankar",
+          "subject_code": "BSC03_01",
+          "subject_name": ".Net",
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "27",
-          "staff_name": "Physics_2",
-          "subject_code": "BSC03_07",
-          "subject_name": "Gender Studies",
+          "staff_id": "3",
+          "staff_name": "Dr. N. Karthikeyan",
+          "subject_code": "BSC03_05",
+          "subject_name": "Cyber Security",
           "subject_type": "Theory"
         },
         "3": {
@@ -6309,54 +6381,17 @@
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "8",
-          "staff_name": "Mrs. V. Malarkodi",
-          "subject_code": "BSC03_05",
-          "subject_name": "Cyber Security",
-          "subject_type": "Theory"
-        },
-        "2": {
-          "staff_id": "4",
-          "staff_name": "Mr. K. Shankar",
-          "subject_code": "BSC03_01",
-          "subject_name": ".Net",
-          "subject_type": "Theory"
-        },
-        "3": {
-          "staff_id": "8",
-          "staff_name": "Mrs. V. Malarkodi",
-          "subject_code": "BSC03_05",
-          "subject_name": "Cyber Security",
-          "subject_type": "Theory"
-        },
-        "4": {
           "staff_id": "7",
           "staff_name": "Mr. M. Kumaresan",
           "subject_code": "BSC03_02",
           "subject_name": "Project",
           "subject_type": "Theory"
-        }
-      },
-      "5": {
-        "0": {
-          "staff_id": "26",
-          "staff_name": "Physics_1",
-          "subject_code": "BSC03_07",
-          "subject_name": "Gender Studies",
-          "subject_type": "Theory"
-        },
-        "1": {
-          "staff_id": "8",
-          "staff_name": "Mrs. V. Malarkodi",
-          "subject_code": "BSC03_05",
-          "subject_name": "Cyber Security",
-          "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "4",
-          "staff_name": "Mr. K. Shankar",
-          "subject_code": "BSC03_02",
-          "subject_name": "Project",
+          "staff_id": "3",
+          "staff_name": "Dr. N. Karthikeyan",
+          "subject_code": "BSC03_05",
+          "subject_name": "Cyber Security",
           "subject_type": "Theory"
         },
         "3": {
@@ -6364,6 +6399,43 @@
           "staff_name": "Soft Skill",
           "subject_code": "BSC03_06",
           "subject_name": "Softskill",
+          "subject_type": "Theory"
+        },
+        "4": {
+          "staff_id": "4",
+          "staff_name": "Mr. K. Shankar",
+          "subject_code": "BSC03_01",
+          "subject_name": ".Net",
+          "subject_type": "Theory"
+        }
+      },
+      "5": {
+        "0": {
+          "staff_id": "10",
+          "staff_name": "Mr. K. Manikandan",
+          "subject_code": "BSC03_04",
+          "subject_name": "Ai",
+          "subject_type": "Theory"
+        },
+        "1": {
+          "staff_id": "7",
+          "staff_name": "Mr. M. Kumaresan",
+          "subject_code": "BSC03_04",
+          "subject_name": "Ai",
+          "subject_type": "Theory"
+        },
+        "2": {
+          "staff_id": "8",
+          "staff_name": "Mrs. V. Malarkodi",
+          "subject_code": "BSC03_05",
+          "subject_name": "Cyber Security",
+          "subject_type": "Theory"
+        },
+        "3": {
+          "staff_id": "4",
+          "staff_name": "Mr. K. Shankar",
+          "subject_code": "BSC03_01",
+          "subject_name": ".Net",
           "subject_type": "Theory"
         },
         "4": {
@@ -6380,36 +6452,36 @@
         "0": {
           "staff_id": "6",
           "staff_name": "Mr. T. Dineshkumar",
-          "subject_code": "BSC03_01",
-          "subject_name": ".Net",
+          "subject_code": "BSC03_02",
+          "subject_name": "Project",
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "1.",
-          "staff_name": "Dr. V. Upendran",
-          "subject_code": "BSC03_05",
-          "subject_name": "Cyber Security",
-          "subject_type": "Theory"
-        },
-        "2": {
-          "staff_id": "1.",
-          "staff_name": "Dr. V. Upendran",
-          "subject_code": "BSC03_05",
-          "subject_name": "Cyber Security",
-          "subject_type": "Theory"
-        },
-        "3": {
-          "staff_id": "5",
-          "staff_name": "Mr. N. Sugavaneswaran",
-          "subject_code": "BSC03_04",
-          "subject_name": "Ai",
-          "subject_type": "Theory"
-        },
-        "4": {
           "staff_id": "2",
           "staff_name": "Ms. J. Jayanthi",
           "subject_code": "BSC03_04",
           "subject_name": "Ai",
+          "subject_type": "Theory"
+        },
+        "2": {
+          "staff_id": "29",
+          "staff_name": "Soft Skill",
+          "subject_code": "BSC03_06",
+          "subject_name": "Softskill",
+          "subject_type": "Theory"
+        },
+        "3": {
+          "staff_id": "6",
+          "staff_name": "Mr. T. Dineshkumar",
+          "subject_code": "BSC03_01",
+          "subject_name": ".Net",
+          "subject_type": "Theory"
+        },
+        "4": {
+          "staff_id": "6",
+          "staff_name": "Mr. T. Dineshkumar",
+          "subject_code": "BSC03_01",
+          "subject_name": ".Net",
           "subject_type": "Theory"
         }
       },
@@ -6443,10 +6515,10 @@
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "5",
-          "staff_name": "Mr. N. Sugavaneswaran",
-          "subject_code": "BSC03_04",
-          "subject_name": "Ai",
+          "staff_id": "1.",
+          "staff_name": "Dr. V. Upendran",
+          "subject_code": "BSC03_05",
+          "subject_name": "Cyber Security",
           "subject_type": "Theory"
         }
       },
@@ -6459,10 +6531,10 @@
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "6",
-          "staff_name": "Mr. T. Dineshkumar",
-          "subject_code": "BSC03_01",
-          "subject_name": ".Net",
+          "staff_id": "26",
+          "staff_name": "Physics_1",
+          "subject_code": "BSC03_07",
+          "subject_name": "Gender Studies",
           "subject_type": "Theory"
         },
         "2": {
@@ -6480,40 +6552,40 @@
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "9",
-          "staff_name": "Ms. T. Mohanapriya",
-          "subject_code": "BSC03_02",
-          "subject_name": "Project",
+          "staff_id": "5",
+          "staff_name": "Mr. N. Sugavaneswaran",
+          "subject_code": "BSC03_04",
+          "subject_name": "Ai",
           "subject_type": "Theory"
         }
       },
       "3": {
         "0": {
+          "staff_id": "7",
+          "staff_name": "Mr. M. Kumaresan",
+          "subject_code": "BSC03_02",
+          "subject_name": "Project",
+          "subject_type": "Theory"
+        },
+        "1": {
           "staff_id": "9",
           "staff_name": "Ms. T. Mohanapriya",
           "subject_code": "BSC03_02",
           "subject_name": "Project",
           "subject_type": "Theory"
         },
-        "1": {
-          "staff_id": "1.",
-          "staff_name": "Dr. V. Upendran",
-          "subject_code": "BSC03_05",
-          "subject_name": "Cyber Security",
-          "subject_type": "Theory"
-        },
         "2": {
           "staff_id": "6",
           "staff_name": "Mr. T. Dineshkumar",
-          "subject_code": "BSC03_02",
-          "subject_name": "Project",
+          "subject_code": "BSC03_01",
+          "subject_name": ".Net",
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "29",
-          "staff_name": "Soft Skill",
-          "subject_code": "BSC03_06",
-          "subject_name": "Softskill",
+          "staff_id": "2",
+          "staff_name": "Ms. J. Jayanthi",
+          "subject_code": "BSC03_04",
+          "subject_name": "Ai",
           "subject_type": "Theory"
         },
         "4": {
@@ -6526,24 +6598,24 @@
       },
       "4": {
         "0": {
-          "staff_id": "2",
-          "staff_name": "Ms. J. Jayanthi",
-          "subject_code": "BSC03_04",
-          "subject_name": "Ai",
+          "staff_id": "6",
+          "staff_name": "Mr. T. Dineshkumar",
+          "subject_code": "BSC03_01",
+          "subject_name": ".Net",
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "28",
-          "staff_name": "Physics_3",
-          "subject_code": "BSC03_07",
-          "subject_name": "Gender Studies",
+          "staff_id": "5",
+          "staff_name": "Mr. N. Sugavaneswaran",
+          "subject_code": "BSC03_04",
+          "subject_name": "Ai",
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "2",
-          "staff_name": "Ms. J. Jayanthi",
-          "subject_code": "BSC03_04",
-          "subject_name": "Ai",
+          "staff_id": "9",
+          "staff_name": "Ms. T. Mohanapriya",
+          "subject_code": "BSC03_02",
+          "subject_name": "Project",
           "subject_type": "Theory"
         },
         "3": {
@@ -6563,17 +6635,17 @@
       },
       "5": {
         "0": {
-          "staff_id": "6",
-          "staff_name": "Mr. T. Dineshkumar",
-          "subject_code": "BSC03_01",
-          "subject_name": ".Net",
+          "staff_id": "2",
+          "staff_name": "Ms. J. Jayanthi",
+          "subject_code": "BSC03_04",
+          "subject_name": "Ai",
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "7",
-          "staff_name": "Mr. M. Kumaresan",
-          "subject_code": "BSC03_02",
-          "subject_name": "Project",
+          "staff_id": "1.",
+          "staff_name": "Dr. V. Upendran",
+          "subject_code": "BSC03_05",
+          "subject_name": "Cyber Security",
           "subject_type": "Theory"
         },
         "2": {
@@ -6584,17 +6656,17 @@
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "6",
-          "staff_name": "Mr. T. Dineshkumar",
-          "subject_code": "BSC03_01",
-          "subject_name": ".Net",
+          "staff_id": "26",
+          "staff_name": "Physics_1",
+          "subject_code": "BSC03_07",
+          "subject_name": "Gender Studies",
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "27",
-          "staff_name": "Physics_2",
-          "subject_code": "BSC03_07",
-          "subject_name": "Gender Studies",
+          "staff_id": "1.",
+          "staff_name": "Dr. V. Upendran",
+          "subject_code": "BSC03_05",
+          "subject_name": "Cyber Security",
           "subject_type": "Theory"
         }
       }
@@ -6602,38 +6674,38 @@
     "3 CS 'C'": {
       "0": {
         "0": {
-          "staff_id": "29",
-          "staff_name": "Soft Skill",
-          "subject_code": "BSC03_06",
-          "subject_name": "Softskill",
+          "staff_id": "9",
+          "staff_name": "Ms. T. Mohanapriya",
+          "subject_code": "BSC03_01",
+          "subject_name": ".Net",
           "subject_type": "Theory"
         },
         "1": {
-          "staff_id": "3",
-          "staff_name": "Dr. N. Karthikeyan",
+          "staff_id": "9",
+          "staff_name": "Ms. T. Mohanapriya",
+          "subject_code": "BSC03_01",
+          "subject_name": ".Net",
+          "subject_type": "Theory"
+        },
+        "2": {
+          "staff_id": "7",
+          "staff_name": "Mr. M. Kumaresan",
           "subject_code": "BSC03_05",
           "subject_name": "Cyber Security",
           "subject_type": "Theory"
         },
-        "2": {
-          "staff_id": "6",
-          "staff_name": "Mr. T. Dineshkumar",
-          "subject_code": "BSC03_02",
-          "subject_name": "Project",
-          "subject_type": "Theory"
-        },
         "3": {
-          "staff_id": "27",
-          "staff_name": "Physics_2",
-          "subject_code": "BSC03_07",
-          "subject_name": "Gender Studies",
-          "subject_type": "Theory"
-        },
-        "4": {
           "staff_id": "4",
           "staff_name": "Mr. K. Shankar",
           "subject_code": "BSC03_04",
           "subject_name": "Ai",
+          "subject_type": "Theory"
+        },
+        "4": {
+          "staff_id": "26",
+          "staff_name": "Physics_1",
+          "subject_code": "BSC03_07",
+          "subject_name": "Gender Studies",
           "subject_type": "Theory"
         }
       },
@@ -6653,15 +6725,15 @@
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "10",
-          "staff_name": "Mr. K. Manikandan",
-          "subject_code": "BSC03_01",
-          "subject_name": ".Net",
+          "staff_id": "29",
+          "staff_name": "Soft Skill",
+          "subject_code": "BSC03_06",
+          "subject_name": "Softskill",
           "subject_type": "Theory"
         },
         "3": {
-          "staff_id": "9",
-          "staff_name": "Ms. T. Mohanapriya",
+          "staff_id": "10",
+          "staff_name": "Mr. K. Manikandan",
           "subject_code": "BSC03_01",
           "subject_name": ".Net",
           "subject_type": "Theory"
@@ -6697,17 +6769,17 @@
           "subject_type": "Lab"
         },
         "3": {
-          "staff_id": "3",
-          "staff_name": "Dr. N. Karthikeyan",
+          "staff_id": "7",
+          "staff_name": "Mr. M. Kumaresan",
           "subject_code": "BSC03_05",
           "subject_name": "Cyber Security",
           "subject_type": "Theory"
         },
         "4": {
-          "staff_id": "8",
-          "staff_name": "Mrs. V. Malarkodi",
-          "subject_code": "BSC03_02",
-          "subject_name": "Project",
+          "staff_id": "4",
+          "staff_name": "Mr. K. Shankar",
+          "subject_code": "BSC03_04",
+          "subject_name": "Ai",
           "subject_type": "Theory"
         }
       },
@@ -6727,52 +6799,52 @@
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "9",
-          "staff_name": "Ms. T. Mohanapriya",
-          "subject_code": "BSC03_01",
-          "subject_name": ".Net",
-          "subject_type": "Theory"
-        },
-        "3": {
-          "staff_id": "9",
-          "staff_name": "Ms. T. Mohanapriya",
-          "subject_code": "BSC03_01",
-          "subject_name": ".Net",
-          "subject_type": "Theory"
-        },
-        "4": {
           "staff_id": "28",
           "staff_name": "Physics_3",
           "subject_code": "BSC03_07",
           "subject_name": "Gender Studies",
           "subject_type": "Theory"
-        }
-      },
-      "4": {
-        "0": {
+        },
+        "3": {
+          "staff_id": "6",
+          "staff_name": "Mr. T. Dineshkumar",
+          "subject_code": "BSC03_02",
+          "subject_name": "Project",
+          "subject_type": "Theory"
+        },
+        "4": {
           "staff_id": "9",
           "staff_name": "Ms. T. Mohanapriya",
           "subject_code": "BSC03_01",
           "subject_name": ".Net",
           "subject_type": "Theory"
-        },
-        "1": {
-          "staff_id": "4",
-          "staff_name": "Mr. K. Shankar",
-          "subject_code": "BSC03_04",
-          "subject_name": "Ai",
+        }
+      },
+      "4": {
+        "0": {
+          "staff_id": "3",
+          "staff_name": "Dr. N. Karthikeyan",
+          "subject_code": "BSC03_05",
+          "subject_name": "Cyber Security",
           "subject_type": "Theory"
         },
-        "2": {
+        "1": {
           "staff_id": "29",
           "staff_name": "Soft Skill",
           "subject_code": "BSC03_06",
           "subject_name": "Softskill",
           "subject_type": "Theory"
         },
+        "2": {
+          "staff_id": "10",
+          "staff_name": "Mr. K. Manikandan",
+          "subject_code": "BSC03_01",
+          "subject_name": ".Net",
+          "subject_type": "Theory"
+        },
         "3": {
-          "staff_id": "7",
-          "staff_name": "Mr. M. Kumaresan",
+          "staff_id": "3",
+          "staff_name": "Dr. N. Karthikeyan",
           "subject_code": "BSC03_05",
           "subject_name": "Cyber Security",
           "subject_type": "Theory"
@@ -6787,10 +6859,10 @@
       },
       "5": {
         "0": {
-          "staff_id": "7",
-          "staff_name": "Mr. M. Kumaresan",
-          "subject_code": "BSC03_05",
-          "subject_name": "Cyber Security",
+          "staff_id": "8",
+          "staff_name": "Mrs. V. Malarkodi",
+          "subject_code": "BSC03_02",
+          "subject_name": "Project",
           "subject_type": "Theory"
         },
         "1": {
@@ -6801,8 +6873,8 @@
           "subject_type": "Theory"
         },
         "2": {
-          "staff_id": "10",
-          "staff_name": "Mr. K. Manikandan",
+          "staff_id": "9",
+          "staff_name": "Ms. T. Mohanapriya",
           "subject_code": "BSC03_01",
           "subject_name": ".Net",
           "subject_type": "Theory"

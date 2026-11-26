@@ -545,6 +545,141 @@ def solve_timetable(data):
             'solve_time_seconds': solver.WallTime()
         }
 
+def diagnose_component_failure(comp_data, global_data):
+    comp_classes = comp_data.get('classes', [])
+    comp_staffs = comp_data.get('staffs', [])
+    comp_subjects = comp_data.get('subjects', [])
+    comp_class_names = [cl['name'] for cl in comp_classes]
+    
+    # 1. Staff workload limit exceeded in this component
+    for s in comp_staffs:
+        s_id = str(s['id'])
+        s_name = s.get('name', s_id)
+        max_h = s.get('max_hours', 30)
+        assigned_h = sum(
+            it.get('hours', 0)
+            for cl in comp_classes
+            for it in cl.get('syllabus', [])
+            if str(it.get('staff_id')) == s_id
+        )
+        if assigned_h > max_h:
+            faulty_classes = [
+                cl['name'] for cl in comp_classes
+                if any(str(it.get('staff_id')) == s_id for it in cl.get('syllabus', []))
+            ]
+            overload = assigned_h - max_h
+            return {
+                'status': 'INFEASIBLE',
+                'error_type': 'STAFF_WORKLOAD_LIMIT_EXCEEDED',
+                'faulty_staff': s_name,
+                'faulty_classes': faulty_classes,
+                'message': f"Workload limit exceeded: Faculty '{s_name}' (ID: {s_id}) is assigned {assigned_h} hours in class syllabi ({', '.join(faulty_classes)}), but their Maximum Limit in Staff Directory is only {max_h} hours! (Overallocated by +{overload}h).",
+                'solution': f"Go to Staff Directory and increase max hours for '{s_name}' to at least {assigned_h}h, or reassign {overload}h in Staff Assignments to another faculty member."
+            }
+
+    # 2. Class syllabus total hours exceeded (> 30)
+    for cl in comp_classes:
+        tot = sum(it.get('hours', 0) for it in cl.get('syllabus', []))
+        if tot > 30:
+            return {
+                'status': 'INFEASIBLE',
+                'error_type': 'CLASS_HOURS_EXCEEDED',
+                'faulty_classes': [cl['name']],
+                'message': f"Class syllabus limit exceeded: Class '{cl['name']}' has {tot} hours allocated, exceeding the weekly 30-period limit by +{tot - 30} hours!",
+                'solution': f"Edit class '{cl['name']}' in Classes & Syllabus and reduce subject hours so total equals 30."
+            }
+
+    # 3. Fixed slot collisions within this component
+    raw_fixed = global_data.get('fixed_slots', [])
+    fixed_in_comp = [fs for fs in raw_fixed if fs.get('class_name') in comp_class_names]
+    days_map = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday"}
+
+    teacher_time_slots = {}
+    for fs in fixed_in_comp:
+        sub_code = fs.get('subject_code')
+        c_name = fs.get('class_name')
+        d = fs.get('day')
+        p = fs.get('period')
+        target_cl = next((c for c in comp_classes if c['name'] == c_name), None)
+        t_id = None
+        if target_cl:
+            for it in target_cl.get('syllabus', []):
+                if it.get('subject_code') == sub_code and it.get('staff_id'):
+                    t_id = str(it.get('staff_id'))
+                    break
+        if t_id and t_id not in ('None', 'null', 'ST_DUMMY', ''):
+            key = (t_id, d, p)
+            if key in teacher_time_slots:
+                prev_c = teacher_time_slots[key]
+                t_name = next((s['name'] for s in comp_staffs if str(s['id']) == t_id), t_id)
+                return {
+                    'status': 'INFEASIBLE',
+                    'error_type': 'FIXED_SLOT_TEACHER_COLLISION',
+                    'faulty_staff': t_name,
+                    'faulty_classes': [prev_c, c_name],
+                    'message': f"Fixed slot collision: Faculty '{t_name}' is pinned to teach '{prev_c}' and '{c_name}' at the exact same time ({days_map.get(d, d)} Period {p+1})!",
+                    'solution': f"In Fixed Slots tab, unpin or stagger the overlapping slot for '{t_name}'."
+                }
+            teacher_time_slots[key] = c_name
+
+    # 4. Single-Class Isolated Solvability
+    for cl in comp_classes:
+        single_comp_data = {
+            "classes": [cl],
+            "staffs": comp_staffs,
+            "subjects": comp_subjects,
+            "fixed_slots": [fs for fs in fixed_in_comp if fs.get("class_name") == cl['name']]
+        }
+        single_res = solve_timetable(single_comp_data)
+        if single_res['status'] != 'SUCCESS':
+            labs = [it for it in cl.get('syllabus', []) if next((s.get('type') == 'Lab' for s in comp_subjects if s['code'] == it.get('subject_code')), False)]
+            lab_codes = [it['subject_code'] for it in labs]
+            fs_list = single_comp_data['fixed_slots']
+            if labs and fs_list:
+                return {
+                    'status': 'INFEASIBLE',
+                    'error_type': 'LAB_FIXED_SLOT_CONFLICT',
+                    'faulty_classes': [cl['name']],
+                    'message': f"Lab schedule conflict in class '{cl['name']}': Practical lab(s) ({', '.join(lab_codes)}) require consecutive 2-3 period blocks, but {len(fs_list)} pinned Fixed Slot(s) break up the schedule and block all available consecutive periods.",
+                    'solution': f"In Fixed Slots tab, unpin or move slots for class '{cl['name']}' to leave open consecutive morning or afternoon blocks for labs."
+                }
+            elif labs:
+                return {
+                    'status': 'INFEASIBLE',
+                    'error_type': 'LAB_CONSTRAINTS_CONFLICT',
+                    'faulty_classes': [cl['name']],
+                    'message': f"Lab allocation conflict in class '{cl['name']}': Practical lab(s) ({', '.join(lab_codes)}) cannot fit into the weekly period layout. Ensure each lab has 2, 3, 4, 5, or 6 hours.",
+                    'solution': f"In Classes & Syllabus, adjust lab allocations for '{cl['name']}'."
+                }
+            else:
+                return {
+                    'status': 'INFEASIBLE',
+                    'error_type': 'CLASS_INTERNAL_CONFLICT',
+                    'faulty_classes': [cl['name']],
+                    'message': f"Conflict inside class '{cl['name']}': The internal syllabus hours, incharge requirement, or pinned fixed slots cannot form a valid weekly timetable.",
+                    'solution': f"In Classes & Syllabus, check subject hours and class incharge for '{cl['name']}'."
+                }
+
+    # 5. Shared Staff Contention between classes in component
+    teacher_map = {}
+    for cl in comp_classes:
+        for it in cl.get('syllabus', []):
+            tid = str(it.get('staff_id', ''))
+            if tid and tid not in ('None', 'null', 'ST_DUMMY', ''):
+                teacher_map.setdefault(tid, set()).add(cl['name'])
+    shared_teachers = {tid: cls for tid, cls in teacher_map.items() if len(cls) > 1}
+    shared_teacher_names = [
+        f"{next((s['name'] for s in comp_staffs if str(s['id']) == tid), tid)} (in {', '.join(sorted(cls))})"
+        for tid, cls in shared_teachers.items()
+    ]
+    return {
+        'status': 'INFEASIBLE',
+        'error_type': 'STAFF_SCHEDULE_CONTENTION',
+        'faulty_classes': comp_class_names,
+        'message': f"Schedule contention between classes: {', '.join(comp_class_names)}. The shared faculty member(s) [{', '.join(shared_teacher_names)}] cannot be in multiple classrooms simultaneously while satisfying consecutive lab and continuous teaching constraints.",
+        'solution': f"In Staff Assignments, reassign one of the shared subjects to an alternate faculty member, or increase available faculty in those departments."
+    }
+
 def solve_timetable_scalable(data):
     """
     Splits the global scheduling problem into independent connected components
@@ -632,9 +767,9 @@ def solve_timetable_scalable(data):
         # Solve component
         res = solve_timetable(comp_data)
         if res['status'] != 'SUCCESS':
-            # If any component is infeasible, the whole problem is infeasible
-            print(f"  Component {idx+1} ({comp_classes[0]['name']}) is INFEASIBLE: {res.get('message')}")
-            return res
+            diag = diagnose_component_failure(comp_data, data)
+            print(f"  Component {idx+1} ({comp_classes[0]['name']}) is INFEASIBLE: {diag.get('message')}")
+            return diag
             
         combined_timetable.update(res['timetable'])
         total_solve_time += res['solve_time_seconds']

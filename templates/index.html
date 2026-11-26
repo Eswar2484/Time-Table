@@ -1732,6 +1732,46 @@
         </div>
     </div>
 
+    <!-- MODAL: OWNER ACCESS VERIFICATION (PASSWORD PROTECTED WITH EYE TOGGLE) -->
+    <div class="modal" id="modal-owner-auth">
+        <div class="modal-content" style="max-width: 440px;">
+            <button class="modal-close" onclick="closeModal('modal-owner-auth')"><i class="fa-solid fa-xmark"></i></button>
+            <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem; border-bottom:1px solid var(--border-color); padding-bottom:0.8rem;">
+                <i class="fa-solid fa-shield-halved" style="font-size:1.8rem; color:var(--primary-color);"></i>
+                <div>
+                    <h3 style="color:var(--text-main); font-size:1.2rem; margin:0;">Owner Access Verification</h3>
+                    <p style="color:var(--text-muted); font-size:0.85rem; margin:0;">Enter passcode to unlock Command Center</p>
+                </div>
+            </div>
+
+            <form id="form-owner-login" onsubmit="submitOwnerLogin(event)">
+                <div class="form-group" style="margin-bottom:1.2rem;">
+                    <label style="display:block; font-size:0.88rem; font-weight:600; margin-bottom:0.5rem; color:var(--text-main);">Owner Passcode</label>
+                    <div style="position:relative; display:flex; align-items:center;">
+                        <input type="password" id="owner-passcode-field" required placeholder="••••••••" autocomplete="current-password"
+                               style="width:100%; padding:0.75rem 2.75rem 0.75rem 0.9rem; border:1px solid var(--border-color); border-radius:10px; font-size:1rem; outline:none; transition:border 0.2s;"
+                               onfocus="this.style.borderColor='var(--primary-color)'" onblur="this.style.borderColor='var(--border-color)'">
+                        <button type="button" id="btn-toggle-eye" onclick="toggleOwnerPasswordVisibility()"
+                                style="position:absolute; right:10px; background:transparent; border:none; color:var(--text-muted); cursor:pointer; padding:6px 8px; font-size:1.1rem; border-radius:6px; display:flex; align-items:center; justify-content:center;">
+                            <i class="fa-solid fa-eye" id="eye-icon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="owner-auth-error" style="display:none; background:rgba(220, 38, 38, 0.08); border:1px solid var(--danger-color); border-radius:8px; padding:0.65rem 0.85rem; color:var(--danger-color); font-size:0.85rem; font-weight:600; margin-bottom:1rem; align-items:center; gap:0.5rem;">
+                    <i class="fa-solid fa-circle-exclamation"></i> <span>Incorrect passcode. Access denied.</span>
+                </div>
+
+                <div class="form-actions" style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.25rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-owner-auth')">Cancel</button>
+                    <button type="submit" id="btn-owner-unlock" class="btn btn-primary" style="display:inline-flex; align-items:center; gap:0.5rem;">
+                        <i class="fa-solid fa-lock-open"></i> Unlock Command Center
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- MODAL: AI DIAGNOSTICS & CONFLICT REPORTER -->
     <div class="modal" id="modal-diagnose">
         <div class="modal-content" style="max-width: 680px;">
@@ -1911,19 +1951,77 @@
             }).catch(err => console.error("Telemetry failed:", err));
         }
 
-        // Open Owner Logs Command Center (Protected)
+        // Open Owner Logs Command Center (Protected Modal with Eye Visibility Toggle)
         function openOwnerLogs() {
-            const pass = prompt("🔒 Enter Owner Access Passcode:");
-            if (pass === null) return;
-            fetch("/api/admin/logs?passcode=" + encodeURIComponent(pass.trim()))
-                .then(res => {
-                    if (res.status === 200) {
-                        window.location.href = "/admin/logs?passcode=" + encodeURIComponent(pass.trim());
-                    } else {
-                        alert("❌ Access Denied: Incorrect Owner Passcode!");
+            const modal = document.getElementById("modal-owner-auth");
+            const passField = document.getElementById("owner-passcode-field");
+            const errorDiv = document.getElementById("owner-auth-error");
+            if (errorDiv) errorDiv.style.display = 'none';
+            if (passField) {
+                passField.value = '';
+                passField.type = 'password';
+            }
+            const eyeIcon = document.getElementById("eye-icon");
+            if (eyeIcon) eyeIcon.className = "fa-solid fa-eye";
+            modal.classList.add("active");
+            setTimeout(() => { if (passField) passField.focus(); }, 150);
+        }
+
+        function toggleOwnerPasswordVisibility() {
+            const passField = document.getElementById("owner-passcode-field");
+            const eyeIcon = document.getElementById("eye-icon");
+            if (!passField || !eyeIcon) return;
+            if (passField.type === "password") {
+                passField.type = "text";
+                eyeIcon.className = "fa-solid fa-eye-slash";
+            } else {
+                passField.type = "password";
+                eyeIcon.className = "fa-solid fa-eye";
+            }
+        }
+
+        function submitOwnerLogin(e) {
+            e.preventDefault();
+            const passField = document.getElementById("owner-passcode-field");
+            const errorDiv = document.getElementById("owner-auth-error");
+            const btnUnlock = document.getElementById("btn-owner-unlock");
+            const enteredPass = passField ? passField.value : '';
+
+            if (btnUnlock) {
+                btnUnlock.disabled = true;
+                btnUnlock.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Verifying...`;
+            }
+
+            fetch("/api/admin/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ password: enteredPass })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (btnUnlock) {
+                    btnUnlock.disabled = false;
+                    btnUnlock.innerHTML = `<i class="fa-solid fa-lock-open"></i> Unlock Command Center`;
+                }
+                if (data.status === 'SUCCESS') {
+                    closeModal('modal-owner-auth');
+                    // Clean URL: NO password in the URL!
+                    window.location.href = "/admin/logs";
+                } else {
+                    if (errorDiv) errorDiv.style.display = 'flex';
+                    if (passField) {
+                        passField.value = '';
+                        passField.focus();
                     }
-                })
-                .catch(err => alert("Connection error: " + err));
+                }
+            })
+            .catch(err => {
+                if (btnUnlock) {
+                    btnUnlock.disabled = false;
+                    btnUnlock.innerHTML = `<i class="fa-solid fa-lock-open"></i> Unlock Command Center`;
+                }
+                alert("Connection error: " + err);
+            });
         }
 
         // Fetch all data from API
@@ -3130,13 +3228,14 @@
                 }
             }
 
+            const duplicateCodes = [];
             rows.forEach(row => {
                 const code = row.querySelector(".syllabus-sub-select").value;
                 if (!code) return; // Skip blank rows
                 const hours = parseInt(row.querySelector(".syllabus-hours-input").value) || 0;
                 
                 if (codesSeen.has(code)) {
-                    hasDuplicates = true;
+                    duplicateCodes.push(code);
                 }
                 codesSeen.add(code);
                 
@@ -3162,13 +3261,17 @@
 
             if (hasLabError) return;
 
-            if (hasDuplicates) {
-                alert("Cannot allocate duplicate subjects in a syllabus! Combine their hours into a single row.");
+            if (duplicateCodes.length > 0) {
+                const dupNames = [...new Set(duplicateCodes)].map(c => {
+                    const s = appData.subjects.find(sub => sub.code === c);
+                    return s ? `'${s.name}' (${c})` : c;
+                });
+                alert(`Cannot allocate duplicate subjects in a syllabus!\n\nDuplicate subject(s) detected:\n• ${dupNames.join("\n• ")}\n\nPlease combine their hours into a single row.`);
                 return;
             }
 
             if (totalHours > 30) {
-                alert(`Warning: The weekly timetable has exactly 30 periods. Current syllabus allocation sum is ${totalHours} which exceeds 30 hours.`);
+                alert(`Warning: The weekly timetable has exactly 30 periods.\n\nYour current syllabus total is ${totalHours} hours (exceeds the 30-period limit by +${totalHours - 30}h).\n\nPlease reduce hours so the total equals 30.`);
                 return;
             }
 

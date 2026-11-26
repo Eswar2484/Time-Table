@@ -1,10 +1,11 @@
 import os
 import json
-from flask import Flask, jsonify, request, render_template, send_file, send_from_directory
+from flask import Flask, jsonify, request, render_template, send_file, send_from_directory, session, redirect
 import solver
 import exporter
 
 app = Flask(__name__, static_folder='static')
+app.secret_key = os.environ.get('SECRET_KEY', 'eswar_timetable_owner_sec_2026_super_key')
 
 # Serve PWA service worker from root (required by browsers)
 @app.route('/sw.js')
@@ -21,8 +22,36 @@ def favicon():
 # Global cache for the generated timetable
 GENERATED_TIMETABLE = None
 
-# Admin passcode for Owner Logs Panel (Default: admin123)
-ADMIN_PASSCODE = os.environ.get('ADMIN_PASSCODE', 'admin123')
+import hashlib
+import hmac
+
+# Password "Eswar2004" securely hashed with SHA-256
+DEFAULT_ADMIN_PASSWORD_HASH = hashlib.sha256('Eswar2004'.encode('utf-8')).hexdigest()
+ADMIN_PASSWORD_HASH = os.environ.get('ADMIN_PASSWORD_HASH') or DEFAULT_ADMIN_PASSWORD_HASH
+if os.environ.get('ADMIN_PASSCODE'):
+    ADMIN_PASSWORD_HASH = hashlib.sha256(os.environ['ADMIN_PASSCODE'].strip().encode('utf-8')).hexdigest()
+
+def get_request_passcode():
+    passcode = request.args.get('passcode', '')
+    if not passcode:
+        data = request.get_json(silent=True) or {}
+        passcode = data.get('passcode', '')
+    if not passcode:
+        passcode = request.headers.get('X-Admin-Passcode', '')
+    return str(passcode).strip()
+
+def verify_admin_passcode(passcode=None):
+    try:
+        if session.get('owner_authenticated') is True:
+            return True
+    except Exception:
+        pass
+    if passcode is None:
+        passcode = get_request_passcode()
+    if not passcode:
+        return False
+    candidate_hash = hashlib.sha256(str(passcode).strip().encode('utf-8')).hexdigest()
+    return hmac.compare_digest(candidate_hash, ADMIN_PASSWORD_HASH)
 
 DATA_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data.json')
 
@@ -772,33 +801,196 @@ def api_log_activity():
 
 @app.route('/admin/logs')
 def admin_logs_view():
-    passcode = request.args.get('passcode', '')
-    if passcode != ADMIN_PASSCODE:
-        return f"Unauthorized: Invalid passcode. Please access via the Owner Logs Panel button.", 401
-    return render_template('admin_logs.html', passcode=passcode)
+    passcode = get_request_passcode()
+    if passcode:
+        candidate_hash = hashlib.sha256(str(passcode).strip().encode('utf-8')).hexdigest()
+        if hmac.compare_digest(candidate_hash, ADMIN_PASSWORD_HASH):
+            session['owner_authenticated'] = True
+            # Redirect to clean URL so password NEVER stays in the address bar!
+            return redirect('/admin/logs')
+            
+    if not session.get('owner_authenticated'):
+        return f"Unauthorized: Access restricted to app owner. Please unlock via the Owner Logs Panel in the dashboard.", 401
+    return render_template('admin_logs.html')
+
+@app.route('/api/admin/login', methods=['POST'])
+def api_admin_login():
+    payload = request.get_json(silent=True) or {}
+    password = payload.get('password', '')
+    candidate_hash = hashlib.sha256(str(password).strip().encode('utf-8')).hexdigest()
+    if hmac.compare_digest(candidate_hash, ADMIN_PASSWORD_HASH):
+        session['owner_authenticated'] = True
+        return jsonify({"status": "SUCCESS", "message": "Authenticated"})
+    return jsonify({"status": "ERROR", "message": "Incorrect passcode"}), 401
+
+@app.route('/api/admin/logout', methods=['GET', 'POST'])
+def api_admin_logout():
+    session.pop('owner_authenticated', None)
+    if request.method == 'GET':
+        return redirect('/')
+    return jsonify({"status": "SUCCESS"})
+
+@app.route('/api/admin/verify', methods=['GET', 'POST'])
+def api_admin_verify():
+    valid = verify_admin_passcode()
+    if valid:
+        return jsonify({"status": "SUCCESS", "message": "Authorized"})
+    return jsonify({"status": "ERROR", "message": "Invalid passcode"}), 401
 
 @app.route('/api/admin/logs')
 def api_admin_logs():
-    passcode = request.args.get('passcode', '')
-    if passcode != ADMIN_PASSCODE:
+    if not verify_admin_passcode():
         return jsonify({"status": "ERROR", "message": "Unauthorized"}), 401
         
     logs = []
     if os.path.exists(ACTIVITY_LOG_PATH):
         with open(ACTIVITY_LOG_PATH, 'r', encoding='utf-8') as f:
-            for line in f:
+            for idx, line in enumerate(f):
                 line = line.strip()
                 if line:
                     try:
-                        logs.append(json.loads(line))
-                    except:
+                        entry = json.loads(line)
+                        if 'id' not in entry:
+                            entry['id'] = idx
+                        logs.append(entry)
+                    except Exception:
                         pass
+                        
+    user_filter = request.args.get('user', '').strip()
+    if user_filter and user_filter.lower() != 'all':
+        logs = [l for l in logs if l.get('user_name', '').lower() == user_filter.lower()]
+        
     return jsonify(list(reversed(logs)))
+
+@app.route('/api/admin/edit_log', methods=['POST'])
+def api_admin_edit_log():
+    if not verify_admin_passcode():
+        return jsonify({"status": "ERROR", "message": "Unauthorized"}), 401
+    payload = request.get_json(silent=True) or {}
+    log_id = payload.get('log_id')
+    new_user = payload.get('user_name')
+    new_action = payload.get('action')
+    new_details = payload.get('details')
+    new_time = payload.get('timestamp')
+    
+    if log_id is None:
+        return jsonify({"status": "ERROR", "message": "log_id is required"}), 400
+        
+    try:
+        lines = []
+        if os.path.exists(ACTIVITY_LOG_PATH):
+            with open(ACTIVITY_LOG_PATH, 'r', encoding='utf-8') as f:
+                lines = [l.strip() for l in f if l.strip()]
+                
+        updated = False
+        new_lines = []
+        for idx, line in enumerate(lines):
+            try:
+                entry = json.loads(line)
+                entry_id = entry.get('id', idx)
+                if str(entry_id) == str(log_id) or str(idx) == str(log_id):
+                    if new_user is not None: entry['user_name'] = str(new_user).strip()
+                    if new_action is not None: entry['action'] = str(new_action).strip()
+                    if new_details is not None: entry['details'] = str(new_details).strip()
+                    if new_time is not None: entry['timestamp'] = str(new_time).strip()
+                    entry['id'] = entry_id
+                    new_lines.append(json.dumps(entry, ensure_ascii=False))
+                    updated = True
+                else:
+                    new_lines.append(line)
+            except Exception:
+                new_lines.append(line)
+                
+        if not updated:
+            return jsonify({"status": "ERROR", "message": "Log entry not found"}), 404
+            
+        with open(ACTIVITY_LOG_PATH, 'w', encoding='utf-8') as f:
+            f.write('\n'.join(new_lines) + '\n')
+            
+        return jsonify({"status": "SUCCESS"})
+    except Exception as e:
+        return jsonify({"status": "ERROR", "message": str(e)}), 500
+
+@app.route('/api/admin/delete_log', methods=['POST'])
+def api_admin_delete_log():
+    if not verify_admin_passcode():
+        return jsonify({"status": "ERROR", "message": "Unauthorized"}), 401
+    payload = request.get_json(silent=True) or {}
+    log_id = payload.get('log_id')
+    
+    if log_id is None:
+        return jsonify({"status": "ERROR", "message": "log_id is required"}), 400
+        
+    try:
+        lines = []
+        if os.path.exists(ACTIVITY_LOG_PATH):
+            with open(ACTIVITY_LOG_PATH, 'r', encoding='utf-8') as f:
+                lines = [l.strip() for l in f if l.strip()]
+                
+        new_lines = []
+        deleted = False
+        for idx, line in enumerate(lines):
+            try:
+                entry = json.loads(line)
+                entry_id = entry.get('id', idx)
+                if str(entry_id) == str(log_id) or str(idx) == str(log_id):
+                    deleted = True
+                    continue
+                new_lines.append(line)
+            except Exception:
+                new_lines.append(line)
+                
+        with open(ACTIVITY_LOG_PATH, 'w', encoding='utf-8') as f:
+            if new_lines:
+                f.write('\n'.join(new_lines) + '\n')
+            else:
+                f.write('')
+                
+        return jsonify({"status": "SUCCESS", "deleted": deleted})
+    except Exception as e:
+        return jsonify({"status": "ERROR", "message": str(e)}), 500
+
+@app.route('/api/admin/delete_user_logs', methods=['POST'])
+def api_admin_delete_user_logs():
+    if not verify_admin_passcode():
+        return jsonify({"status": "ERROR", "message": "Unauthorized"}), 401
+    payload = request.get_json(silent=True) or {}
+    user_name = payload.get('user_name', '').strip()
+    
+    if not user_name:
+        return jsonify({"status": "ERROR", "message": "user_name is required"}), 400
+        
+    try:
+        lines = []
+        if os.path.exists(ACTIVITY_LOG_PATH):
+            with open(ACTIVITY_LOG_PATH, 'r', encoding='utf-8') as f:
+                lines = [l.strip() for l in f if l.strip()]
+                
+        new_lines = []
+        del_count = 0
+        for line in lines:
+            try:
+                entry = json.loads(line)
+                if entry.get('user_name', '').strip().lower() == user_name.lower():
+                    del_count += 1
+                    continue
+                new_lines.append(line)
+            except Exception:
+                new_lines.append(line)
+                
+        with open(ACTIVITY_LOG_PATH, 'w', encoding='utf-8') as f:
+            if new_lines:
+                f.write('\n'.join(new_lines) + '\n')
+            else:
+                f.write('')
+                
+        return jsonify({"status": "SUCCESS", "deleted_count": del_count})
+    except Exception as e:
+        return jsonify({"status": "ERROR", "message": str(e)}), 500
 
 @app.route('/api/admin/download_logs')
 def api_admin_download_logs():
-    passcode = request.args.get('passcode', '')
-    if passcode != ADMIN_PASSCODE:
+    if not verify_admin_passcode():
         return jsonify({"status": "ERROR", "message": "Unauthorized"}), 401
     if not os.path.exists(ACTIVITY_LOG_PATH):
         with open(ACTIVITY_LOG_PATH, 'w', encoding='utf-8') as f:
@@ -812,9 +1004,7 @@ def api_admin_download_logs():
 
 @app.route('/api/admin/clear_logs', methods=['POST'])
 def api_admin_clear_logs():
-    data = request.get_json(silent=True) or {}
-    passcode = request.args.get('passcode', '') or data.get('passcode', '')
-    if passcode != ADMIN_PASSCODE:
+    if not verify_admin_passcode():
         return jsonify({"status": "ERROR", "message": "Unauthorized"}), 401
     try:
         if os.path.exists(ACTIVITY_LOG_PATH):
@@ -823,6 +1013,92 @@ def api_admin_clear_logs():
         return jsonify({"status": "SUCCESS"})
     except Exception as e:
         return jsonify({"status": "ERROR", "message": str(e)}), 500
+
+# -------------------------------------------------------------
+# OWNER LIVE COLLEGE DATA MANAGEMENT (VIEW, EDIT, DELETE OTHERS' DATA)
+# -------------------------------------------------------------
+@app.route('/api/admin/data', methods=['GET'])
+def api_admin_get_data():
+    if not verify_admin_passcode():
+        return jsonify({"status": "ERROR", "message": "Unauthorized"}), 401
+    data = load_data()
+    return jsonify({"status": "SUCCESS", "data": data})
+
+@app.route('/api/admin/update_data', methods=['POST'])
+def api_admin_update_data():
+    global GENERATED_TIMETABLE
+    if not verify_admin_passcode():
+        return jsonify({"status": "ERROR", "message": "Unauthorized"}), 401
+    payload = request.get_json(silent=True) or {}
+    new_data = payload.get('data')
+    if not new_data or not isinstance(new_data, dict):
+        return jsonify({"status": "ERROR", "message": "Invalid data payload"}), 400
+    save_data(new_data)
+    GENERATED_TIMETABLE = new_data.get('timetable_odd') or new_data.get('timetable_even') or new_data.get('timetable')
+    return jsonify({"status": "SUCCESS"})
+
+@app.route('/api/admin/delete_item', methods=['POST'])
+def api_admin_delete_item():
+    global GENERATED_TIMETABLE
+    if not verify_admin_passcode():
+        return jsonify({"status": "ERROR", "message": "Unauthorized"}), 401
+    payload = request.get_json(silent=True) or {}
+    item_type = payload.get('item_type')
+    item_id = str(payload.get('item_id', ''))
+    
+    if not item_type or not item_id:
+        return jsonify({"status": "ERROR", "message": "item_type and item_id are required"}), 400
+        
+    data = load_data()
+    deleted = False
+    
+    if item_type == 'class':
+        initial_len = len(data.get('classes', []))
+        data['classes'] = [c for c in data.get('classes', []) if c.get('name') != item_id]
+        deleted = (len(data['classes']) < initial_len)
+        data['fixed_slots'] = [fs for fs in data.get('fixed_slots', []) if fs.get('class_name') != item_id]
+        
+    elif item_type == 'staff':
+        initial_len = len(data.get('staffs', []))
+        data['staffs'] = [s for s in data.get('staffs', []) if str(s.get('id')) != item_id]
+        deleted = (len(data['staffs']) < initial_len)
+        for c in data.get('classes', []):
+            for t_k in ['syllabus', 'even_syllabus']:
+                for it in c.get(t_k, []):
+                    if str(it.get('staff_id')) == item_id:
+                        it['staff_id'] = None
+                        
+    elif item_type == 'subject':
+        initial_len = len(data.get('subjects', []))
+        data['subjects'] = [s for s in data.get('subjects', []) if s.get('code') != item_id]
+        deleted = (len(data['subjects']) < initial_len)
+        for c in data.get('classes', []):
+            for t_k in ['syllabus', 'even_syllabus']:
+                c[t_k] = [it for it in c.get(t_k, []) if it.get('subject_code') != item_id]
+        for s in data.get('staffs', []):
+            s['subjects'] = [code for code in s.get('subjects', []) if code != item_id]
+        data['fixed_slots'] = [fs for fs in data.get('fixed_slots', []) if fs.get('subject_code') != item_id]
+        
+    elif item_type == 'fixed_slot':
+        initial_len = len(data.get('fixed_slots', []))
+        try:
+            slot_idx = int(item_id)
+            if 0 <= slot_idx < len(data.get('fixed_slots', [])):
+                data['fixed_slots'].pop(slot_idx)
+                deleted = True
+        except ValueError:
+            data['fixed_slots'] = [fs for fs in data.get('fixed_slots', []) if f"{fs.get('class_name')}_{fs.get('subject_code')}_{fs.get('day')}_{fs.get('period')}" != item_id]
+            deleted = (len(data['fixed_slots']) < initial_len)
+            
+    if deleted:
+        data['timetable'] = None
+        data['timetable_odd'] = None
+        data['timetable_even'] = None
+        GENERATED_TIMETABLE = None
+        save_data(data)
+        return jsonify({"status": "SUCCESS"})
+    else:
+        return jsonify({"status": "ERROR", "message": f"{item_type} '{item_id}' not found"}), 404
 
 def api_generate_internal(input_data=None):
     res_odd = get_timetable_for_term('odd', input_data=input_data)
@@ -1017,7 +1293,68 @@ def diagnose_data_internal(data):
     fixed_slots = data.get('fixed_slots', [])
     departments = data.get('departments', [])
     
-    # 1. Department-Level Staff Capacity vs Subject Demand Check
+    # 1. Individual Staff Workload Limit Check (Direct Assignments)
+    for term_key, term_name in [('syllabus', 'Odd Sem'), ('even_syllabus', 'Even Sem')]:
+        for s in staffs:
+            s_id = str(s.get('id', ''))
+            s_name = s.get('name', s_id)
+            max_h = s.get('max_hours', 30)
+            assigned_classes = []
+            assigned_h = 0
+            for cl in classes:
+                cl_h = sum(it.get('hours', 0) for it in cl.get(term_key, []) if str(it.get('staff_id')) == s_id)
+                if cl_h > 0:
+                    assigned_h += cl_h
+                    assigned_classes.append(f"{cl.get('name')} ({cl_h}h)")
+            if assigned_h > max_h:
+                overload = assigned_h - max_h
+                issues.append({
+                    'type': 'STAFF_WORKLOAD_EXCEEDED',
+                    'title': f"Faculty Workload Exceeded: {s_name} ({term_name})",
+                    'details': f"Faculty member '{s_name}' (ID: {s_id}) is explicitly assigned {assigned_h} hours in {term_name} across classes [{', '.join(assigned_classes)}], but their maximum limit is set to {max_h} hours in Staff Directory! (Overallocated by +{overload}h).",
+                    'solution': f"Go to Staff Directory and increase '{s_name}' working hours to at least {assigned_h}h, or reassign {overload}h to another faculty member in Staff Assignments."
+                })
+
+    # 2. Lab Subject Duration Validation
+    for term_key, term_name in [('syllabus', 'Odd Sem'), ('even_syllabus', 'Even Sem')]:
+        for cl in classes:
+            for it in cl.get(term_key, []):
+                code = it.get('subject_code')
+                sub_obj = subjects.get(code)
+                if sub_obj and sub_obj.get('type') == 'Lab':
+                    hrs = it.get('hours', 0)
+                    if hrs < 2:
+                        issues.append({
+                            'type': 'INVALID_LAB_HOURS',
+                            'title': f"Invalid Lab Duration: {sub_obj.get('name', code)} ({cl.get('name')} - {term_name})",
+                            'details': f"Practical lab '{sub_obj.get('name', code)}' ({code}) in class '{cl.get('name')}' is allocated only {hrs} hour. Practical labs must be allocated at least 2 consecutive periods (e.g. 2, 3, 4, 5, or 6 hours).",
+                            'solution': f"In Classes & Syllabus tab, edit '{cl.get('name')}' and allocate at least 2 consecutive hours for '{sub_obj.get('name', code)}'."
+                        })
+
+    # 3. Class Incharge Teaching Requirement Check
+    for cl in classes:
+        incharge_id = str(cl.get('incharge', ''))
+        if incharge_id and incharge_id not in ('', 'None', 'null', 'ST_DUMMY'):
+            inch_staff = next((s for s in staffs if str(s.get('id')) == incharge_id), None)
+            inch_name = inch_staff.get('name', incharge_id) if inch_staff else incharge_id
+            for term_key, term_name in [('syllabus', 'Odd Sem'), ('even_syllabus', 'Even Sem')]:
+                syllabus = cl.get(term_key, [])
+                if not syllabus:
+                    continue
+                can_teach = any(
+                    it.get('subject_code') in (inch_staff.get('subjects', []) if inch_staff else []) or
+                    str(it.get('staff_id')) == incharge_id
+                    for it in syllabus
+                ) if inch_staff else False
+                if not can_teach:
+                    issues.append({
+                        'type': 'INCHARGE_CANNOT_TEACH',
+                        'title': f"Class Incharge Cannot Teach ({cl.get('name')} - {term_name})",
+                        'details': f"Faculty '{inch_name}' (ID: {incharge_id}) is designated as Class Incharge for '{cl.get('name')}', but is not eligible to teach ANY subject in this class's {term_name} syllabus! Each class incharge must teach at least 1 hour in their class.",
+                        'solution': f"In Staff Directory, edit '{inch_name}' and enable at least one subject taught in '{cl.get('name')}', or change the class incharge in Classes & Syllabus."
+                    })
+
+    # 4. Department-Level Staff Capacity vs Subject Demand Check
     dept_capacity = {}
     dept_staff_names = {}
     for d in departments:
@@ -1049,7 +1386,7 @@ def diagnose_data_internal(data):
                     'solution': f"Go to Staff Directory and increase working hours for staff in '{d}' (e.g. increase Dr. V. Upendran or other {d} staff by +{deficit}h)."
                 })
 
-    # 2. Staff Capacity vs Subject Demand Pool Check
+    # 5. Staff Capacity vs Subject Demand Pool Check
     pool_demand = {}
     for cl in classes:
         for term_key, term_name in [('syllabus', 'Odd Sem'), ('even_syllabus', 'Even Sem')]:
@@ -1095,7 +1432,7 @@ def diagnose_data_internal(data):
                 'solution': f"Go to Staff Directory and increase max hours for [{staff_list}] by +{overload}h, or assign an additional teacher to teach those subjects."
             })
 
-    # 3. Fixed Slot Time Collisions Check
+    # 6. Fixed Slot Time Collisions Check
     fixed_by_teacher_time = {}
     for fs in fixed_slots:
         c_name = fs.get('class_name')
@@ -1129,7 +1466,7 @@ def diagnose_data_internal(data):
                 'solution': f"In Fixed Slots tab, unpin the overlapping slot or stagger the period slots across different times (e.g. Mon P1 for A, Mon P2 for B)."
             })
 
-    # 4. Class Syllabus Total Hours Check
+    # 7. Class Syllabus Total Hours Check
     for cl in classes:
         for term_key, term_label in [('syllabus', 'Odd Sem'), ('even_syllabus', 'Even Sem')]:
             total_h = sum(item.get('hours', 0) for item in cl.get(term_key, []))
@@ -1137,39 +1474,32 @@ def diagnose_data_internal(data):
                 issues.append({
                     'type': 'CLASS_HOURS_EXCEEDED',
                     'title': f"Class Syllabus Exceeds 30 Hours ({cl['name']} - {term_label})",
-                    'details': f"Class '{cl['name']}' has {total_h} total allocated hours in {term_label}, exceeding the 30-period limit!",
-                    'solution': f"In Class & Syllabus tab, edit '{cl['name']}' and reduce subject hours so total equals 30."
+                    'details': f"Class '{cl['name']}' has {total_h} total allocated hours in {term_label}, exceeding the 30-period limit by +{total_h - 30} hours!",
+                    'solution': f"In Class & Syllabus tab, edit '{cl['name']}' and reduce subject hours so total equals exactly 30."
                 })
 
-    # 5. Solver Pre-Flight Verification Check
+    # 8. Solver Pre-Flight Verification Check
     if not issues:
-        try:
-            res_odd = get_timetable_for_term('odd', input_data=data)
-            if res_odd.get('status') != 'SUCCESS':
-                msg = res_odd.get('message', 'No feasible timetable found.')
-                issues.append({
-                    'type': 'SOLVER_INFEASIBLE_SCHEDULE',
-                    'title': "Solver Constraint Conflict Detected (Odd Sem)",
-                    'details': f"The mathematical solver engine found a scheduling conflict in Odd Sem: {msg}",
-                    'solution': "Go to Staff Directory and increase staff max working hours, or check if fixed slots block lab time blocks."
-                })
-            else:
-                res_even = get_timetable_for_term('even', input_data=data)
-                if res_even.get('status') != 'SUCCESS':
-                    msg = res_even.get('message', 'No feasible timetable found.')
+        for term_key, term_label in [('odd', 'Odd Sem'), ('even', 'Even Sem')]:
+            try:
+                res = get_timetable_for_term(term_key, input_data=data)
+                if res.get('status') != 'SUCCESS':
+                    msg = res.get('message', 'No feasible timetable found.')
+                    sol = res.get('solution') or "Check staff max working hours, lab durations, and fixed slot timings."
+                    err_type = res.get('error_type', 'SOLVER_CONSTRAINT_CONFLICT')
                     issues.append({
-                        'type': 'SOLVER_INFEASIBLE_SCHEDULE',
-                        'title': "Solver Constraint Conflict Detected (Even Sem)",
-                        'details': f"The mathematical solver engine found a scheduling conflict in Even Sem: {msg}",
-                        'solution': "Go to Staff Directory and increase staff max working hours, or check if fixed slots block lab time blocks."
+                        'type': err_type,
+                        'title': f"Scheduling Conflict ({term_label})",
+                        'details': f"{msg}",
+                        'solution': sol
                     })
-        except Exception as e:
-            issues.append({
-                'type': 'SOLVER_EXCEPTION',
-                'title': "Solver Execution Warning",
-                'details': str(e),
-                'solution': "Please check your class syllabus allocations and staff max hours."
-            })
+            except Exception as e:
+                issues.append({
+                    'type': 'SOLVER_EXCEPTION',
+                    'title': f"Solver Execution Error ({term_label})",
+                    'details': str(e),
+                    'solution': "Please check your class syllabus allocations and staff max hours."
+                })
 
     return {
         'status': 'FAIL' if len(issues) > 0 else 'PASS',

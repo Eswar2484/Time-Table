@@ -3,100 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Owner Administration - Activity Logs</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Owner Command Center - Activity Logs & Data Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --border-color: #e2e8f0;
-            --primary-color: #4f46e5;
-            --text-main: #0f172a;
-            --text-muted: #475569;
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: rgba(99, 102, 241, 0.15);
+            --success: #10b981;
+            --success-light: rgba(16, 185, 129, 0.15);
+            --warning: #f59e0b;
+            --warning-light: rgba(245, 158, 11, 0.15);
+            --danger: #ef4444;
+            --danger-light: rgba(239, 68, 68, 0.15);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --font-mono: 'JetBrains Mono', monospace;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            padding: 2rem;
+            min-height: 100vh;
+            padding: 1.5rem 2rem 3rem 2rem;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
+        /* Top Header */
         header {
-            background: #0f172a;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid var(--card-border);
             color: #ffffff;
-            padding: 1.5rem 2rem;
-            border-radius: 12px;
+            padding: 1.25rem 2rem;
+            border-radius: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.75rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .logo {
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 0.85rem;
+            letter-spacing: -0.3px;
         }
 
-        .logo i {
+        .logo-badge {
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
             color: #818cf8;
+            padding: 0.25rem 0.65rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
         .btn {
-            background: #ffffff;
+            background: var(--surface-color);
             color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            padding: 0.55rem 1.15rem;
+            border-radius: 10px;
             font-weight: 600;
+            font-size: 0.88rem;
             cursor: pointer;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn:hover {
-            background: #f1f5f9;
+            background: #334155;
+            transform: translateY(-1px);
         }
 
-        .main-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        .btn-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
         }
 
-        h2 {
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: #ffffff;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-success {
+            background: var(--success);
+            border-color: var(--success);
+            color: #ffffff;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 0.75rem;
             margin-bottom: 1.5rem;
-            font-size: 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.75rem;
+        }
+
+        .nav-tab-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            padding: 0.65rem 1.35rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: all 0.2s;
+        }
+
+        .nav-tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .nav-tab-btn.active {
+            background: var(--surface-color);
+            border-color: var(--card-border);
+            color: #818cf8;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .tab-counter {
+            background: rgba(99, 102, 241, 0.25);
+            color: #c7d2fe;
+            padding: 0.15rem 0.55rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 800;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.15rem 1.35rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .stat-val {
+            font-size: 1.6rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .stat-lbl {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Filter Toolbar */
+        .filter-toolbar {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.85rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            flex-wrap: wrap;
+        }
+
+        .input-dark, .select-dark {
+            background: #0f172a;
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 0.55rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-dark:focus, .select-dark:focus {
+            border-color: var(--primary);
+        }
+
+        .user-chip {
+            background: #0f172a;
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 0.35rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .user-chip:hover, .user-chip.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        /* Cards & Tables */
+        .main-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
         }
 
         .table-responsive {
             overflow-x: auto;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            background: #0f172a;
         }
 
         table {
@@ -106,156 +296,1059 @@
         }
 
         th {
-            background-color: #f1f5f9;
-            color: var(--text-main);
+            background-color: #1e293b;
+            color: var(--text-muted);
             font-weight: 700;
-            padding: 1rem;
-            border-bottom: 2px solid var(--border-color);
+            padding: 0.85rem 1rem;
+            border-bottom: 2px solid var(--card-border);
             text-transform: uppercase;
             font-size: 0.75rem;
             letter-spacing: 0.5px;
         }
 
         td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-muted);
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--card-border);
+            color: var(--text-main);
             font-size: 0.9rem;
+            vertical-align: middle;
         }
 
         tr:hover td {
-            background: #f8fafc;
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .badge {
             display: inline-flex;
             align-items: center;
             padding: 0.25rem 0.6rem;
-            border-radius: 50px;
+            border-radius: 6px;
             font-size: 0.75rem;
             font-weight: 700;
-            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
-        .badge-info { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
-        .badge-success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
-        .badge-warning { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+        .badge-info { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .badge-success { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .badge-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge-danger { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
 
         .time-cell {
             white-space: nowrap;
-            font-family: monospace;
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            color: var(--text-muted);
         }
+
+        .actions-cell {
+            white-space: nowrap;
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid var(--card-border);
+            background: #1e293b;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .btn-icon:hover {
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        .btn-icon-edit:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        .btn-icon-delete:hover {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: #ffffff;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1.5rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 600px;
+            padding: 1.75rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: modalFadeIn 0.2s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .modal-header h3 {
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 0.65rem 0.9rem;
+            color: #ffffff;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary);
+        }
+
+        /* Sub-tab pills for Data Tab */
+        .subtab-bar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .subtab-btn {
+            background: #0f172a;
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 0.45rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .subtab-btn:hover {
+            color: var(--text-main);
+            border-color: #475569;
+        }
+
+        .subtab-btn.active {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: #818cf8;
+        }
+
+        .json-editor-area {
+            width: 100%;
+            height: 480px;
+            background: #090d16;
+            color: #38bdf8;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            resize: vertical;
+            outline: none;
+        }
+
+        /* Toast notification */
+        #toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #1e293b;
+            border: 1px solid var(--card-border);
+            color: #ffffff;
+            padding: 0.85rem 1.25rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            display: none;
+            align-items: center;
+            gap: 0.6rem;
+            z-index: 2000;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        #toast.show { display: flex; animation: toastSlide 0.3s ease; }
+        @keyframes toastSlide { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Top Navigation / Brand Header -->
         <header>
             <div class="logo">
-                <i class="fa-solid fa-shield-halved"></i>
-                <span>App Owner Command Center</span>
+                <i class="fa-solid fa-shield-halved" style="color:#818cf8;"></i>
+                <span>Owner Command Center</span>
+                <span class="logo-badge"><i class="fa-solid fa-lock"></i> Hashed Auth</span>
             </div>
-            <div style="display: flex; gap: 0.5rem;">
-                <button onclick="downloadLogs()" class="btn"><i class="fa-solid fa-download"></i> Export JSON</button>
-                <button onclick="clearLogs()" class="btn" style="background:#ef4444;color:white;border:none;"><i class="fa-solid fa-trash-can"></i> Clear Logs</button>
+            <div style="display: flex; gap: 0.65rem; flex-wrap: wrap;">
+                <button onclick="downloadLogs()" class="btn"><i class="fa-solid fa-download"></i> Export Logs</button>
+                <button onclick="clearAllLogsPrompt()" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Clear All Logs</button>
+                <button onclick="ownerLogout()" class="btn" style="background:#dc2626; color:#ffffff; border-color:#dc2626;"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
                 <a href="/" class="btn"><i class="fa-solid fa-arrow-left"></i> Back to Scheduler</a>
             </div>
         </header>
 
-        <div class="main-card">
-            <h2><i class="fa-solid fa-list-check"></i> Live User Activity Log</h2>
-            
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Timestamp</th>
-                            <th>IP Address</th>
-                            <th>User Identification</th>
-                            <th>Action Type</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody id="logs-table-body">
-                        <tr>
-                            <td colspan="5" style="text-align: center; padding: 2rem;">Loading logs...</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- Main Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab-btn active" id="tab-btn-logs" onclick="switchMainTab('logs')">
+                <i class="fa-solid fa-list-check"></i> User Activity Logs
+                <span class="tab-counter" id="badge-total-logs">0</span>
+            </button>
+            <button class="nav-tab-btn" id="tab-btn-data" onclick="switchMainTab('data')">
+                <i class="fa-solid fa-database"></i> Others' College Data Management
+                <span class="tab-counter" id="badge-total-classes">0</span>
+            </button>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- VIEW 1: USER ACTIVITY LOGS                                     -->
+        <!-- ============================================================== -->
+        <div id="view-logs">
+            <!-- Stats Row -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:var(--primary-light); color:#818cf8;">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <div class="stat-val" id="stat-total-actions">0</div>
+                        <div class="stat-lbl">Total Logged Actions</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:var(--success-light); color:#34d399;">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <div class="stat-val" id="stat-unique-users">0</div>
+                        <div class="stat-lbl">Active Users</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:var(--warning-light); color:#fbbf24;">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <div class="stat-val" id="stat-latest-action">-</div>
+                        <div class="stat-lbl">Most Recent Event</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Toolbar -->
+            <div class="filter-toolbar">
+                <div class="filter-group">
+                    <input type="text" id="log-search-input" class="input-dark" placeholder="🔍 Search details, IP, action..." oninput="filterLogs()" style="min-width:240px;">
+                    
+                    <select id="log-user-select" class="select-dark" onchange="onUserFilterChange()">
+                        <option value="all">All Users</option>
+                    </select>
+
+                    <select id="log-action-select" class="select-dark" onchange="filterLogs()">
+                        <option value="all">All Action Types</option>
+                        <option value="LOAD_PAGE">LOAD_PAGE</option>
+                        <option value="EDIT_DATA">EDIT_DATA</option>
+                        <option value="GENERATE_TIMETABLE">GENERATE_TIMETABLE</option>
+                        <option value="CLEAR_TIMETABLE">CLEAR_TIMETABLE</option>
+                        <option value="CLEAR_ALL_DATA">CLEAR_ALL_DATA</option>
+                        <option value="RESET_DATABASE">RESET_DATABASE</option>
+                        <option value="EXPORT_EXCEL">EXPORT_EXCEL</option>
+                        <option value="EXPORT_PDF">EXPORT_PDF</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <button id="btn-delete-user-logs" onclick="deleteSelectedUserLogs()" class="btn btn-danger" style="display:none;">
+                        <i class="fa-solid fa-user-xmark"></i> Delete User's Logs
+                    </button>
+                    <button onclick="loadLogs()" class="btn"><i class="fa-solid fa-rotate"></i> Refresh</button>
+                </div>
+            </div>
+
+            <!-- User Chips Bar -->
+            <div id="user-chips-container" style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.25rem;">
+                <!-- Populated dynamically -->
+            </div>
+
+            <!-- Table Card -->
+            <div class="main-card">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width:160px;">Timestamp</th>
+                                <th style="width:130px;">IP Address</th>
+                                <th style="width:150px;">User Name</th>
+                                <th style="width:170px;">Action Type</th>
+                                <th>Details</th>
+                                <th style="width:100px; text-align:center;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logs-table-body">
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 2.5rem; color:var(--text-muted);">
+                                    <i class="fa-solid fa-spinner fa-spin" style="font-size:1.5rem; margin-bottom:0.5rem; display:block;"></i>
+                                    Loading logs...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- VIEW 2: COLLEGE DATA & USERS' RECORDS MANAGEMENT                -->
+        <!-- ============================================================== -->
+        <div id="view-data" style="display:none;">
+            <!-- College Data Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:var(--primary-light); color:#818cf8;"><i class="fa-solid fa-chalkboard-user"></i></div>
+                    <div><div class="stat-val" id="data-stat-classes">0</div><div class="stat-lbl">Classes Configured</div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:var(--success-light); color:#34d399;"><i class="fa-solid fa-user-tie"></i></div>
+                    <div><div class="stat-val" id="data-stat-staff">0</div><div class="stat-lbl">Faculty Members</div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:var(--warning-light); color:#fbbf24;"><i class="fa-solid fa-book-open"></i></div>
+                    <div><div class="stat-val" id="data-stat-subjects">0</div><div class="stat-lbl">Subjects Registered</div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:rgba(236, 72, 153, 0.15); color:#f472b6;"><i class="fa-solid fa-thumbtack"></i></div>
+                    <div><div class="stat-val" id="data-stat-fixed">0</div><div class="stat-lbl">Pinned Fixed Slots</div></div>
+                </div>
+            </div>
+
+            <!-- Secondary Subtabs -->
+            <div class="subtab-bar">
+                <button class="subtab-btn active" id="subtab-btn-classes" onclick="switchDataSubtab('classes')"><i class="fa-solid fa-chalkboard"></i> Classes & Syllabus</button>
+                <button class="subtab-btn" id="subtab-btn-staff" onclick="switchDataSubtab('staff')"><i class="fa-solid fa-user-group"></i> Faculty Members</button>
+                <button class="subtab-btn" id="subtab-btn-subjects" onclick="switchDataSubtab('subjects')"><i class="fa-solid fa-book"></i> Subjects</button>
+                <button class="subtab-btn" id="subtab-btn-fixed" onclick="switchDataSubtab('fixed')"><i class="fa-solid fa-lock"></i> Fixed Slots</button>
+                <button class="subtab-btn" id="subtab-btn-json" onclick="switchDataSubtab('json')"><i class="fa-solid fa-code"></i> Raw Database JSON Editor</button>
+            </div>
+
+            <!-- Subtab 1: Classes -->
+            <div id="subtab-view-classes" class="main-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                    <h3 style="font-size:1.15rem; display:flex; align-items:center; gap:0.5rem;"><i class="fa-solid fa-chalkboard"></i> Classes Configured by Others</h3>
+                    <span style="font-size:0.85rem; color:var(--text-muted);">Delete or view classes configured in the application</span>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Class Name</th>
+                                <th>Department</th>
+                                <th>Semester</th>
+                                <th>Incharge ID</th>
+                                <th>Odd Syllabus</th>
+                                <th>Even Syllabus</th>
+                                <th style="width:90px; text-align:center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-classes-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Subtab 2: Faculty Members -->
+            <div id="subtab-view-staff" class="main-card" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                    <h3 style="font-size:1.15rem; display:flex; align-items:center; gap:0.5rem;"><i class="fa-solid fa-user-tie"></i> Faculty Members Configured by Others</h3>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Staff ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Max Hours</th>
+                                <th>Eligible Subjects</th>
+                                <th style="width:90px; text-align:center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-staff-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Subtab 3: Subjects -->
+            <div id="subtab-view-subjects" class="main-card" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                    <h3 style="font-size:1.15rem; display:flex; align-items:center; gap:0.5rem;"><i class="fa-solid fa-book"></i> Subjects Configured by Others</h3>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Subject Code</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Semester Term</th>
+                                <th>Department</th>
+                                <th style="width:90px; text-align:center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-subjects-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Subtab 4: Fixed Slots -->
+            <div id="subtab-view-fixed" class="main-card" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                    <h3 style="font-size:1.15rem; display:flex; align-items:center; gap:0.5rem;"><i class="fa-solid fa-thumbtack"></i> Pinned Fixed Slots</h3>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Class</th>
+                                <th>Subject Code</th>
+                                <th>Day</th>
+                                <th>Period</th>
+                                <th>Term</th>
+                                <th style="width:90px; text-align:center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-fixed-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Subtab 5: Raw JSON Editor -->
+            <div id="subtab-view-json" class="main-card" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+                    <div>
+                        <h3 style="font-size:1.15rem; display:flex; align-items:center; gap:0.5rem;"><i class="fa-solid fa-code"></i> Live Database JSON Editor</h3>
+                        <p style="font-size:0.85rem; color:var(--text-muted);">As the Owner, you can directly inspect, modify, or repair any record in the live database.</p>
+                    </div>
+                    <div style="display:flex; gap:0.5rem;">
+                        <button onclick="formatRawJson()" class="btn"><i class="fa-solid fa-align-left"></i> Format JSON</button>
+                        <button onclick="saveRawJson()" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save & Sync Database</button>
+                    </div>
+                </div>
+                <textarea id="raw-json-editor" class="json-editor-area" spellcheck="false"></textarea>
             </div>
         </div>
     </div>
 
+    <!-- ============================================================== -->
+    <!-- MODAL: EDIT USER LOG ENTRY                                     -->
+    <!-- ============================================================== -->
+    <div class="modal-overlay" id="modal-edit-log">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-pen-to-square" style="color:var(--primary);"></i> Edit User Activity Record</h3>
+                <button onclick="closeEditModal()" class="btn-icon"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="submitEditLog(event)">
+                <input type="hidden" id="edit-log-id">
+                <div class="form-group">
+                    <label>User Name</label>
+                    <input type="text" id="edit-log-user" required>
+                </div>
+                <div class="form-group">
+                    <label>Action Type</label>
+                    <input type="text" id="edit-log-action" required>
+                </div>
+                <div class="form-group">
+                    <label>Timestamp</label>
+                    <input type="text" id="edit-log-timestamp" required>
+                </div>
+                <div class="form-group">
+                    <label>Action Details</label>
+                    <textarea id="edit-log-details" rows="3" required></textarea>
+                </div>
+                <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.25rem;">
+                    <button type="button" onclick="closeEditModal()" class="btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast">
+        <i class="fa-solid fa-circle-check" style="color:var(--success);"></i>
+        <span id="toast-msg">Operation completed</span>
+    </div>
+
     <script>
-        const passcode = "{{ passcode }}";
+        let allLogs = [];
+        let collegeData = null;
 
-        function loadLogs() {
-            fetch(`/api/admin/logs?passcode=${passcode}`)
-                .then(res => res.json())
-                .then(data => {
-                    const tbody = document.getElementById("logs-table-body");
-                    if (data.length === 0) {
-                        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; font-style: italic;">No activity logged yet.</td></tr>`;
-                        return;
-                    }
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById("toast");
+            const toastMsg = document.getElementById("toast-msg");
+            toastMsg.innerText = msg;
+            toast.querySelector("i").className = isError ? "fa-solid fa-circle-exclamation" : "fa-solid fa-circle-check";
+            toast.querySelector("i").style.color = isError ? "var(--danger)" : "var(--success)";
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 3500);
+        }
 
-                    tbody.innerHTML = '';
-                    data.forEach(log => {
-                        const tr = document.createElement("tr");
-                        
-                        let badgeClass = "badge-info";
-                        if (log.action === "GENERATE_TIMETABLE" || log.action === "RESTORE_BACKUP") {
-                            badgeClass = "badge-success";
-                        } else if (log.action.startsWith("DELETE") || log.action === "CLEAR_TIMETABLE" || log.action === "CLEAR_ALL_DATA") {
-                            badgeClass = "badge-warning";
-                        }
-
-                        // Local time formatting
-                        const date = new Date(log.timestamp);
-                        const localTime = date.toLocaleString();
-
-                        tr.innerHTML = `
-                            <td class="time-cell">${localTime}</td>
-                            <td><code>${log.ip}</code></td>
-                            <td><strong>${log.user_name}</strong></td>
-                            <td><span class="badge ${badgeClass}">${log.action}</span></td>
-                            <td>${log.details}</td>
-                        `;
-                        tbody.appendChild(tr);
-                    });
+        function ownerLogout() {
+            fetch('/api/admin/logout', { method: 'POST' })
+                .then(() => {
+                    window.location.href = '/';
                 })
-                .catch(err => {
-                    document.getElementById("logs-table-body").innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; color: red;">Failed to load logs: ${err}</td></tr>`;
+                .catch(() => {
+                    window.location.href = '/';
                 });
         }
 
-        function clearLogs() {
-            if (confirm("Are you sure you want to clear all user activity logs? This action cannot be undone.")) {
-                fetch(`/api/admin/clear_logs?passcode=${encodeURIComponent(passcode)}`, {
+        // -------------------------------------------------------------
+        // TAB SWITCHING
+        // -------------------------------------------------------------
+        function switchMainTab(tab) {
+            document.getElementById("tab-btn-logs").classList.toggle("active", tab === 'logs');
+            document.getElementById("tab-btn-data").classList.toggle("active", tab === 'data');
+            document.getElementById("view-logs").style.display = (tab === 'logs') ? 'block' : 'none';
+            document.getElementById("view-data").style.display = (tab === 'data') ? 'block' : 'none';
+            if (tab === 'data' && !collegeData) {
+                loadCollegeData();
+            }
+        }
+
+        function switchDataSubtab(subtab) {
+            const tabs = ['classes', 'staff', 'subjects', 'fixed', 'json'];
+            tabs.forEach(t => {
+                document.getElementById(`subtab-btn-${t}`).classList.toggle("active", t === subtab);
+                document.getElementById(`subtab-view-${t}`).style.display = (t === subtab) ? 'block' : 'none';
+            });
+        }
+
+        // -------------------------------------------------------------
+        // LOGS MANAGEMENT (VIEW, EDIT, DELETE)
+        // -------------------------------------------------------------
+        function loadLogs() {
+            fetch('/api/admin/logs')
+                .then(res => res.json())
+                .then(data => {
+                    allLogs = data;
+                    renderLogs(allLogs);
+                    updateLogStats(allLogs);
+                    populateUserFilterOptions(allLogs);
+                })
+                .catch(err => {
+                    document.getElementById("logs-table-body").innerHTML = `
+                        <tr><td colspan="6" style="text-align:center; padding:2rem; color:var(--danger);">Failed to load logs: ${err}</td></tr>
+                    `;
+                });
+        }
+
+        function renderLogs(logs) {
+            const tbody = document.getElementById("logs-table-body");
+            document.getElementById("badge-total-logs").innerText = logs.length;
+            
+            if (logs.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2.5rem; font-style: italic; color:var(--text-muted);">No matching activity records found.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            logs.forEach(log => {
+                const tr = document.createElement("tr");
+                
+                let badgeClass = "badge-info";
+                if (log.action === "GENERATE_TIMETABLE" || log.action === "RESTORE_BACKUP") {
+                    badgeClass = "badge-success";
+                } else if (log.action.startsWith("DELETE") || log.action === "CLEAR_TIMETABLE" || log.action === "CLEAR_ALL_DATA") {
+                    badgeClass = "badge-danger";
+                } else if (log.action.startsWith("EDIT") || log.action === "RESET_DATABASE") {
+                    badgeClass = "badge-warning";
+                }
+
+                const date = new Date(log.timestamp);
+                const localTime = !isNaN(date.getTime()) ? date.toLocaleString() : log.timestamp;
+
+                tr.innerHTML = `
+                    <td class="time-cell">${localTime}</td>
+                    <td><code>${log.ip || '127.0.0.1'}</code></td>
+                    <td><strong style="color:#c7d2fe;">${escapeHtml(log.user_name || 'Unknown')}</strong></td>
+                    <td><span class="badge ${badgeClass}">${escapeHtml(log.action || 'ACTION')}</span></td>
+                    <td style="line-height:1.4;">${escapeHtml(log.details || '')}</td>
+                    <td style="text-align:center;">
+                        <div class="actions-cell">
+                            <button onclick="openEditModal(${log.id})" class="btn-icon btn-icon-edit" title="Edit Log Record">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <button onclick="deleteSingleLog(${log.id})" class="btn-icon btn-icon-delete" title="Delete Log Record">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function updateLogStats(logs) {
+            document.getElementById("stat-total-actions").innerText = logs.length;
+            const uniqueUsers = new Set(logs.map(l => (l.user_name || '').trim()).filter(Boolean));
+            document.getElementById("stat-unique-users").innerText = uniqueUsers.size;
+            document.getElementById("stat-latest-action").innerText = logs.length > 0 ? logs[0].action : '-';
+        }
+
+        function populateUserFilterOptions(logs) {
+            const select = document.getElementById("log-user-select");
+            const chips = document.getElementById("user-chips-container");
+            const currentSelected = select.value;
+            
+            const userCounts = {};
+            logs.forEach(l => {
+                const u = (l.user_name || 'Unknown').trim();
+                userCounts[u] = (userCounts[u] || 0) + 1;
+            });
+
+            select.innerHTML = '<option value="all">All Users</option>';
+            chips.innerHTML = `<span class="user-chip ${currentSelected === 'all' ? 'active' : ''}" onclick="selectUserFilter('all')">All (${logs.length})</span>`;
+
+            Object.keys(userCounts).sort().forEach(user => {
+                const opt = document.createElement("option");
+                opt.value = user;
+                opt.innerText = `${user} (${userCounts[user]})`;
+                if (user === currentSelected) opt.selected = true;
+                select.appendChild(opt);
+
+                const chip = document.createElement("span");
+                chip.className = `user-chip ${user === currentSelected ? 'active' : ''}`;
+                chip.innerText = `${user} (${userCounts[user]})`;
+                chip.onclick = () => selectUserFilter(user);
+                chips.appendChild(chip);
+            });
+        }
+
+        function selectUserFilter(user) {
+            document.getElementById("log-user-select").value = user;
+            onUserFilterChange();
+        }
+
+        function onUserFilterChange() {
+            const user = document.getElementById("log-user-select").value;
+            const btnDelUser = document.getElementById("btn-delete-user-logs");
+            if (user !== 'all') {
+                btnDelUser.style.display = 'inline-flex';
+                btnDelUser.innerHTML = `<i class="fa-solid fa-user-xmark"></i> Delete Logs for "${escapeHtml(user)}"`;
+            } else {
+                btnDelUser.style.display = 'none';
+            }
+            filterLogs();
+        }
+
+        function filterLogs() {
+            const search = document.getElementById("log-search-input").value.toLowerCase().trim();
+            const user = document.getElementById("log-user-select").value.toLowerCase().trim();
+            const action = document.getElementById("log-action-select").value;
+
+            // Highlight active user chip
+            document.querySelectorAll(".user-chip").forEach(chip => {
+                const chipText = chip.innerText.toLowerCase();
+                if (user === 'all' && chipText.startsWith('all')) chip.classList.add("active");
+                else if (user !== 'all' && chipText.startsWith(user)) chip.classList.add("active");
+                else chip.classList.remove("active");
+            });
+
+            const filtered = allLogs.filter(log => {
+                const matchUser = (user === 'all') || (log.user_name || '').toLowerCase() === user;
+                const matchAction = (action === 'all') || log.action === action;
+                const matchSearch = !search || 
+                    (log.details || '').toLowerCase().includes(search) ||
+                    (log.user_name || '').toLowerCase().includes(search) ||
+                    (log.action || '').toLowerCase().includes(search) ||
+                    (log.ip || '').toLowerCase().includes(search);
+                return matchUser && matchAction && matchSearch;
+            });
+
+            renderLogs(filtered);
+        }
+
+        // Edit Log
+        function openEditModal(logId) {
+            const log = allLogs.find(l => l.id === logId);
+            if (!log) return;
+            document.getElementById("edit-log-id").value = log.id;
+            document.getElementById("edit-log-user").value = log.user_name || '';
+            document.getElementById("edit-log-action").value = log.action || '';
+            document.getElementById("edit-log-timestamp").value = log.timestamp || '';
+            document.getElementById("edit-log-details").value = log.details || '';
+            document.getElementById("modal-edit-log").classList.add("active");
+        }
+
+        function closeEditModal() {
+            document.getElementById("modal-edit-log").classList.remove("active");
+        }
+
+        function submitEditLog(e) {
+            e.preventDefault();
+            const logId = document.getElementById("edit-log-id").value;
+            const updated = {
+                log_id: logId,
+                user_name: document.getElementById("edit-log-user").value.trim(),
+                action: document.getElementById("edit-log-action").value.trim(),
+                timestamp: document.getElementById("edit-log-timestamp").value.trim(),
+                details: document.getElementById("edit-log-details").value.trim()
+            };
+
+            fetch('/api/admin/edit_log', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updated)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'SUCCESS') {
+                    closeEditModal();
+                    showToast("Log entry updated successfully!");
+                    loadLogs();
+                } else {
+                    alert("Error updating log: " + data.message);
+                }
+            })
+            .catch(err => alert("Failed to update log: " + err));
+        }
+
+        // Delete Single Log
+        function deleteSingleLog(logId) {
+            if (!confirm(`Are you sure you want to delete this activity log record (ID: ${logId})?`)) return;
+            fetch('/api/admin/delete_log', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ log_id: logId })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'SUCCESS') {
+                    showToast("Activity record deleted!");
+                    loadLogs();
+                } else {
+                    alert("Error deleting log: " + data.message);
+                }
+            })
+            .catch(err => alert("Failed to delete log: " + err));
+        }
+
+        // Delete All Logs for a User
+        function deleteSelectedUserLogs() {
+            const user = document.getElementById("log-user-select").value;
+            if (user === 'all') return;
+            if (!confirm(`CAUTION: Are you sure you want to delete ALL activity logs for user "${user}"? This cannot be undone.`)) return;
+
+            fetch('/api/admin/delete_user_logs', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ user_name: user })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'SUCCESS') {
+                    showToast(`Deleted ${data.deleted_count} logs for user "${user}"!`);
+                    document.getElementById("log-user-select").value = 'all';
+                    onUserFilterChange();
+                    loadLogs();
+                } else {
+                    alert("Error deleting user logs: " + data.message);
+                }
+            })
+            .catch(err => alert("Failed to delete user logs: " + err));
+        }
+
+        // Clear All Logs
+        function clearAllLogsPrompt() {
+            if (confirm("Are you sure you want to clear ALL activity logs? This will wipe the entire history for all users.")) {
+                fetch('/api/admin/clear_logs', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ passcode: passcode })
+                    body: JSON.stringify({})
                 })
                 .then(res => res.json())
                 .then(data => {
                     if (data.status === 'SUCCESS') {
+                        showToast("All activity logs cleared.");
                         loadLogs();
                     } else {
                         alert('Error clearing logs: ' + data.message);
                     }
                 })
-                .catch(err => {
-                    alert('Failed to clear logs: ' + err);
-                });
+                .catch(err => alert('Failed to clear logs: ' + err));
             }
         }
 
         function downloadLogs() {
-            window.location.href = `/api/admin/download_logs?passcode=${encodeURIComponent(passcode)}`;
+            window.location.href = '/api/admin/download_logs';
         }
 
-        // Load initially and auto-refresh every 10 seconds
+        // -------------------------------------------------------------
+        // COLLEGE DATA MANAGEMENT (VIEW, EDIT, DELETE OTHERS' DATA)
+        // -------------------------------------------------------------
+        function loadCollegeData() {
+            fetch('/api/admin/data')
+                .then(res => res.json())
+                .then(res => {
+                    if (res.status === 'SUCCESS') {
+                        collegeData = res.data;
+                        renderCollegeData();
+                    } else {
+                        alert("Failed to load college data: " + res.message);
+                    }
+                })
+                .catch(err => alert("Error loading college data: " + err));
+        }
+
+        function renderCollegeData() {
+            if (!collegeData) return;
+            const classes = collegeData.classes || [];
+            const staffs = collegeData.staffs || [];
+            const subjects = collegeData.subjects || [];
+            const fixedSlots = collegeData.fixed_slots || [];
+
+            document.getElementById("data-stat-classes").innerText = classes.length;
+            document.getElementById("badge-total-classes").innerText = classes.length;
+            document.getElementById("data-stat-staff").innerText = staffs.length;
+            document.getElementById("data-stat-subjects").innerText = subjects.length;
+            document.getElementById("data-stat-fixed").innerText = fixedSlots.length;
+
+            // Render Classes Table
+            const clTbody = document.getElementById("data-classes-tbody");
+            clTbody.innerHTML = '';
+            if (classes.length === 0) {
+                clTbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:1.5rem; color:var(--text-muted);">No classes configured yet.</td></tr>`;
+            } else {
+                classes.forEach(c => {
+                    const oddHours = (c.syllabus || []).reduce((acc, it) => acc + (it.hours || 0), 0);
+                    const evenHours = (c.even_syllabus || []).reduce((acc, it) => acc + (it.hours || 0), 0);
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td><strong>${escapeHtml(c.name)}</strong></td>
+                        <td>${escapeHtml(c.department || '-')}</td>
+                        <td>Sem ${c.semester || 1}</td>
+                        <td><code>${escapeHtml(c.incharge || 'N/A')}</code></td>
+                        <td><span class="badge ${oddHours === 30 ? 'badge-success' : 'badge-warning'}">${oddHours}/30h (${(c.syllabus || []).length} subs)</span></td>
+                        <td><span class="badge ${evenHours === 30 ? 'badge-success' : 'badge-info'}">${evenHours}/30h (${(c.even_syllabus || []).length} subs)</span></td>
+                        <td style="text-align:center;">
+                            <button onclick="deleteCollegeItem('class', '${escapeHtml(c.name)}')" class="btn-icon btn-icon-delete" title="Delete Class">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </td>
+                    `;
+                    clTbody.appendChild(tr);
+                });
+            }
+
+            // Render Staff Table
+            const stTbody = document.getElementById("data-staff-tbody");
+            stTbody.innerHTML = '';
+            if (staffs.length === 0) {
+                stTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:1.5rem; color:var(--text-muted);">No faculty registered yet.</td></tr>`;
+            } else {
+                staffs.forEach(s => {
+                    const subList = (s.subjects || []).join(", ") || 'None';
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td><code>${escapeHtml(s.id)}</code></td>
+                        <td><strong>${escapeHtml(s.name)}</strong></td>
+                        <td>${escapeHtml(s.department || '-')}</td>
+                        <td><span class="badge badge-info">${s.max_hours || 30}h limit</span></td>
+                        <td style="font-size:0.85rem; color:var(--text-muted);">${escapeHtml(subList)}</td>
+                        <td style="text-align:center;">
+                            <button onclick="deleteCollegeItem('staff', '${escapeHtml(s.id)}')" class="btn-icon btn-icon-delete" title="Delete Faculty Member">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </td>
+                    `;
+                    stTbody.appendChild(tr);
+                });
+            }
+
+            // Render Subjects Table
+            const subTbody = document.getElementById("data-subjects-tbody");
+            subTbody.innerHTML = '';
+            if (subjects.length === 0) {
+                subTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:1.5rem; color:var(--text-muted);">No subjects registered yet.</td></tr>`;
+            } else {
+                subjects.forEach(sub => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td><code>${escapeHtml(sub.code)}</code></td>
+                        <td><strong>${escapeHtml(sub.name)}</strong></td>
+                        <td><span class="badge ${sub.type === 'Lab' ? 'badge-warning' : 'badge-info'}">${escapeHtml(sub.type || 'Theory')}</span></td>
+                        <td>${escapeHtml(sub.semester || '-')}</td>
+                        <td>${escapeHtml(sub.department || 'All')}</td>
+                        <td style="text-align:center;">
+                            <button onclick="deleteCollegeItem('subject', '${escapeHtml(sub.code)}')" class="btn-icon btn-icon-delete" title="Delete Subject">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </td>
+                    `;
+                    subTbody.appendChild(tr);
+                });
+            }
+
+            // Render Fixed Slots Table
+            const fixTbody = document.getElementById("data-fixed-tbody");
+            fixTbody.innerHTML = '';
+            const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            if (fixedSlots.length === 0) {
+                fixTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:1.5rem; color:var(--text-muted);">No fixed slots pinned.</td></tr>`;
+            } else {
+                fixedSlots.forEach((fs, idx) => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td><strong>${escapeHtml(fs.class_name)}</strong></td>
+                        <td><code>${escapeHtml(fs.subject_code)}</code></td>
+                        <td>${dayNames[fs.day] || 'Day ' + fs.day}</td>
+                        <td>Period ${parseInt(fs.period) + 1}</td>
+                        <td><span class="badge badge-info">${escapeHtml(fs.term || 'all')}</span></td>
+                        <td style="text-align:center;">
+                            <button onclick="deleteCollegeItem('fixed_slot', '${idx}')" class="btn-icon btn-icon-delete" title="Unpin Fixed Slot">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </td>
+                    `;
+                    fixTbody.appendChild(tr);
+                });
+            }
+
+            // Raw JSON View
+            document.getElementById("raw-json-editor").value = JSON.stringify(collegeData, null, 2);
+        }
+
+        function deleteCollegeItem(itemType, itemId) {
+            const labels = {
+                class: `Class "${itemId}"`,
+                staff: `Faculty Member with ID "${itemId}"`,
+                subject: `Subject Code "${itemId}"`,
+                fixed_slot: `Pinned Fixed Slot #${parseInt(itemId) + 1}`
+            };
+            const label = labels[itemType] || `${itemType} "${itemId}"`;
+            if (!confirm(`Are you sure you want to DELETE ${label} from the live college database? This will update the server immediately.`)) return;
+
+            fetch('/api/admin/delete_item', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    item_type: itemType,
+                    item_id: itemId
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'SUCCESS') {
+                    showToast(`${label} deleted successfully!`);
+                    loadCollegeData();
+                } else {
+                    alert("Error deleting item: " + data.message);
+                }
+            })
+            .catch(err => alert("Failed to delete item: " + err));
+        }
+
+        function formatRawJson() {
+            try {
+                const val = document.getElementById("raw-json-editor").value;
+                const parsed = JSON.parse(val);
+                document.getElementById("raw-json-editor").value = JSON.stringify(parsed, null, 2);
+                showToast("JSON formatted cleanly!");
+            } catch (e) {
+                alert("Invalid JSON format: " + e.message);
+            }
+        }
+
+        function saveRawJson() {
+            try {
+                const val = document.getElementById("raw-json-editor").value;
+                const parsed = JSON.parse(val);
+                if (!confirm("Are you sure you want to overwrite the entire live database with this JSON?")) return;
+
+                fetch('/api/admin/update_data', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ data: parsed })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'SUCCESS') {
+                        showToast("Live College Database updated successfully!");
+                        collegeData = parsed;
+                        renderCollegeData();
+                    } else {
+                        alert("Error saving database: " + data.message);
+                    }
+                })
+                .catch(err => alert("Failed to save database: " + err));
+            } catch (e) {
+                alert("Cannot save: Invalid JSON: " + e.message);
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Initialize on load
         loadLogs();
-        setInterval(loadLogs, 10000);
+        setInterval(loadLogs, 15000);
     </script>
 </body>
 </html>
