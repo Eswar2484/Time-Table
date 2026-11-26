@@ -12,24 +12,24 @@ def extract_staff_timetables(timetable, staffs_data):
     """
     staff_timetables = {}
     for s in staffs_data:
-        s_id = s['id']
+        s_id = str(s['id'])
         staff_timetables[s_id] = {
             'name': s['name'],
-            'department': s['department'],
+            'department': s.get('department', 'General') or 'General',
             'schedule': {str(d): {str(p): None for p in range(5)} for d in range(6)}
         }
         
-    for class_name, days in timetable.items():
-        for d_str, periods in days.items():
-            for p_str, slot in periods.items():
+    for class_name, days in (timetable or {}).items():
+        for d_str, periods in (days or {}).items():
+            for p_str, slot in (periods or {}).items():
                 if slot:
-                    t_id = slot['staff_id']
+                    t_id = str(slot.get('staff_id', ''))
                     if t_id in staff_timetables:
                         staff_timetables[t_id]['schedule'][d_str][p_str] = {
                             'class_name': class_name,
-                            'subject_code': slot['subject_code'],
-                            'subject_name': slot['subject_name'],
-                            'subject_type': slot['subject_type']
+                            'subject_code': slot.get('subject_code', ''),
+                            'subject_name': slot.get('subject_name', ''),
+                            'subject_type': slot.get('subject_type', '')
                         }
     return staff_timetables
 
@@ -179,8 +179,8 @@ def export_excel_staffs(timetable, staffs_data):
     thin_border = Border(left=border_side, right=border_side, top=border_side, bottom=border_side)
     align_center = Alignment(horizontal="center", vertical="center", wrap_text=True)
     
-    # Sort staff by ID ascending
-    sorted_staff = sorted(staff_timetables.items(), key=lambda x: int(x[0]) if str(x[0]).isdigit() else x[0])
+    # Sort staff by ID ascending safely (handles mixed numeric and string IDs)
+    sorted_staff = sorted(staff_timetables.items(), key=lambda x: (0, int(str(x[0]))) if str(x[0]).isdigit() else (1, str(x[0])))
 
     for s_id, s_info in sorted_staff:
         # Calculate theory and lab hours
@@ -527,8 +527,8 @@ def export_pdf_staffs(timetable, staffs_data):
         story.append(Paragraph("<b>Weekly Staff Timetables</b>", meta_style))
         story.append(PageBreak())
         
-        # Sort staff in department by staff ID ascending
-        staff_in_dept = sorted(dept_staffs[dept_name], key=lambda x: int(x[0]) if str(x[0]).isdigit() else x[0])
+        # Sort staff in department by staff ID ascending safely (handles mixed numeric and string IDs)
+        staff_in_dept = sorted(dept_staffs[dept_name], key=lambda x: (0, int(str(x[0]))) if str(x[0]).isdigit() else (1, str(x[0])))
         
         for s_id, s_info in staff_in_dept:
             # Calculate theory and lab hours from the schedule

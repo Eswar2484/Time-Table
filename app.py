@@ -902,6 +902,7 @@ def api_export_excel():
     view_type = request.args.get('type', 'class')
     term = request.args.get('term', 'all')
     dept = request.args.get('dept', 'all')
+    item_id = request.args.get('item', 'all')
     
     if request.method == 'POST':
         payload = request.json or {}
@@ -917,23 +918,30 @@ def api_export_excel():
             return f"Error: Cannot export Excel because timetable is infeasible: {res.get('message')}", 400
         timetable = res['timetable_even'] if term == 'even' else res['timetable_odd']
 
-    # Filter by department
-    if dept != 'all':
-        filtered_timetable = {}
-        for cl_name, cl_sched in timetable.items():
-            cl_obj = next((c for c in data.get('classes', []) if c['name'] == cl_name), None)
-            if cl_obj and cl_obj.get('department') == dept:
-                filtered_timetable[cl_name] = cl_sched
-        timetable = filtered_timetable
-
     staffs_to_export = data.get('staffs', [])
     if dept != 'all':
         staffs_to_export = [s for s in staffs_to_export if s.get('department') == dept]
 
+    if item_id != 'all':
+        staffs_to_export = [s for s in staffs_to_export if str(s.get('id')) == str(item_id)]
+
     if view_type == 'class':
+        # Filter classes by department for class-wise export
+        if dept != 'all':
+            filtered_timetable = {}
+            for cl_name, cl_sched in timetable.items():
+                cl_obj = next((c for c in data.get('classes', []) if c['name'] == cl_name), None)
+                if cl_obj and cl_obj.get('department') == dept:
+                    filtered_timetable[cl_name] = cl_sched
+            timetable = filtered_timetable
+
+        if item_id != 'all':
+            timetable = {cl_name: cl_sched for cl_name, cl_sched in timetable.items() if cl_name == item_id}
+
         buffer = exporter.export_excel_classes(timetable, data.get('classes', []), staffs_to_export)
         download_name = f"weekly_class_timetables_{term}_{dept}.xlsx"
     else:
+        # For staff-wise view, keep ALL classes in timetable so cross-department teaching is preserved!
         buffer = exporter.export_excel_staffs(timetable, staffs_to_export)
         download_name = f"weekly_staff_timetables_{term}_{dept}.xlsx"
         
@@ -949,6 +957,7 @@ def api_export_pdf():
     view_type = request.args.get('type', 'class')
     term = request.args.get('term', 'all')
     dept = request.args.get('dept', 'all')
+    item_id = request.args.get('item', 'all')
     
     if request.method == 'POST':
         payload = request.json or {}
@@ -964,23 +973,30 @@ def api_export_pdf():
             return f"Error: Cannot export PDF because timetable is infeasible: {res.get('message')}", 400
         timetable = res['timetable_even'] if term == 'even' else res['timetable_odd']
 
-    # Filter by department
-    if dept != 'all':
-        filtered_timetable = {}
-        for cl_name, cl_sched in timetable.items():
-            cl_obj = next((c for c in data.get('classes', []) if c['name'] == cl_name), None)
-            if cl_obj and cl_obj.get('department') == dept:
-                filtered_timetable[cl_name] = cl_sched
-        timetable = filtered_timetable
-
     staffs_to_export = data.get('staffs', [])
     if dept != 'all':
         staffs_to_export = [s for s in staffs_to_export if s.get('department') == dept]
 
+    if item_id != 'all':
+        staffs_to_export = [s for s in staffs_to_export if str(s.get('id')) == str(item_id)]
+
     if view_type == 'class':
+        # Filter classes by department for class-wise export
+        if dept != 'all':
+            filtered_timetable = {}
+            for cl_name, cl_sched in timetable.items():
+                cl_obj = next((c for c in data.get('classes', []) if c['name'] == cl_name), None)
+                if cl_obj and cl_obj.get('department') == dept:
+                    filtered_timetable[cl_name] = cl_sched
+            timetable = filtered_timetable
+
+        if item_id != 'all':
+            timetable = {cl_name: cl_sched for cl_name, cl_sched in timetable.items() if cl_name == item_id}
+
         buffer = exporter.export_pdf_classes(timetable, data.get('classes', []), staffs_to_export)
         download_name = f"weekly_class_timetables_{term}_{dept}.pdf"
     else:
+        # For staff-wise view, keep ALL classes in timetable so cross-department teaching is preserved!
         buffer = exporter.export_pdf_staffs(timetable, staffs_to_export)
         download_name = f"weekly_staff_timetables_{term}_{dept}.pdf"
         

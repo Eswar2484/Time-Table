@@ -1499,9 +1499,10 @@
                     <!-- Staff Remaining Free Hours Badge Container -->
                     <div id="timetable-summary-info"></div>
 
-                    <div class="download-btns">
-                        <button class="btn btn-primary" onclick="downloadTimetable('excel')"><i class="fa-solid fa-file-excel"></i> Excel (All)</button>
-                        <button class="btn btn-primary" onclick="downloadTimetable('pdf')"><i class="fa-solid fa-file-pdf"></i> PDF (All)</button>
+                    <div class="download-btns" style="display:flex; flex-wrap:wrap; gap:8px;">
+                        <button class="btn btn-primary" onclick="downloadTimetable('pdf', false)" title="Download PDF for currently selected staff or class"><i class="fa-solid fa-file-pdf"></i> PDF (Selected)</button>
+                        <button class="btn btn-secondary" onclick="downloadTimetable('pdf', true)" title="Download full PDF for all staff or classes"><i class="fa-solid fa-file-pdf"></i> PDF (All)</button>
+                        <button class="btn btn-secondary" onclick="downloadTimetable('excel', true)" title="Download Excel workbook"><i class="fa-solid fa-file-excel"></i> Excel (All)</button>
                         <button class="btn btn-danger" onclick="clearTimetable()"><i class="fa-solid fa-trash-can"></i> Clear Timetable</button>
                     </div>
                 </div>
@@ -3916,22 +3917,26 @@
         }
 
         // Download excel/pdf files
-        function downloadTimetable(format) {
+        function downloadTimetable(format, all = false) {
             if (!activeTimetable) {
                 alert("Please run the AI Scheduler first to generate a timetable!");
                 return;
             }
             const viewType = document.getElementById("timetable-view-type").value;
             const dept = document.getElementById("timetable-dept-filter").value;
-            const url = `/api/export/${format}?type=${viewType}&term=${currentTimetableTerm}&dept=${dept}`;
+            const selectedItem = document.getElementById("timetable-item-select").value;
+            const itemId = (all || !selectedItem) ? 'all' : selectedItem;
+            
+            const url = `/api/export/${format}?type=${viewType}&term=${currentTimetableTerm}&dept=${dept}&item=${encodeURIComponent(itemId)}`;
             
             const payload = {
                 data: appData,
                 timetable: activeTimetable
             };
 
-            logMessage("Generating export file... please wait.", "info");
-            logActivity("EXPORT_" + format.toUpperCase(), `Exported weekly ${viewType} timetable for term ${currentTimetableTerm}, department ${dept}`);
+            const targetName = (itemId === 'all') ? `all_${dept}` : itemId;
+            logMessage(`Generating ${format.toUpperCase()} export... please wait.`, "info");
+            logActivity("EXPORT_" + format.toUpperCase(), `Exported weekly ${viewType} timetable (${targetName}) for term ${currentTimetableTerm}`);
 
             fetch(url, {
                 method: "POST",
@@ -3948,7 +3953,8 @@
                 const downloadUrl = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = downloadUrl;
-                a.download = `weekly_${viewType}_timetable_${currentTimetableTerm}_${dept}.${format === 'excel' ? 'xlsx' : 'pdf'}`;
+                const cleanTarget = targetName.replace(/[^a-zA-Z0-9_-]/g, '_');
+                a.download = `weekly_${viewType}_${cleanTarget}_${currentTimetableTerm}.${format === 'excel' ? 'xlsx' : 'pdf'}`;
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
